@@ -34,7 +34,7 @@ int initialize(){
 int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	logDebug("\ngetInput()");
 //get input
-	char line[128],				                //string to hold user input line
+	char line[128];				                //string to hold user input line
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
