@@ -6,7 +6,7 @@
 //functions declarations
 /********functions for use in main function*******/
 int initialize();		//initialize program
-int getInput(int *argcSim, char *argvSim[]);			//get a line of input from user
+int getInput(int *argcSim, char **argvSim[]);			//get a line of input from user
 
 /********functions for writing to debug.log file**********/
 int logReset();			//resets debug.log file

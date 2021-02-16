@@ -31,7 +31,7 @@ int initialize(){
 
 //get a line of input from user and store in argcSim and argvSim
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
-int getInput(int *argcSim, char *argvSim[]){     //get a line of input from user
+int getInput(int *argcSim, char **argvSim[]){     //get a line of input from user
 	logDebug("\ngetInput()");
 //get input
 	char line[128];				                //string to hold user input line
