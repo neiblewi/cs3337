@@ -9,6 +9,7 @@ int initialize();		//initialize program
 int getInput(int *argcSim, char **argvSim);			//get a line of input from user
 int getInputLine(char * line);
 int setArgcSim(char *line, int *argcSim);
+int setArgvSim(char *line, int *argcSim, char **argvSim);
 
 /********functions for writing to debug.log file**********/
 int logReset();			//resets debug.log file
