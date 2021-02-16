@@ -34,31 +34,16 @@ int initialize(){
 int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	logDebug("\ngetInput()");
 	char line[128];				                //string to hold user input line
-	getInputLine(&line);
+	getInputLine(line);
 	setArgcSim(line, argcSim);
-	//setArgvSim();
-	logDebug("fill array");
-	//char **newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
-	//argvSim = &newStrArray;						//argvsim is a pointer to new array
-	free(argvSim);
-	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
-	char *token;								//string to hold tokens
-	token = strtok(line, " ");					//get first token
-	int i = 0; 
-	while(token && i < *argcSim){				//loop through tokens and array
-		argvSim[i] = token;						//store token
-		i++;									//go to next index in array
-		token = strtok(0, " ");					//go to next token
-		logDebug("add arg");
-	}
-	argvSim[*argcSim] = NULL;	//last arg points to null
-	logDebug("array full");
+	setArgvSim(line, argcSim, argvSim);
+
 	logArgEnv(*argcSim, argvSim, NULL);
 	sprintf(strOut, "inGetInput: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
 	logDebug("return from getInput()\n");
 }
 
-int getInputLine(char * line){
+int getInputLine(char *line){
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
@@ -73,6 +58,20 @@ int setArgcSim(char *line, int *argcSim){
 		}
 	}	
 	sprintf(strOut, "argcSim= %i", *argcSim); logDebug(strOut);
+}
+
+int setArgvSim(char *line, int *argcSim, char **argvSim){
+	free(argvSim);
+	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
+	char *token;								//string to hold tokens
+	token = strtok(line, " ");					//get first token
+	int i = 0; 
+	while(token && i < *argcSim){				//loop through tokens and array
+		argvSim[i] = token;						//store token
+		i++;									//go to next index in array
+		token = strtok(0, " ");					//go to next token
+	}
+	argvSim[*argcSim] = NULL;					//last arg points to null
 }
 
 /******************functions for writing to debug.log file***********************/
