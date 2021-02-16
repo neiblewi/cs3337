@@ -48,7 +48,8 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 	char *newArray[argcSim];//possibly not right					//create a new array of string pointers of size argc
 	argvSim = newArray;							//make argv point to new array
 	//logDebug("fresh array:");
-	logArgEnv(argcSim, NULL, NULL);
+	//logArgEnv(argcSim, NULL, NULL);
+	
 	logDebug("fill array");
 	char temp[128];								//temporary string to to hold line
 	strcpy(temp, line);
