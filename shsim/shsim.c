@@ -36,7 +36,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	char line[128];				                //string to hold user input line
 	getInputLine(&line);
 	setArgcSim(line, *argcSim);
-	setArgvSim()
+	//setArgvSim();
 	logDebug("fill array");
 	//char **newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
 	//argvSim = &newStrArray;						//argvsim is a pointer to new array
