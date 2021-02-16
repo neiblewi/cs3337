@@ -44,7 +44,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 		if(line[i] == (int)' '){ 
 		sprintf(strOut, "found arg ' ' at index %d", i); 
 		logDebug(strOut);
-		*argcSim++;		//count how many " " are in user input line
+		*argcSim = *argcSim + 1;		//count how many " " are in user input line
 		sprintf(strOut, "argcsim= %d", *argcSim); 
 		logDebug(strOut);
 		}
