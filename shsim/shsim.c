@@ -14,7 +14,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	char **argvSim;						//empty pointer to array of strings to simulate argv
 	int i = 1;							
 	while(i){							//main program loop
-		log("in main while");
+		logDebug("in main while");
 		getInput(argcSim, argvSim);			//get input from user
 		logDebug("\nargcSim, argvSim from input:"); 
 		logArgEnv(argcSim, argvSim, NULL); 	//log user input
