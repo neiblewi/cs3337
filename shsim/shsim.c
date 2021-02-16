@@ -29,7 +29,7 @@ int initialize(){
 
 //get a line of input from user and store in argcSim and argvSim
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
-int getInput(int *argcSim, char *argvSim[]){     //get a line of input from user
+int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	logDebug("\ngetInput()");
 	char line[128], strOut[128];                //string to hold user input line
 	printf("enter command:");                   //display message to user
@@ -38,11 +38,15 @@ int getInput(int *argcSim, char *argvSim[]){     //get a line of input from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
     logDebug(line);
 	*argcSim = 2;								//count how many args are in input. need n+2 
+	sprintf(strOut, "argcsim= %d", *argcSim); 
+	logDebug(strOut);
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
 		if(line[i] == (int)' '){ 
 		sprintf(strOut, "found arg ' ' at index %d", i); 
 		logDebug(strOut);
 		*argcSim++;		//count how many " " are in user input line
+		sprintf(strOut, "argcsim= %d", *argcSim); 
+		logDebug(strOut);
 		}
 	}
 	//char *newArray[argcSim];//possibly not right					//create a new array of string pointers of size argc
