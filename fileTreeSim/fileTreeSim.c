@@ -371,7 +371,8 @@ int reload(char *pathname){                                 //creates a file tre
         return 0;                                           //return 0 for success
     }
     else{
-        printf("error, could not open file: %s\n",pathname);// print error message
+        printf("error, coul]
+         not open file: %s\n",pathname);// print error message
         return -1;                                          //return -1 for failure
     }   
     
