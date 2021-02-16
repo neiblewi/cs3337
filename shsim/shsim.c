@@ -17,7 +17,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	int i = 1;							
 	while(i){							//main program loop
 		logDebug("	in main while");
-		getInput(&argcSim, argvSim);	//get input from user
+		getInput(&argcSim, &argvSim);	//get input from user
 		sprintf(strOut, "post: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
@@ -65,7 +65,7 @@ int getInput(int *argcSim, char **argvSim[]){     //get a line of input from use
 	argvSim[*argcSim] = NULL;	//last arg points to null
 	logDebug("array full");
 	logArgEnv(*argcSim, argvSim, NULL);
-	sprintf(strOut, "inGetInput: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
+	sprintf(strOut, "inGetInput: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
 	logDebug("return from getInput()\n");
 }
 
