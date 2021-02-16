@@ -15,7 +15,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	int i = 1;							
 	while(i){							//main program loop
 		logDebug("	in main while");
-		getInput(argcSim, argvSim);			//get input from user
+		getInput(&argcSim, argvSim);			//get input from user
 		logDebug("\nargcSim, argvSim from input:"); 
 		logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
@@ -37,16 +37,16 @@ int getInput(int *argcSim, char *argvSim[]){     //get a line of input from user
     logDebug("got input:");
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
     logDebug(line);
-	argcSim = 2;								//count how many args are in input. need n+2 
+	*argcSim = 2;								//count how many args are in input. need n+2 
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
 		if(line[i] == (int)' '){ 
 		sprintf(strOut, "found arg ' ' at index %d", i); 
 		logDebug(strOut);
-		argcSim++;		//count how many " " are in user input line
+		*argcSim++;		//count how many " " are in user input line
 		}
 	}
 	//char *newArray[argcSim];//possibly not right					//create a new array of string pointers of size argc
-	argvSim = (char **)malloc(argcSim * sizeof(char *));							//make argv point to new array
+	argvSim = (char **)malloc(*argcSim * sizeof(char *));							//make argv point to new array
 	//logDebug("fresh array:");
 	//logArgEnv(argcSim, NULL, NULL);
 	
@@ -56,16 +56,16 @@ int getInput(int *argcSim, char *argvSim[]){     //get a line of input from user
 	char *token;
 	token = strtok(temp, " ");
 	int i = 0;
-	while(token && i < argcSim){
+	while(token && i < *argcSim){
 		argvSim[i] = token;
 		i++;
 		token = strtok(0, " ");
 		logDebug("add arg");
 		//logArgEnv(argcSim, argvSim, NULL);
 	}
-	argvSim[argcSim - 1] = NULL;	//last arg points to null
+	argvSim[*argcSim - 1] = NULL;	//last arg points to null
 	logDebug("array full");
-	logArgEnv(argcSim, argvSim, NULL);
+	logArgEnv(*argcSim, argvSim, NULL);
 	logDebug("return from getInput()");
 
 }
