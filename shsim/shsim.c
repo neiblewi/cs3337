@@ -35,20 +35,21 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
     logDebug("got input:");
-    logDebug(line);
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
+    logDebug(line);
 	argcSim = 1;								//count how many args are in input. need n+1
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
 		if(line[i] == (int)' '){ 
-		sprintf(strOut, "found arg %d at index %d", argcSim, i); 
+		sprintf(strOut, "found arg ' ' at index %d", i); 
 		logDebug(strOut);
 		argcSim++;		//count how many " " are in user input line
 		}
 	}
 	char *newArray[argcSim];//possibly not right					//create a new array of string pointers of size argc
 	argvSim = newArray;							//make argv point to new array
-	logDebug("fresh array:");
-	//logArgEnv(argcSim, argvSim, NULL);
+	//logDebug("fresh array:");
+	logArgEnv(argcSim, NULL, NULL);
+	logDebug("fill array");
 	char temp[128];								//temporary string to to hold line
 	strcpy(temp, line);
 	char *token;
@@ -59,8 +60,11 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 		i++;
 		token = strtok(0, " ");
 		logDebug("add arg");
-		logArgEnv(argcSim, argvSim, NULL);
+		//logArgEnv(argcSim, argvSim, NULL);
 	}
+	logDebug("array full");
+	logArgEnv(argcSim, argvSim, NULL);
+
 }
 
 /******************functions for writing to debug.log file***********************/
