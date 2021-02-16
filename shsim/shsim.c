@@ -14,6 +14,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	char **argvSim;						//empty pointer to array of strings to simulate argv
 	int i = 1;							
 	while(i){							//main program loop
+		log("in main while");
 		getInput(argcSim, argvSim);			//get input from user
 		logDebug("\nargcSim, argvSim from input:"); 
 		logArgEnv(argcSim, argvSim, NULL); 	//log user input
@@ -67,8 +68,8 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 //reset debug.log file
 int logReset(){
 	FILE *fp = fopen("debug.log", "a");		// fopen a FILE stream for 
-    fprintf(fp, "\n\n\n\n\n************************************************************************\n"); 
-	fprintf(fp, "this is a new log\n\n");	// 
+    fprintf(fp, "\n\n************************************************************************\n"); 
+	fprintf(fp, "this is a new log\n");	// 
     fclose(fp);								// close file
 }
 
