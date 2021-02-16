@@ -37,7 +37,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
     logDebug("got input:");
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
     logDebug(line);
-	*argcSim = 1;								//count how many args are in input. need n+2 
+	*argcSim = 2;								//count how many args are in input. need n+2 
 	sprintf(strOut, "argcsim= %d", *argcSim); 
 	logDebug(strOut);
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
@@ -101,7 +101,7 @@ int logArgEnv(int argc, char *argv[], char *env[ ]){
 		logDebug(strOut);
 		i++; 
 	}
-	sprintf(strOut, "argv[%d] = %s", argc, argv[argc - 1]); 
+	sprintf(strOut, "argv[%d] = %s", argc - 1, argv[argc - 1]); 
 	logDebug(strOut);
 
 	/*i = 0; 
