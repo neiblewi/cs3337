@@ -37,7 +37,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
     logDebug("got input:");
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
     logDebug(line);
-	*argcSim = 2;								//count how many args are in input. need n+2 
+	*argcSim = 1;								//count how many args are in input. need n+1
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
 		if(line[i] == (int)' '){ 				//find ' '
 		sprintf(strOut, "found ' ' at index %d", i); 
@@ -45,7 +45,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 		*argcSim = *argcSim + 1;				//count how many " " are in user input line
 		}
 	}
-	argvSim = (char **)malloc(*argcSim * sizeof(char *));	//make argv point to new array
+	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make argv point to new array
 	logDebug("fill array");
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
@@ -56,7 +56,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 		token = strtok(0, " ");					//go to next token
 		logDebug("add arg");
 	}
-	argvSim[*argcSim - 1] = NULL;	//last arg points to null
+	argvSim[*argcSim] = NULL;	//last arg points to null
 	logDebug("array full");
 	logArgEnv(*argcSim, argvSim, NULL);
 	logDebug("return from getInput()");
