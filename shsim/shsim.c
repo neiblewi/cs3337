@@ -14,7 +14,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	char **argvSim;						//empty pointer to array of strings to simulate argv
 	int i = 1;							
 	while(i){							//main program loop
-		logDebug("in main while");
+		logDebug("	in main while");
 		getInput(argcSim, argvSim);			//get input from user
 		logDebug("\nargcSim, argvSim from input:"); 
 		logArgEnv(argcSim, argvSim, NULL); 	//log user input
@@ -45,10 +45,10 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 		argcSim++;		//count how many " " are in user input line
 		}
 	}
-	char *newArray[argcSim];					//create a new array of string pointers of size argc
+	char *newArray[argcSim];//possibly not right					//create a new array of string pointers of size argc
 	argvSim = newArray;							//make argv point to new array
 	logDebug("fresh array:");
-	logArgEnv(argcSim, argvSim, NULL);
+	//logArgEnv(argcSim, argvSim, NULL);
 	char temp[128];								//temporary string to to hold line
 	strcpy(temp, line);
 	char *token;
@@ -96,5 +96,5 @@ int logArgEnv(int argc, char *argv[], char *env[ ]){
 		sprintf(strOut, "env[%d] = %s", i, env[i]); 
 		logDebug (strOut);
 		i++; 
-	}	*/ 
+	}	*/ //seg fault needs fixed when env becomes important
 }
