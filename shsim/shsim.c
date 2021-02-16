@@ -12,14 +12,14 @@ int main( int argc, char *argv[], char *env[ ]){
 	logDebug("\nmain function:");	
 	logArgEnv(argc, argv, env);			
 	int argcSim;						//empty integer to simulate argc
-	char **argvSim;				//empty pointer to array of strings to simulate argv
+	char *argvSim[1];					//empty pointer to array of strings to simulate argv
 	sprintf(strOut, "pre: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 	int i = 1;							
 	while(i){							//main program loop
 		logDebug("	in main while");
 		getInput(&argcSim, argvSim);	//get input from user
 		sprintf(strOut, "post: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
-		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
+		logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
 }
 
