@@ -62,9 +62,9 @@ int setArgcSim(char *line, int *argcSim){
 }
 
 int setArgvSim(char *line, int *argcSim, char **argvSim){
-	argvSim = (char **)realloc(arvSim,(*argcSim + 1) * sizeof(char *));	//make new array of strings
+	argvSim = (char **)realloc(argvSim,(*argcSim + 1) * sizeof(char *));	//make new array of strings
 	char *token;								//string to hold tokens
-	token = strtok(*line, " ");					//get first token
+	token = strtok(line, " ");					//get first token
 	int i = 0; 
 	while(token && i < *argcSim){				//loop through tokens and array
 		argvSim[i] = token;						//store token
