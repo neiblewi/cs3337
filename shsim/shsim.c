@@ -91,10 +91,10 @@ int logArgEnv(int argc, char *argv[], char *env[ ]){
 		logDebug(strOut);
 		i++; 
 	}
-	i = 0; 
+	/*i = 0; 
 	while(env[i]){ 
 		sprintf(strOut, "env[%d] = %s", i, env[i]); 
 		logDebug (strOut);
 		i++; 
-	}	 
+	}	*/ 
 }
