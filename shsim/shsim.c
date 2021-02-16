@@ -11,7 +11,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	logDebug("\nmain function:");	
 	logArgEnv(argc, argv, env);			//log arguments and environment from main functions
 	int argcSim;						//empty integer to simulate argc
-	char *argvSim[0];					//empty pointer to array of strings to simulate argv
+	char **argvSim = NULL;					//empty pointer to array of strings to simulate argv
 	int i = 1;							
 	while(i){							//main program loop
 		logDebug("	in main while");
