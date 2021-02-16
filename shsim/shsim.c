@@ -45,7 +45,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 		*argcSim = *argcSim + 1;				//count how many " " are in user input line
 		}
 	}
-	*argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make argv point to new array
+	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make argv point to new array
 	logDebug("fill array");
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
