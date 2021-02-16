@@ -17,7 +17,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		logDebug("	in main while");
 		getInput(&argcSim, argvSim);			//get input from user
 		logDebug("\nargcSim, argvSim from input:"); 
-		logArgEnv(argcSim, argvSim, NULL); 	//log user input
+		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
 }
 
@@ -37,7 +37,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
     logDebug("got input:");
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
     logDebug(line);
-	*argcSim = 2;								//count how many args are in input. need n+2 
+	*argcSim = 1;								//count how many args are in input. need n+2 
 	sprintf(strOut, "argcsim= %d", *argcSim); 
 	logDebug(strOut);
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
@@ -78,9 +78,8 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 
 //reset debug.log file
 int logReset(){
-	FILE *fp = fopen("debug.log", "a");		// fopen a FILE stream for 
-    fprintf(fp, "\n\n************************************************************************\n"); 
-	fprintf(fp, "this is a new log\n");	// 
+	FILE *fp = fopen("debug.log", "w");		// fopen a FILE stream for 
+    fprintf(fp, "\n****new log****\n"); 	// add message
     fclose(fp);								// close file
 }
 
