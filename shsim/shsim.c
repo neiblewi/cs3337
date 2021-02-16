@@ -53,19 +53,19 @@ int getInput(int *argcSim, char **argvSim[]){     //get a line of input from use
 	//char **newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
 	//argvSim = &newStrArray;						//argvsim is a pointer to new array
 	free(argvSim);
-	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
+	*argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
 	int i = 0; 
 	while(token && i < *argcSim){				//loop through tokens and array
-		argvSim[i] = token;						//store token
+		*argvSim[i] = token;						//store token
 		i++;									//go to next index in array
 		token = strtok(0, " ");					//go to next token
 		logDebug("add arg");
 	}
-	argvSim[*argcSim] = NULL;	//last arg points to null
+	*argvSim[*argcSim] = NULL;	//last arg points to null
 	logDebug("array full");
-	logArgEnv(*argcSim, argvSim, NULL);
+	logArgEnv(*argcSim, *argvSim, NULL);
 	sprintf(strOut, "inGetInput: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
 	logDebug("return from getInput()\n");
 }
