@@ -17,7 +17,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		logDebug("	in main while");
 		getInput(&argcSim, argvSim);			//get input from user
 		logDebug("\nargcSim, argvSim from input:"); 
-		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
+		logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
 }
 
@@ -89,8 +89,6 @@ int logArgEnv(int argc, char *argv[], char *env[ ]){
 		logDebug(strOut);
 		i++; 
 	}
-	sprintf(strOut, "argv[%d] = %s", argc - 1, argv[argc - 1]); 
-	logDebug(strOut);
 	sprintf(strOut, "argv[%d] = %s", argc, argv[argc]); 
 	logDebug(strOut);
 	/*i = 0; 
