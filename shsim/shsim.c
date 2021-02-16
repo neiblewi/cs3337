@@ -66,6 +66,7 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 	argvSim[argcSim - 1] = NULL;	//last arg points to null
 	logDebug("array full");
 	logArgEnv(argcSim, argvSim, NULL);
+	log("return from getInput()");
 
 }
 
@@ -97,6 +98,9 @@ int logArgEnv(int argc, char *argv[], char *env[ ]){
 		logDebug(strOut);
 		i++; 
 	}
+	sprintf(strOut, "argv[%d] = %s", argc, argv[argc - 1]); 
+	logDebug(strOut);
+
 	/*i = 0; 
 	while(env[i]){ 
 		sprintf(strOut, "env[%d] = %s", i, env[i]); 
