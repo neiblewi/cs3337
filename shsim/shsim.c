@@ -45,8 +45,8 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 		argcSim++;		//count how many " " are in user input line
 		}
 	}
-	char *newArray[argcSim];//possibly not right					//create a new array of string pointers of size argc
-	argvSim = newArray;							//make argv point to new array
+	//char *newArray[argcSim];//possibly not right					//create a new array of string pointers of size argc
+	argvSim = (char **)malloc(argcSim * sizeof(char *));							//make argv point to new array
 	//logDebug("fresh array:");
 	//logArgEnv(argcSim, NULL, NULL);
 	
@@ -63,6 +63,7 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 		logDebug("add arg");
 		//logArgEnv(argcSim, argvSim, NULL);
 	}
+	argvSim[argcSim] = NULL;	//last arg points to null
 	logDebug("array full");
 	logArgEnv(argcSim, argvSim, NULL);
 
