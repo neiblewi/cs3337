@@ -35,7 +35,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	logDebug("\ngetInput()");
 	char line[128];				                //string to hold user input line
 	getInputLine(&line);
-	setArgcSim(line, *argcSim);
+	setArgcSim(line, argcSim);
 	//setArgvSim();
 	logDebug("fill array");
 	//char **newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
