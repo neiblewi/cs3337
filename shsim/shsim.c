@@ -24,10 +24,6 @@ int main( int argc, char *argv[], char *env[ ]){
 }
 
 /****************************************function definitions*******************************************/
-//initialize program variables
-int initialize(){
-	
-}
 
 //get a line of input from user and store in argcSim and argvSim
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
@@ -38,8 +34,8 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	setArgcSim(line, argcSim);
 	setArgvSim(line, argcSim, argvSim);
 
-	logArgEnv(*argcSim, argvSim, NULL);
 	sprintf(strOut, "inGetInput: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
+	logArgEnv(*argcSim, argvSim, NULL);
 	logDebug("return from getInput()\n");
 }
 
@@ -71,8 +67,8 @@ int setArgvSim(char *line, int *argcSim, char **argvSim){
 		token = strtok(0, " ");					//go to next token
 	}
 	argvSim[*argcSim] = NULL;					//last arg points to null
-	logArgEnv(*argcSim, argvSim, NULL);
 	sprintf(strOut, "inSetArgv: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
+	//logArgEnv(*argcSim, argvSim, NULL);
 }
 
 /******************functions for writing to debug.log file***********************/
