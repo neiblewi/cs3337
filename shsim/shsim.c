@@ -12,13 +12,13 @@ int main( int argc, char *argv[], char *env[ ]){
 	logDebug("\nmain function:");	
 	logArgEnv(argc, argv, env);			
 	int argcSim;						//empty integer to simulate argc
-	char **argvSim = NULL;				//empty pointer to array of strings to simulate argv
-	sprintf(strOut, "pre: argcSim = %d	argvSim = %d", argcSim, argvSim); logDebug(strOut);
+	char **argvSim;				//empty pointer to array of strings to simulate argv
+	sprintf(strOut, "pre: argcSim = %d	d:argvSim = %d	s:argvSim = %s", argcSim, argvSim, argvSim); logDebug(strOut);
 	int i = 1;							
 	while(i){							//main program loop
 		logDebug("	in main while");
 		getInput(&argcSim, &argvSim);	//get input from user
-		sprintf(strOut, "post: argcSim = %d	argvSim = %d", argcSim, argvSim); logDebug(strOut);
+		sprintf(strOut, "post: argcSim = %d	d:argvSim = %d	s:argvSim = %s", argcSim, argvSim, argvSim); logDebug(strOut);
 		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
 }
@@ -65,6 +65,7 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	argvSim[*argcSim] = NULL;	//last arg points to null
 	logDebug("array full");
 	logArgEnv(*argcSim, argvSim, NULL);
+	sprintf(strOut, "inGetInput: argcSim = %d	d:argvSim = %d	s:argvSim = %s", argcSim, argvSim, argvSim); logDebug(strOut);
 	logDebug("return from getInput()");
 }
 
