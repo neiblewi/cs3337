@@ -29,19 +29,25 @@ int initialize(){
 //get a line of input from user and store in argcSim and argvSim
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
 int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
-	char line[128];                             //string to hold user input line
+	log("\ngetInput()");
+	char line[128], strOut[128];                //string to hold user input line
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
-    log("\ngot input:");
+    log("got input:");
     log(line);
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
 	argcSim = 1;								//count how many args are in input. need n+1
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
-		if(strcmp(line[i]," ")) argcSim++;		//count how many " " are in user input line
+		if(strcmp(line[i]," ")){ 
+		sprintf(strOut, "found arg %d at index %d", argcSim, i); 
+		log(strOut);
+		argcSim++;		//count how many " " are in user input line
+		}
 	}
 	char *newArray[argcSim];					//create a new array of string pointers of size argc
 	argvSim = newArray;							//make argv point to new array
-
+	log("fresh array:")
+	logArgEnv(argcSim, argvSim, NULL);
 	char temp[128];								//temporary string to to hold line
 	strcpy(temp, line);
 	char *token;
@@ -51,6 +57,8 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 		argvSim[i] = token;
 		i++;
 		token = strtok(0, " ");
+		log("add arg")
+		logArgEnv(argcSim, argvSim, NULL);
 	}
 }
 
