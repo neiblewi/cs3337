@@ -13,12 +13,11 @@ int main( int argc, char *argv[], char *env[ ]){
 	logArgEnv(argc, argv, env);			
 	int argcSim;						//empty integer to simulate argc
 	char *argvSim[1];					//empty pointer to array of strings to simulate argv
-	int argvPtr = &argvSim;
 	sprintf(strOut, "pre: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 	int i = 1;							
 	while(i){							//main program loop
 		logDebug("	in main while");
-		getInput(&argcSim, argvPtr);	//get input from user
+		getInput(&argcSim, argvSim);	//get input from user
 		sprintf(strOut, "post: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
@@ -32,7 +31,7 @@ int initialize(){
 
 //get a line of input from user and store in argcSim and argvSim
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
-int getInput(int *argcSim, char **argvSim){     //get a line of input from user
+int getInput(int *argcSim, char *argvSim[]){     //get a line of input from user
 	logDebug("\ngetInput()");
 //get input
 	char line[128];				                //string to hold user input line
