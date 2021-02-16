@@ -12,7 +12,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	logDebug("\nmain function:");	
 	logArgEnv(argc, argv, env);			
 	int argcSim;						//empty integer to simulate argc
-	char *argvSim[1];					//empty pointer to array of strings to simulate argv
+	char **argvSim = (char **)malloc(sizeof(char *));					//empty pointer to array of strings to simulate argv
 	sprintf(strOut, "pre: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 	int i = 1;							
 	while(i){							//main program loop
@@ -52,6 +52,7 @@ int getInput(int *argcSim, char **argvSim[]){     //get a line of input from use
 	logDebug("fill array");
 	//char **newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
 	//argvSim = &newStrArray;						//argvsim is a pointer to new array
+	free(argvSim);
 	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
