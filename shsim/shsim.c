@@ -36,12 +36,11 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	char line[128];				                //string to hold user input line
 	getInputLine(line);
 	setArgcSim(line, argcSim);
-	
 	setArgvSim(line, argcSim, argvSim);
-/*
+
 	logArgEnv(*argcSim, argvSim, NULL);
 	sprintf(strOut, "inGetInput: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
-	logDebug("return from getInput()\n");*/
+	logDebug("return from getInput()\n");
 }
 
 int getInputLine(char *line){
@@ -72,6 +71,8 @@ int setArgvSim(char *line, int *argcSim, char **argvSim){
 		token = strtok(0, " ");					//go to next token
 	}
 	argvSim[*argcSim] = NULL;					//last arg points to null
+	logArgEnv(*argcSim, argvSim, NULL);
+	sprintf(strOut, "inSetArgv: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
 }
 
 /******************functions for writing to debug.log file***********************/
