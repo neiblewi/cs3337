@@ -63,7 +63,7 @@ int getInput(int argcSim, char *argvSim[]){     //get a line of input from user
 		logDebug("add arg");
 		//logArgEnv(argcSim, argvSim, NULL);
 	}
-	argvSim[argcSim] = NULL;	//last arg points to null
+	argvSim[argcSim - 1] = NULL;	//last arg points to null
 	logDebug("array full");
 	logArgEnv(argcSim, argvSim, NULL);
 
