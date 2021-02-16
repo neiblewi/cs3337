@@ -17,7 +17,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	int i = 1;							
 	while(i){							//main program loop
 		logDebug("	in main while");
-		getInput(&argcSim, &argvSim);	//get input from user
+		getInput(&argcSim, argvSim);	//get input from user
 		sprintf(strOut, "post: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
@@ -31,10 +31,10 @@ int initialize(){
 
 //get a line of input from user and store in argcSim and argvSim
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
-int getInput(int *argcSim, char ***argvSim){     //get a line of input from user
+int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	logDebug("\ngetInput()");
 //get input
-	char line[128], strOut[128];                //string to hold user input line
+	char line[128],				                //string to hold user input line
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
@@ -52,20 +52,20 @@ int getInput(int *argcSim, char ***argvSim){     //get a line of input from user
 	logDebug("fill array");
 	//char **newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
 	//argvSim = &newStrArray;						//argvsim is a pointer to new array
-	*argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
+	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
 	int i = 0; 
 	while(token && i < *argcSim){				//loop through tokens and array
-		*argvSim[i] = token;						//store token
+		argvSim[i] = token;						//store token
 		i++;									//go to next index in array
 		token = strtok(0, " ");					//go to next token
 		logDebug("add arg");
 	}
-	*argvSim[*argcSim] = NULL;	//last arg points to null
+	argvSim[*argcSim] = NULL;	//last arg points to null
 	logDebug("array full");
-	logArgEnv(*argcSim, *argvSim, NULL);
-	sprintf(strOut, "inGetInput: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, *argvSim, *argvSim); logDebug(strOut);
+	logArgEnv(*argcSim, argvSim, NULL);
+	sprintf(strOut, "inGetInput: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 	logDebug("return from getInput()");
 }
 
