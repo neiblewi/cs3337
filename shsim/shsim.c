@@ -11,12 +11,12 @@ int main( int argc, char *argv[], char *env[ ]){
 	logReset();							
 	logDebug("\nmain function:");	
 	logArgEnv(argc, argv, env);			
+	
 	int argcSim;						//empty integer to simulate argc
 	char **argvSim = (char **)malloc(sizeof(char *));					//empty pointer to array of strings to simulate argv
 	sprintf(strOut, "pre: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 	int i = 1;							
 	while(i){							//main program loop
-		logDebug("	in main while");
 		getInput(&argcSim, argvSim);	//get input from user
 		sprintf(strOut, "post: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
@@ -35,20 +35,20 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	logDebug("\ngetInput()");
 	char line[128];				                //string to hold user input line
 	getInputLine(line);
-    sprintf(strOut, "got input: %s", line); logDebug(strOut);
 	setArgcSim(line, argcSim);
-	sprintf(strOut, "argcSim= %i", *argcSim); logDebug(strOut);
+	
 	setArgvSim(line, argcSim, argvSim);
-
+/*
 	logArgEnv(*argcSim, argvSim, NULL);
 	sprintf(strOut, "inGetInput: i:argvSim = %i	p:argvSim = %p", argvSim, argvSim); logDebug(strOut);
-	logDebug("return from getInput()\n");
+	logDebug("return from getInput()\n");*/
 }
 
 int getInputLine(char *line){
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
+    sprintf(strOut, "got input: %s", line); logDebug(strOut);
 }
 
 int setArgcSim(char *line, int *argcSim){
@@ -58,13 +58,13 @@ int setArgcSim(char *line, int *argcSim){
 		*argcSim = *argcSim + 1;				//count how many ' ' are in user input line
 		}
 	}	
+	sprintf(strOut, "argcSim= %i", *argcSim); logDebug(strOut);
 }
 
 int setArgvSim(char *line, int *argcSim, char **argvSim){
-	free(argvSim);
-	argvSim = (char **)malloc((*argcSim + 1) * sizeof(char *));	//make new array of strings
+	argvSim = (char **)realloc(arvSim,(*argcSim + 1) * sizeof(char *));	//make new array of strings
 	char *token;								//string to hold tokens
-	token = strtok(line, " ");					//get first token
+	token = strtok(*line, " ");					//get first token
 	int i = 0; 
 	while(token && i < *argcSim){				//loop through tokens and array
 		argvSim[i] = token;						//store token
