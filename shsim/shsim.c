@@ -35,7 +35,9 @@ int getInput(int *argcSim, char **argvSim){     //get a line of input from user
 	logDebug("\ngetInput()");
 	char line[128];				                //string to hold user input line
 	getInputLine(line);
+    sprintf(strOut, "got input: %s", line); logDebug(strOut);
 	setArgcSim(line, argcSim);
+	sprintf(strOut, "argcSim= %i", *argcSim); logDebug(strOut);
 	setArgvSim(line, argcSim, argvSim);
 
 	logArgEnv(*argcSim, argvSim, NULL);
@@ -47,7 +49,6 @@ int getInputLine(char *line){
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
-    sprintf(strOut, "got input: %s", line); logDebug(strOut);
 }
 
 int setArgcSim(char *line, int *argcSim){
@@ -57,7 +58,6 @@ int setArgcSim(char *line, int *argcSim){
 		*argcSim = *argcSim + 1;				//count how many ' ' are in user input line
 		}
 	}	
-	sprintf(strOut, "argcSim= %i", *argcSim); logDebug(strOut);
 }
 
 int setArgvSim(char *line, int *argcSim, char **argvSim){

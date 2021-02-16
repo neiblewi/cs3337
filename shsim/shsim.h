@@ -6,6 +6,8 @@
 //functions declarations
 /********functions for use in main function*******/
 int initialize();		//initialize program
+
+/*****************getinput***************************/
 int getInput(int *argcSim, char **argvSim);			//get a line of input from user
 int getInputLine(char * line);
 int setArgcSim(char *line, int *argcSim);
