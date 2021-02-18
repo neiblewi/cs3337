@@ -53,7 +53,8 @@ int getInput(int *argCount, char ***argVector){     //get a line of input from u
 	sprintf(strOut, "*(**argVector)= %p,	**argVector = %p", argVector, *argVector); 
 	logDebug(strOut, tabs);
 	logArgEnv(*argCount, *argVector, NULL);
-	sprintf(strOut, "argv[0][0]=%c", *argVector[0][0]); 
+	sprintf(strOut, "argv[0][0]=%c", *argVector[0][0]);
+	logDebug(strOut, tabs);
 	logDebug("return from getInput()\n", tabs);
 	tabs --;
 }
