@@ -17,7 +17,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	int i = 1;							
 	while(i){							//main program loop
 		getInput(&argcSim, &argvSim);	//get input from user
-		logArgEnv(argcSim, argvSim, NULL); 	//log user input
+		logArgEnv(argcSim, *argvSim, NULL); 	//log user input
 	}	
 }
 
