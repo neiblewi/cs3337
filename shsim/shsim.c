@@ -14,13 +14,14 @@ int main( int argc, char *argv[], char *env[ ]){
 	logArgEnv(argc, argv, env);			
 	
 	int argCount;						//empty integer to simulate argc
-	char ***argVector;						//empty pointer to array of strings to simulate argv
+	char **argVector;					//empty pointer to array of strings to simulate argv
+	char ***argVectorPtr = &argVector;
 	int i = 1;							
 	while(i){							//main program loop
-		sprintf(strOut, "**argVector= %p", *argVector); logDebug(strOut, tabs);
-		getInput(&argCount, argVector);	//get input from user
-		sprintf(strOut, "**argVector= %p", *argVector); logDebug(strOut, tabs);
-		logArgEnv(argCount, *argVector, NULL); 	//log user input
+		sprintf(strOut, "**argVector= %p", argVector); logDebug(strOut, tabs);
+		getInput(&argCount, argVectorPtr);	//get input from user
+		sprintf(strOut, "**argVector= %p", argVector); logDebug(strOut, tabs);
+		logArgEnv(argCount, argVector, NULL); 	//log user input
 	}	
 }
 
