@@ -68,7 +68,7 @@ int setArgvSim(char *line, int *argcSim, char ***argvSim){
 		token = strtok(0, " ");					//go to next token
 	}
 	newStrArray[*argcSim] = NULL;					//last arg points to null
-	*argvSim = &newStrArray;
+	*argvSim = newStrArray;
 	sprintf(strOut, "postSetArgv: i:argvSim = %i	p:argvSim = %p", *argvSim, *argvSim); logDebug(strOut);
 	//logArgEnv(*argcSim, argvSim, NULL);
 }
