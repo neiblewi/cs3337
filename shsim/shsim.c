@@ -14,7 +14,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	logArgEnv(argc, argv, env);			
 	
 	int argCount;						//empty integer to simulate argc
-	char **argVector;					//empty pointer to array of strings to simulate argv
+	char **argVector = NULL;					//empty pointer to array of strings to simulate argv
 	char ***argVectorPtr = &argVector;
 	int i = 1;							
 	while(i){							//main program loop
