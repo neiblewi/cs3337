@@ -23,8 +23,8 @@ int main( int argc, char *argv[], char *env[ ]){
 		
 		getInput(&argCount, argVectorPtr);	//get input from user
 		
-		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
-		logDebug(strOut, tabs);
+		//sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
+		//logDebug(strOut, tabs);
 		logArgEnv(argCount, argVector, NULL); 	//log user input
 
 		sprintf(strOut, "argv[0][0]=%c", argVector[0][0]); 
@@ -48,14 +48,14 @@ int getInput(int *argCount, char ***argVector){     //get a line of input from u
 	char line[128];				                //string to hold user input line
 	getInputLine(line);							//get user input
 	setArgcSim(line, argCount);					//count number of arguments
-	setArgvSim(line, argCount, argVector);			//store arguments in argVector
-	
+	setArgvSim(line, argCount, argVector);		//store arguments in argVector
+	/*
 	sprintf(strOut, "*(**argVector)= %p,	**argVector = %p", argVector, *argVector); 
-	logDebug(strOut, tabs);
+	logDebug(strOut, tabs);*/
 	logArgEnv(*argCount, *argVector, NULL);
-	sprintf(strOut, "argv[0][0]=%c", *argVector[0][0]);
+	/*sprintf(strOut, "argv[0][0]=%c", *argVector[0][0]);
 	logDebug(strOut, tabs);
-	logDebug("return from getInput()\n", tabs);
+	logDebug("return from getInput()\n", tabs);*/
 	tabs --;
 }
 
