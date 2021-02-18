@@ -21,6 +21,8 @@ int main( int argc, char *argv[], char *env[ ]){
 		getInput(&argCount, &argVector);	//get input from user
 		sprintf(strOut, "**argVector= %p", argVector); logDebug(strOut, tabs);
 		logArgEnv(argCount, argVector, NULL); 	//log user input
+		logArgEnv(argCount, *argVector, NULL); 	//log user input
+		logArgEnv(argCount, &argVector, NULL); 	//log user input
 	}	
 }
 
