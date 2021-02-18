@@ -18,9 +18,13 @@ int main( int argc, char *argv[], char *env[ ]){
 	char ***argVectorPtr = &argVector;
 	int i = 1;							
 	while(i){							//main program loop
-		sprintf(strOut, "**argVector= %p", argVector); logDebug(strOut, tabs);
+		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
+		logDebug(strOut, tabs);
+		
 		getInput(&argCount, argVectorPtr);	//get input from user
-		sprintf(strOut, "**argVector= %p", argVector); logDebug(strOut, tabs);
+		
+		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
+		logDebug(strOut, tabs);
 		logArgEnv(argCount, argVector, NULL); 	//log user input
 	}	
 }
