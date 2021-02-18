@@ -14,36 +14,34 @@ int main( int argc, char *argv[], char *env[ ]){
 	
 	int argcSim;						//empty integer to simulate argc
 	char **argvSim;						//empty pointer to array of strings to simulate argv
-	sprintf(strOut, "pre: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
 	int i = 1;							
 	while(i){							//main program loop
 		getInput(&argcSim, &argvSim);	//get input from user
-		sprintf(strOut, "post: argcSim = %i	i:argvSim = %i	p:argvSim = %p", argcSim, argvSim, argvSim); logDebug(strOut);
-		//logArgEnv(argcSim, argvSim, NULL); 	//log user input
+		logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
 }
 
 /****************************************function definitions*******************************************/
 
+
+
+
 //get a line of input from user and store in argcSim and argvSim
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
 int getInput(int *argcSim, char ***argvSim){     //get a line of input from user
-	logDebug("\ngetInput()");
+	logDebug("\tgetInput()");
 	char line[128];				                //string to hold user input line
 	getInputLine(line);
 	setArgcSim(line, argcSim);
 	setArgvSim(line, argcSim, argvSim);
-
-	sprintf(strOut, "inGetInput: i:argvSim = %i	p:argvSim = %p", *argvSim, *argvSim); logDebug(strOut);
-	//logArgEnv(*argcSim, argvSim, NULL);
-	logDebug("return from getInput()\n");
+	logDebug("\treturn from getInput()\n");
 }
 
 int getInputLine(char *line){
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
-    sprintf(strOut, "got input: %s", line); logDebug(strOut);
+    sprintf(strOut, "\tgot input: %s", line); logDebug(strOut);
 }
 
 int setArgcSim(char *line, int *argcSim){
@@ -53,24 +51,22 @@ int setArgcSim(char *line, int *argcSim){
 		*argcSim = *argcSim + 1;				//count how many ' ' are in user input line
 		}
 	}	
-	sprintf(strOut, "argcSim= %i", *argcSim); logDebug(strOut);
+	sprintf(strOut, "\targcSim= %i", *argcSim); logDebug(strOut);
 }
 
 int setArgvSim(char *line, int *argcSim, char ***argvSim){
-	sprintf(strOut, "preSetArgv: i:argvSim = %i	p:argvSim = %p", *argvSim, *argvSim); logDebug(strOut);
-	char ** newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));
+	char ** newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *)); //create new string array
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
 	int i = 0; 
 	while(token && i < *argcSim){				//loop through tokens and array
-		newStrArray[i] = token;						//store token
+		newStrArray[i] = token;					//store token
 		i++;									//go to next index in array
 		token = strtok(0, " ");					//go to next token
 	}
-	newStrArray[*argcSim] = NULL;					//last arg points to null
-	*argvSim = newStrArray;
-	sprintf(strOut, "postSetArgv: i:argvSim = %i	p:argvSim = %p", *argvSim, *argvSim); logDebug(strOut);
-	//logArgEnv(*argcSim, argvSim, NULL);
+	newStrArray[*argcSim] = NULL;				//last arg points to null
+	*argvSim = newStrArray;						//change argvsim to point to new array
+	logArgEnv(*argcSim, *argvSim, NULL);
 }
 
 /******************functions for writing to debug.log file***********************/
