@@ -57,7 +57,7 @@ int setArgcSim(char *line, int *argcSim){
 }
 
 int setArgvSim(char *line, int *argcSim, char ***argvSim){
-	printf(strOut, "preSetArgv: i:argvSim = %i	p:argvSim = %p", *argvSim, *argvSim); logDebug(strOut);
+	sprintf(strOut, "preSetArgv: i:argvSim = %i	p:argvSim = %p", *argvSim, *argvSim); logDebug(strOut);
 	char ** newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *));
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
