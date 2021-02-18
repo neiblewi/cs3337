@@ -33,7 +33,7 @@ int main( int argc, char *argv[], char *env[ ]){
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
 int getInput(int *argcSim, char ***argvSim){     //get a line of input from user
 	tabs ++;
-	logDebug("\tgetInput()", tabs);
+	logDebug("getInput()", tabs);
 	sprintf(strOut, "argvsim= %p,	**argvsim = %p", argcSim, *argcSim); 
 	logDebug(strOut, tabs);
 	
@@ -44,7 +44,7 @@ int getInput(int *argcSim, char ***argvSim){     //get a line of input from user
 	
 	sprintf(strOut, "***argvsim= %p,	**argvsim = %p", argcSim, *argcSim); 
 	logDebug(strOut, tabs);
-	logDebug("\treturn from getInput()\n", tabs);
+	logDebug("return from getInput()\n", tabs);
 	tabs --;
 }
 
@@ -54,7 +54,7 @@ int getInputLine(char *line){
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
     
-	sprintf(strOut, "\tgot input: %s", line); 
+	sprintf(strOut, "got input: %s", line); 
 	logDebug(strOut, tabs);
 	tabs --;
 }
@@ -67,7 +67,7 @@ int setArgcSim(char *line, int *argcSim){
 		*argcSim = *argcSim + 1;				//count how many ' ' are in user input line
 		}
 	}	
-	sprintf(strOut, "\targcSim= %i", *argcSim); 
+	sprintf(strOut, "argcSim= %i", *argcSim); 
 	logDebug(strOut, tabs);
 	tabs --;
 }
