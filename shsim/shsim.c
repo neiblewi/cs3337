@@ -23,8 +23,8 @@ int main( int argc, char *argv[], char *env[ ]){
 		
 		getInput(&argCount, argVectorPtr);	//get input from user
 		
-		//sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
-		//logDebug(strOut, tabs);
+		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
+		logDebug(strOut, tabs);
 		logArgEnv(argCount, argVector, NULL); 	//log user input
 
 		sprintf(strOut, "argv[0][0]=%c", argVector[0][0]); 
