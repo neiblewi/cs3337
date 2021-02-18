@@ -15,5 +15,5 @@ int setArgvSim(char *line, int *argcSim, char ***argvSim);
 
 /********functions for writing to debug.log file**********/
 int logReset();			//resets debug.log file
-int logDebug(char *str);		//write a line to log file for debuging
+int logDebug(char *str, int tabs);		//write a line to log file for debuging
 int logArgEnv(int argc, char *argv[], char *env[ ]);	//prints the arguments passed into main
