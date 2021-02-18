@@ -74,7 +74,7 @@ int setArgvSim(char *line, int *argcSim, char ***argvSim){
 
 	sprintf(strOut, "---\t***argvsim= %p,	**argvsim = %p,	**newArr= %p", argcSim, *argcSim, newStrArray); logDebug(strOut);
 	int temp = (int)newStrArray;
-	(int)*argvSim = (int)newStrArray;						//change argvsim to point to new array
+	*argvSim = (char **)newStrArray;						//change argvsim to point to new array
 	sprintf(strOut, "---\t***argvsim= %p,	**argvsim = %p,	**newArr= %p, i:temp= %i, p:temp= %p", argcSim, *argcSim, newStrArray, temp, temp); logDebug(strOut);
 	
 	logArgEnv(*argcSim, *argvSim, NULL);
