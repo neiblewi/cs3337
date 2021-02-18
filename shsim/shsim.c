@@ -16,8 +16,10 @@ int main( int argc, char *argv[], char *env[ ]){
 	char **argvSim;						//empty pointer to array of strings to simulate argv
 	int i = 1;							
 	while(i){							//main program loop
+		sprintf(strOut, "---\t**argvsim= %p", argcSim); logDebug(strOut);
 		getInput(&argcSim, &argvSim);	//get input from user
-		logArgEnv(argcSim, *argvSim, NULL); 	//log user input
+		sprintf(strOut, "---\t**argvsim= %p", argcSim); logDebug(strOut);
+		logArgEnv(argcSim, argvSim, NULL); 	//log user input
 	}	
 }
 
@@ -31,9 +33,11 @@ int main( int argc, char *argv[], char *env[ ]){
 int getInput(int *argcSim, char ***argvSim){     //get a line of input from user
 	logDebug("\tgetInput()");
 	char line[128];				                //string to hold user input line
+	sprintf(strOut, "---\t***argvsim= %p,	**argvsim = %p", argcSim, *argcSim); logDebug(strOut);
 	getInputLine(line);
 	setArgcSim(line, argcSim);
 	setArgvSim(line, argcSim, argvSim);
+	sprintf(strOut, "---\t***argvsim= %p,	**argvsim = %p", argcSim, *argcSim); logDebug(strOut);
 	logDebug("\treturn from getInput()\n");
 }
 
@@ -56,6 +60,8 @@ int setArgcSim(char *line, int *argcSim){
 
 int setArgvSim(char *line, int *argcSim, char ***argvSim){
 	char ** newStrArray = (char **)malloc((*argcSim + 1) * sizeof(char *)); //create new string array
+	sprintf(strOut, "---\t***argvsim= %p,	**argvsim = %p,	**newArr= %p", argcSim, *argcSim, newStrArray); logDebug(strOut);
+	
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
 	int i = 0; 
@@ -65,7 +71,11 @@ int setArgvSim(char *line, int *argcSim, char ***argvSim){
 		token = strtok(0, " ");					//go to next token
 	}
 	newStrArray[*argcSim] = NULL;				//last arg points to null
+	
+	sprintf(strOut, "---\t***argvsim= %p,	**argvsim = %p,	**newArr= %p", argcSim, *argcSim, newStrArray); logDebug(strOut);
 	*argvSim = newStrArray;						//change argvsim to point to new array
+	sprintf(strOut, "---\t***argvsim= %p,	**argvsim = %p,	**newArr= %p", argcSim, *argcSim, newStrArray); logDebug(strOut);
+	
 	logArgEnv(*argcSim, *argvSim, NULL);
 }
 
