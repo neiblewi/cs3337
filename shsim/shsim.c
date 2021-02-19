@@ -26,7 +26,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		logDebug(strOut, tabs);
 		logArgEnv(argCount, (char **) temp, NULL); 	//log user input
 
-		logDebug("----------");
+		logDebug("----------", tabs);
 		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
 		logDebug(strOut, tabs);
 		logArgEnv(argCount, argVector, NULL); 	//log user input
@@ -34,7 +34,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		sprintf(strOut, "argv[0][0]=%c", argVector[0][0]); 
 		logDebug(strOut, tabs);
 
-		logDebug("----------");
+		logDebug("----------", tabs);
 		logArgEnv(argCount, *argVector, NULL); 	//log user input
 	}	
 }
