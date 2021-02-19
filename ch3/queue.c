@@ -1,7 +1,7 @@
 /***************** queue.c file *****************/ 
 int enqueue( PROC ** queue, PROC *p) { 
 	PROC *q = *queue; 
-	if (q == 0 | | p-> priority > q-> priority){ 
+	if (q == 0 || p-> priority > q-> priority){ 
 		*queue = p; p-> next = q; 
 		} 
 	else{ 
