@@ -5,7 +5,7 @@ int enqueue( PROC ** queue, PROC *p) {
 		*queue = p; p-> next = q; 
 		} 
 	else{ 
-		while (q-> next && p-> priority < = q-> next-> priority) 
+		while (q-> next && p-> priority <= q-> next-> priority) 
 			q = q-> next; 
 		p-> next = q-> next; 
 		q-> next = p; 
@@ -23,5 +23,5 @@ int printList( char *name, PROC *p) {
 		printf("[% d %d]->", p-> pid, p-> priority); 
 		p = p-> next; 
 	} 
-	printf(“ NULL\ n”); 
+	printf("NULL\n");
 }

@@ -1,5 +1,5 @@
 /*********** t.c file of A Multitasking System *********/ 
-#include <stdio.h>
+#include <stdio.h>de
 #include "type.h" 
 
 PROC proc[ NPROC]; // NPROC PROCs 
@@ -29,9 +29,9 @@ int kfork() {
 	kstack contains: | retPC | eax | ebx | ecx | edx | ebp | esi | edi | eflag | 
 						-1 		-2 	  -3 	-4 	 -5 	-6 	 -7 	-8    -9 
 	**********************************************************/ 
-	for (i = 1; i < 10; i + +) // zero out kstack cells 
+	for (i = 1; i < 10; i ++) // zero out kstack cells 
 		p-> kstack[ SSIZE - i] = 0; 
-	p-> kstack[ SSIZE-1] = (int) body; // retPC -> body() 
+	p-> kstack[ SSIZE-1] = (int)body; // retPC -> body() ******************************************************************
 	p-> ksp = &( p-> kstack[ SSIZE - 9]); // PROC.ksp -> saved eflag 
 	enqueue(&readyQueue, p); // enter p into readyQueue 
 	return p-> pid; 
@@ -53,10 +53,10 @@ int do_kfork() {
 	} 
 	return child; 
 } 
-int do_switch() { 
+int do_switch(){ 
 	tswitch(); 
 } 
-int do_exit { 
+int do_exit(){ 
 	kexit(); 
 } 
 int body(){ // process body function  
@@ -78,7 +78,7 @@ int body(){ // process body function
 int init() { 
 	int i; 
 	PROC *p; 
-	for (i = 0; i < NPROC; i + +){ // initialize PROCs 
+	for (i = 0; i < NPROC; i ++){ // initialize PROCs 
 		p = &proc[ i]; 
 		p-> pid = i; // PID = 0 to NPROC-1 
 		p-> status = FREE; 
@@ -112,7 +112,7 @@ int main() {
 /*********** scheduler *************/ 
 int scheduler() { 
 	printf(" proc %d in scheduler()\n", running-> pid); 
-	if (running-> status = = READY) 
+	if (running-> status == READY) 
 		enqueue(&readyQueue, running); 
 	printList(" readyQueue", readyQueue); 
 	running = dequeue(&readyQueue); 
