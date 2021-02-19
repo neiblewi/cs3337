@@ -1,5 +1,5 @@
 /*********** t.c file of A Multitasking System *********/ 
-#include < stdio.h > 
+#include <stdio.h>
 #include "type.h" 
 
 PROC proc[ NPROC]; // NPROC PROCs 
