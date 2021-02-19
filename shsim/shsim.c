@@ -6,6 +6,7 @@
 #include "shsim.h"
 char strOut[128]; 	//global variable for use in logdebug
 int tabs;			//global variable for use in logdebug
+char ** temp;
 
 //main function
 int main( int argc, char *argv[], char *env[ ]){
@@ -15,27 +16,28 @@ int main( int argc, char *argv[], char *env[ ]){
 	
 	int argCount;						//empty integer to simulate argc
 	char **argVector = NULL;					//empty pointer to array of strings to simulate argv
-	char ***argVectorPtr = &argVector;
 	int i = 1;							
 	while(i){							//main program loop
 		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
 		logDebug(strOut, tabs);
 		
-		int temp = getInput(&argCount, argVectorPtr);	//get input from user
-		sprintf(strOut, "p:temp=%p,	i:temp:%i", temp, temp); 
-		logDebug(strOut, tabs);
-		logArgEnv(argCount, (char **) temp, NULL); 	//log user input
+		getInput(&argCount, &argVector);	//get input from user
 
 		logDebug("----------", tabs);
 		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
 		logDebug(strOut, tabs);
-		logArgEnv(argCount, argVector, NULL); 	//log user input
-
+		logArgEnv(argCount, argVector, NULL); 	
 		sprintf(strOut, "argv[0][0]=%c", argVector[0][0]); 
 		logDebug(strOut, tabs);
 
 		logDebug("----------", tabs);
-		logArgEnv(argCount, *argVector, NULL); 	//log user input
+		sprintf(strOut, "**temp= %p", temp); 
+		logDebug(strOut, tabs);
+		logArgEnv(argCount, temp, NULL); 
+		sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
+		logDebug(strOut, tabs);
+
+
 	}	
 }
 
@@ -113,6 +115,7 @@ int setArgvSim(char *line, int *argCount, char ***argVector){
 	logDebug(strOut, tabs);
 	
 	*argVector = newStrArray;						//change argVector to point to new array
+	temp = newStrArray;
 	
 	sprintf(strOut, "*(**argVector= %p),	**argVector = %p,	**newArr= %p", argVector, *argVector, newStrArray); 
 	logDebug(strOut, tabs);
