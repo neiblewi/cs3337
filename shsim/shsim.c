@@ -106,7 +106,7 @@ void setArgvSim(char *line, int *argCount, char ***argVector){
 //reset debug.log file
 void logReset(){
 	getcwd(logPath, 128);
-	logPath = strcat(logPath, "/debug.log");
+	strcat(logPath, "/debug.log");
 	FILE *fp = fopen(logPath, "w");		// fopen a FILE stream for 
     fprintf(fp, "****new log****\n"); 	// add message
     fclose(fp);								// close file
