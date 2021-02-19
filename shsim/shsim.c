@@ -18,6 +18,22 @@ int main( int argc, char *argv[], char *env[ ]){
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
 		char line[128];							//string to hold user input line
 		getInput(line, &argCount, &argVector);	//get input from user
+		if(strcmp(argVector[0],"exit")){		//if first argument is "exit"
+			exit(0);							//exit program
+		}else if (strcmp(argVector[0],"cd"){	//if first argument is "cd"
+			int error;
+			if (argVector[1])					//if there is a seccond argument
+				error = chdir(argVector[1]);	//try to change to path in 2nd arg
+			else								//if 2nd arg was null
+				error = chdir("~");				//try to change cwd to home
+			if (error)							// if cd was not successful
+				printf("error: invalid directory path");	// display error
+		}else{									//for all other commands
+
+		}
+		
+		
+		
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
 }
@@ -29,7 +45,7 @@ int main( int argc, char *argv[], char *env[ ]){
 /***********************functions for getting user input***************************/
 //get a line of input from user and store in argCount and argVector
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
-int getInput( char *line, int *argCount, char ***argVector){     //get a line of input from user
+void getInput( char *line, int *argCount, char ***argVector){     //get a line of input from user
 	tabs ++;
 	logDebug("getInput()", tabs);
 	getInputLine(line);							//get user input
@@ -38,9 +54,11 @@ int getInput( char *line, int *argCount, char ***argVector){     //get a line of
 	tabs --;
 }
 //get line of input from user
-int getInputLine(char *line){
+void getInputLine(char *line){
 	tabs ++;
-	printf("enter command:");                   //display message to user
+	char msg[128];
+	getcwd(msg, 128);
+	printf("%s:%s $", getlogin(), msg );                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
 	sprintf(strOut, "got input: %s", line); 
@@ -48,7 +66,7 @@ int getInputLine(char *line){
 	tabs --;
 }
 //count the number of arguments from line
-int setArgcSim(char *line, int *argCount){
+void setArgcSim(char *line, int *argCount){
 	tabs++;
 	*argCount = 1;								//count how many args are in input. need n+1
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
@@ -61,7 +79,7 @@ int setArgcSim(char *line, int *argCount){
 	tabs --;
 }
 //tokenize and store arguments from line
-int setArgvSim(char *line, int *argCount, char ***argVector){
+void setArgvSim(char *line, int *argCount, char ***argVector){
 	tabs++;
 	char ** newStrArray = (char **)malloc((*argCount + 1) * sizeof(char *)); //create new string array
 	char *token;								//string to hold tokens
@@ -81,14 +99,14 @@ int setArgvSim(char *line, int *argCount, char ***argVector){
 
 /******************functions for writing to debug.log file***********************/
 //reset debug.log file
-int logReset(){
+void logReset(){
 	FILE *fp = fopen("debug.log", "w");		// fopen a FILE stream for 
     fprintf(fp, "****new log****\n"); 	// add message
     fclose(fp);								// close file
 	tabs = 0;
 }
 //add str to debug.log file for easy debugging
-int logDebug(char *str, int tabs){
+void logDebug(char *str, int tabs){
 	FILE *fp = fopen("debug.log", "a");		// fopen a FILE stream for APPEND
     for (int i = 0; i < tabs; i++){
 		fprintf(fp, "\t");
@@ -97,7 +115,7 @@ int logDebug(char *str, int tabs){
     fclose(fp);								// close FILE stream when done
 }
 //log argc, argv, and env
-int logArgEnv(int argc, char *argv[], char *env[ ]){
+void logArgEnv(int argc, char *argv[], char *env[ ]){
 	logDebug("logArgEnv()--------------", tabs);
 	sprintf(strOut, "argc = %d", argc);
 	logDebug(strOut, tabs);
