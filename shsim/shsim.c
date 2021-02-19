@@ -19,8 +19,11 @@ int main( int argc, char *argv[], char *env[ ]){
 		char line[128];							//string to hold user input line
 		getInput(line, &argCount, &argVector);	//get input from user
 		if( argVector && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
+			logDebug("exiting program");
 			exit(0);							//exit program
-		}else if (argVector && !strcmp(argVector[0],"cd")){	//if first argument is "cd"
+		}
+		else if (argVector && !strcmp(argVector[0],"cd")){	//if first argument is "cd"
+			logDebug("changing directory");
 			int error;
 			if (argVector[1])					//if there is a seccond argument
 				error = chdir(argVector[1]);	//try to change to path in 2nd arg
@@ -28,8 +31,9 @@ int main( int argc, char *argv[], char *env[ ]){
 				error = chdir("~");				//try to change cwd to home
 			if (error)							// if cd was not successful
 				printf("error: invalid directory path: %s\n", argVector[1]);	// display error
-		}else{									//for all other commands
-
+		}
+		else{									//for all other commands
+			logDebug("other command");
 		}
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
