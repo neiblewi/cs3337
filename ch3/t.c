@@ -1,5 +1,5 @@
 /*********** t.c file of A Multitasking System *********/ 
-#include <stdio.h>de
+#include <stdio.h>
 #include "type.h" 
 
 PROC proc[ NPROC]; // NPROC PROCs 
@@ -8,6 +8,8 @@ PROC *readyQueue; // priority queue of READY procs
 PROC *running; // current running proc pointer 
 
 #include "queue.c" // include queue.c file 
+
+int body();
 
 /******************************************************* 
  * kfork() creates a child process; returns child pid. 
@@ -31,7 +33,7 @@ int kfork() {
 	**********************************************************/ 
 	for (i = 1; i < 10; i ++) // zero out kstack cells 
 		p-> kstack[ SSIZE - i] = 0; 
-	p-> kstack[ SSIZE-1] = (int)body; // retPC -> body() ******************************************************************
+	p-> kstack[ SSIZE-1] = (int)body(); // retPC -> body() ******************************************************************
 	p-> ksp = &( p-> kstack[ SSIZE - 9]); // PROC.ksp -> saved eflag 
 	enqueue(&readyQueue, p); // enter p into readyQueue 
 	return p-> pid; 
