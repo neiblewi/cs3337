@@ -141,9 +141,9 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 		logDebug(strOut, tabs);
 	}
 	i = 0; 
-	while(env && env[i]){ 
+	/*while(env && env[i]){ 
 		sprintf(strOut, "env[%d] = %s", i, env[i]); 
 		logDebug (strOut, tabs);
-		i++;
+		i++;*/
 	} 
 }
