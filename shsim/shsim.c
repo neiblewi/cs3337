@@ -70,7 +70,7 @@ int getInput(int *argCount, char ***argVector){     //get a line of input from u
 	logDebug("----------", tabs);
 	sprintf(strOut, "**temp= %p", temp); 
 	logDebug(strOut, tabs);
-	logArgEnv(argCount, temp, NULL); 
+	logArgEnv(*argCount, temp, NULL); 
 	sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
 	logDebug(strOut, tabs);
 
@@ -132,7 +132,7 @@ int setArgvSim(char *line, int *argCount, char ***argVector){
 	logDebug("----------", tabs);
 	sprintf(strOut, "**temp= %p", temp); 
 	logDebug(strOut, tabs);
-	logArgEnv(argCount, temp, NULL); 
+	logArgEnv(*argCount, temp, NULL); 
 	sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
 	logDebug(strOut, tabs);
 
