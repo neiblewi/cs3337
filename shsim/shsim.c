@@ -12,9 +12,7 @@ char logPath[128];	//global variable for use in logdebug
 int main( int argc, char *argv[], char *env[ ]){
 	logReset();							
 	logDebug("\nmain function:", tabs);	
-	logDebug("a", tabs);	
 	logArgEnv(argc, argv, env);	
-	logDebug("b", tabs);		
 	int i = 1;							
 	while(i){									//main program loop
 		int argCount;							//empty integer to simulate argc
@@ -62,7 +60,6 @@ void getInput( char *line, int *argCount, char ***argVector){     //get a line o
 }
 //get line of input from user
 void getInputLine(char *line){
-
 	tabs ++;
 	char msg[128];
 	getcwd(msg, 128);
@@ -113,9 +110,7 @@ void logReset(){
 	strcat(logPath, "/debug.log");
 	FILE *fp = fopen(logPath, "w");		// fopen a FILE stream for 
     fprintf(fp, "****new log****\n"); 	// add message
-    fclose(fp);								// close file
-	logDebug("ff", tabs);
-	logDebug("gg", tabs);
+    fclose(fp);
 }
 //add str to debug.log file for easy debugging
 void logDebug(char *str, int tabs){
@@ -133,37 +128,27 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 		sprintf(strOut, "argc = %d", argc);
 		logDebug(strOut, tabs);
 	}
-	logDebug("c", tabs);
-	sprintf(strOut, "argvPtr = %p", argv);
-	logDebug(strOut, tabs);
-	logDebug("d", tabs);
+	if (argv){
+		sprintf(strOut, "argvPtr = %p", argv);
+		logDebug(strOut, tabs);
+	}
 	int i = 0;
 	while(argv && argv[i]){ 
-		logDebug("e", tabs);
 		sprintf(strOut, "argv[%d] = %s", i, argv[i]); 
-		logDebug("f", tabs);
 		logDebug(strOut, tabs);
-		logDebug("g", tabs);
 		i++; 
-		logDebug("h", tabs);
 	}
-	logDebug("i", tabs);
 	if (argv && argc){
-		logDebug("j", tabs);
 		sprintf(strOut, "argv[%d] = %s", argc, argv[argc]);
-		logDebug("k", tabs); 
 		logDebug(strOut, tabs);
-		logDebug("l", tabs);
 	}
 	logDebug("m", tabs);
 	i = 0; 
 	while(env && env[i]){
 		logDebug("n", tabs); 
-		sprintf(strOut, "env[%d] = %s", i, env[i]);
-		logDebug("o", tabs); 
-		logDebug (strOut, tabs);
-		logDebug("p", tabs);
+		//sprintf(strOut, "env[%d] = %s", i, env[i]);
+		logDebug("m", tabs);
+		//logDebug (strOut, tabs);
 		i++;
-		logDebug("q", tabs);
 	} 
 }
