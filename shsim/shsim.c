@@ -106,8 +106,9 @@ void setArgvSim(char *line, int *argCount, char ***argVector){
 //reset debug.log file
 void logReset(){
 	tabs = 0;
-	getcwd(logPath, 128);
-	strcat(logPath, "/debug.log");
+	//getcwd(logPath, 128);
+	//strcat(logPath, "/debug.log");
+	strcpy(logPath, "debug.log");
 	FILE *fp = fopen(logPath, "w");		// fopen a FILE stream for 
     fprintf(fp, "****new log****\n"); 	// add message
     fclose(fp);
@@ -142,13 +143,10 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 		sprintf(strOut, "argv[%d] = %s", argc, argv[argc]);
 		logDebug(strOut, tabs);
 	}
-	logDebug("m", tabs);
 	i = 0; 
 	while(env && env[i]){
-		logDebug("n", tabs); 
 		sprintf(strOut, "env[%d] = %s", i, env[i]);
-		logDebug("m", tabs);
-		//logDebug (strOut, tabs);
+		logDebug (strOut, tabs);
 		i++;
 	} 
 }
