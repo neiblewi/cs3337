@@ -6,7 +6,7 @@
 #include "shsim.h"
 char strOut[2048]; 	//global variable for use in logdebug
 int tabs;			//global variable for use in logdebug
-char logPath[128];	//global variable for use in logdebug
+char logPath[256];	//global variable for use in logdebug
 
 //main function
 int main( int argc, char *argv[], char *env[ ]){
@@ -17,7 +17,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	while(i){									//main program loop
 		int argCount;							//empty integer to simulate argc
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
-		char line[128];							//string to hold user input line
+		char line[256];							//string to hold user input line
 		getInput(line, &argCount, &argVector);	//get input from user
 		if( argVector[0] && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			logDebug("exiting program", tabs);
@@ -35,7 +35,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		}
 		else{									//for all other commands
 			logDebug("other command", tabs);
-
+			
 
 
 		}
@@ -143,7 +143,7 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 	}
 	i = 0; 
 	while(env && env[i]){
-		sprintf(strOut, "p:env=%p,	p:env[%d] = %p,	env[%d]=%s ",env, i, env[i], i, env[i]);
+		sprintf(strOut, "env[%d]=%s ", i, env[i]);
 		logDebug (strOut, tabs);
 		i++;
 	} 
