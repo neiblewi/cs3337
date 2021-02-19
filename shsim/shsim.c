@@ -4,7 +4,7 @@
 *created from instuctions in chapter 3.11 of 'Systems Programming in Unix/Linux' by K.C. Wang
 */
 #include "shsim.h"
-char strOut[128]; 	//global variable for use in logdebug
+char strOut[2048]; 	//global variable for use in logdebug
 int tabs;			//global variable for use in logdebug
 char logPath[128];	//global variable for use in logdebug
 
@@ -143,8 +143,7 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 	}
 	i = 0; 
 	while(env && env[i]){
-		printf("env[%d] = %s\n", i, env[i]); 
-		sprintf(strOut, "p:env=%p,	p:env[%d] = %p,	env[%d]= ",env, i, env[i], i);
+		sprintf(strOut, "p:env=%p,	p:env[%d] = %p,	env[%d]=%s ",env, i, env[i], i, env[i]);
 		logDebug (strOut, tabs);
 		i++;
 	} 
