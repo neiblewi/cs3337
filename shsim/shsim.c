@@ -18,13 +18,13 @@ int main( int argc, char *argv[], char *env[ ]){
 	char **argVector = NULL;					//empty pointer to array of strings to simulate argv
 	int i = 1;							
 	while(i){							//main program loop
-		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
+		sprintf(strOut, "**argVector= %p", argVector); 
 		logDebug(strOut, tabs);
 		
 		getInput(&argCount, &argVector);	//get input from user
 
 		logDebug("----------", tabs);
-		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
+		sprintf(strOut, "**argVector= %p", argVector); 
 		logDebug(strOut, tabs);
 		logArgEnv(argCount, argVector, NULL); 	
 		sprintf(strOut, "argv[0][0]=%c", argVector[0][0]); 
