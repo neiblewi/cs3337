@@ -34,6 +34,9 @@ int main( int argc, char *argv[], char *env[ ]){
 		}
 		else{									//for all other commands
 			logDebug("other command", tabs);
+
+
+
 		}
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
@@ -59,7 +62,7 @@ void getInputLine(char *line){
 	tabs ++;
 	char msg[128];
 	getcwd(msg, 128);
-	printf("%s:%s $", getlogin(), msg );                   //display message to user
+	printf("%s:%s $ ", getlogin(), msg );                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
 	sprintf(strOut, "got input: %s", line); 
@@ -124,7 +127,7 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 	sprintf(strOut, "argvPtr = %p", argv);
 	logDebug(strOut, tabs);
 	int i = 0;
-	while(argv[i]){ 
+	while(argv && argv[i]){ 
 		sprintf(strOut, "argv[%d] = %s", i, argv[i]); 
 		logDebug(strOut, tabs);
 		i++; 
