@@ -121,9 +121,10 @@ void logDebug(char *str, int tabs){
 //log argc, argv, and env
 void logArgEnv(int argc, char *argv[], char *env[ ]){
 	logDebug("logArgEnv()--------------", tabs);
-	sprintf(strOut, "argc = %d", argc);
-	logDebug(strOut, tabs);
-
+	if (argc){
+		sprintf(strOut, "argc = %d", argc);
+		logDebug(strOut, tabs);
+	}
 	sprintf(strOut, "argvPtr = %p", argv);
 	logDebug(strOut, tabs);
 	int i = 0;
@@ -132,8 +133,10 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 		logDebug(strOut, tabs);
 		i++; 
 	}
-	sprintf(strOut, "argv[%d] = %s", argc, argv[argc]); 
-	logDebug(strOut, tabs);
+	if (argv && argc){
+		sprintf(strOut, "argv[%d] = %s", argc, argv[argc]); 
+		logDebug(strOut, tabs);
+	}
 	i = 0; 
 	while(env && env[i]){ 
 		sprintf(strOut, "env[%d] = %s", i, env[i]); 
