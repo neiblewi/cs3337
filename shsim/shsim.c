@@ -17,7 +17,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		int argCount;							//empty integer to simulate argc
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
 		char line[128];							//string to hold user input line
-		getInput(&argCount, &argVector, line);	//get input from user
+		getInput(line, &argCount, &argVector);	//get input from user
 		logArgEnv(argCount, argVector, NULL); 	
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
@@ -30,7 +30,7 @@ int main( int argc, char *argv[], char *env[ ]){
 
 //get a line of input from user and store in argCount and argVector
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
-int getInput(int *argCount, char ***argVector, char * line){     //get a line of input from user
+int getInput( char *line, int *argCount, char ***argVector){     //get a line of input from user
 	tabs ++;
 	logDebug("getInput()", tabs);
 	getInputLine(line);							//get user input
@@ -102,7 +102,7 @@ int logDebug(char *str, int tabs){
 
 //log argc, argv, and env
 int logArgEnv(int argc, char *argv[], char *env[ ]){
-	logDebug("logArgEnv()--------------");
+	logDebug("logArgEnv()--------------", tabs);
 	sprintf(strOut, "argc = %d", argc);
 	logDebug(strOut, tabs);
 
