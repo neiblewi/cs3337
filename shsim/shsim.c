@@ -12,7 +12,9 @@ char logPath[128];	//global variable for use in logdebug
 int main( int argc, char *argv[], char *env[ ]){
 	logReset();							
 	logDebug("\nmain function:", tabs);	
-	logArgEnv(argc, argv, env);			
+	logDebug("a", tabs);	
+	logArgEnv(argc, argv, env);	
+	logDebug("b", tabs);		
 	int i = 1;							
 	while(i){									//main program loop
 		int argCount;							//empty integer to simulate argc
@@ -60,10 +62,11 @@ void getInput( char *line, int *argCount, char ***argVector){     //get a line o
 }
 //get line of input from user
 void getInputLine(char *line){
+
 	tabs ++;
 	char msg[128];
 	getcwd(msg, 128);
-	printf("%s:%s $ ", getlogin(), msg );                   //display message to user
+	printf("%s:%s $ ", getlogin(), msg );       //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
 	sprintf(strOut, "got input: %s", line); 
@@ -114,12 +117,19 @@ void logReset(){
 }
 //add str to debug.log file for easy debugging
 void logDebug(char *str, int tabs){
+	logDebug("r", tabs);
 	FILE *fp = fopen(logPath, "a");		// fopen a FILE stream for APPEND
-    for (int i = 0; i < tabs; i++){
+    logDebug("s", tabs);
+	for (int i = 0; i < tabs; i++){
+		logDebug("t", tabs);
 		fprintf(fp, "\t");
+		logDebug("u", tabs);
 	}
+	logDebug("v", tabs);
 	fprintf(fp, "%s\n",str);				// append str to file
-    fclose(fp);								// close FILE stream when done
+    logDebug("w", tabs);
+	fclose(fp);								// close FILE stream when done
+	logDebug("x", tabs);
 }
 //log argc, argv, and env
 void logArgEnv(int argc, char *argv[], char *env[ ]){
@@ -128,22 +138,37 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 		sprintf(strOut, "argc = %d", argc);
 		logDebug(strOut, tabs);
 	}
+	logDebug("c", tabs);
 	sprintf(strOut, "argvPtr = %p", argv);
 	logDebug(strOut, tabs);
+	logDebug("d", tabs);
 	int i = 0;
 	while(argv && argv[i]){ 
+		logDebug("e", tabs);
 		sprintf(strOut, "argv[%d] = %s", i, argv[i]); 
+		logDebug("f", tabs);
 		logDebug(strOut, tabs);
+		logDebug("g", tabs);
 		i++; 
+		logDebug("h", tabs);
 	}
+	logDebug("i", tabs);
 	if (argv && argc){
-		sprintf(strOut, "argv[%d] = %s", argc, argv[argc]); 
+		logDebug("j", tabs);
+		sprintf(strOut, "argv[%d] = %s", argc, argv[argc]);
+		logDebug("k", tabs); 
 		logDebug(strOut, tabs);
+		logDebug("l", tabs);
 	}
+	logDebug("m", tabs);
 	i = 0; 
-	while(env && env[i]){ 
-		sprintf(strOut, "env[%d] = %s", i, env[i]); 
+	while(env && env[i]){
+		logDebug("n", tabs); 
+		sprintf(strOut, "env[%d] = %s", i, env[i]);
+		logDebug("o", tabs); 
 		logDebug (strOut, tabs);
+		logDebug("p", tabs);
 		i++;
+		logDebug("q", tabs);
 	} 
 }
