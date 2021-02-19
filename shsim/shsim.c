@@ -18,7 +18,6 @@ int main( int argc, char *argv[], char *env[ ]){
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
 		char line[128];							//string to hold user input line
 		getInput(line, &argCount, &argVector);	//get input from user
-		logArgEnv(argCount, argVector, NULL); 	
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
 }
@@ -27,7 +26,7 @@ int main( int argc, char *argv[], char *env[ ]){
 
 
 
-
+/***********************functions for getting user input***************************/
 //get a line of input from user and store in argCount and argVector
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
 int getInput( char *line, int *argCount, char ***argVector){     //get a line of input from user
@@ -81,15 +80,13 @@ int setArgvSim(char *line, int *argCount, char ***argVector){
 }
 
 /******************functions for writing to debug.log file***********************/
-
 //reset debug.log file
 int logReset(){
 	FILE *fp = fopen("debug.log", "w");		// fopen a FILE stream for 
-    fprintf(fp, "\n****new log****\n"); 	// add message
+    fprintf(fp, "****new log****\n"); 	// add message
     fclose(fp);								// close file
 	tabs = 0;
 }
-
 //add str to debug.log file for easy debugging
 int logDebug(char *str, int tabs){
 	FILE *fp = fopen("debug.log", "a");		// fopen a FILE stream for APPEND
@@ -99,7 +96,6 @@ int logDebug(char *str, int tabs){
 	fprintf(fp, "%s\n",str);				// append str to file
     fclose(fp);								// close FILE stream when done
 }
-
 //log argc, argv, and env
 int logArgEnv(int argc, char *argv[], char *env[ ]){
 	logDebug("logArgEnv()--------------", tabs);
@@ -116,10 +112,10 @@ int logArgEnv(int argc, char *argv[], char *env[ ]){
 	}
 	sprintf(strOut, "argv[%d] = %s", argc, argv[argc]); 
 	logDebug(strOut, tabs);
-	/*i = 0; 
+	i = 0; 
 	while(env[i]){ 
 		sprintf(strOut, "env[%d] = %s", i, env[i]); 
 		logDebug (strOut, tabs);
-		i++; 
-	}	*/ //seg fault needs fixed when env becomes important
+		i++;
+	} 
 }
