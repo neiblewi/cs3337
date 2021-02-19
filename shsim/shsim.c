@@ -6,39 +6,20 @@
 #include "shsim.h"
 char strOut[128]; 	//global variable for use in logdebug
 int tabs;			//global variable for use in logdebug
-char ** temp;
 
 //main function
 int main( int argc, char *argv[], char *env[ ]){
 	logReset();							
 	logDebug("\nmain function:", tabs);	
 	logArgEnv(argc, argv, env);			
-	
 	int i = 1;							
-	while(i){							//main program loop
-		int argCount;						//empty integer to simulate argc
-		char **argVector = NULL;			//empty pointer to array of strings to simulate argv
-		
-		sprintf(strOut, "**argVector= %p", argVector); 
-		logDebug(strOut, tabs);
-		
-		getInput(&argCount, &argVector);	//get input from user
-
-		logDebug("----------", tabs);
-		sprintf(strOut, "**argVector= %p", argVector); 
-		logDebug(strOut, tabs);
+	while(i){									//main program loop
+		int argCount;							//empty integer to simulate argc
+		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
+		char line[128];							//string to hold user input line
+		getInput(&argCount, &argVector, line);	//get input from user
 		logArgEnv(argCount, argVector, NULL); 	
-		sprintf(strOut, "argv[0][0]=%c", argVector[0][0]); 
-		logDebug(strOut, tabs);
-
-		logDebug("----------", tabs);
-		sprintf(strOut, "**temp= %p", temp); 
-		logDebug(strOut, tabs);
-		logArgEnv(argCount, temp, NULL); 
-		sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
-		logDebug(strOut, tabs);
-
-		free(argVector);
+		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
 }
 
@@ -49,45 +30,25 @@ int main( int argc, char *argv[], char *env[ ]){
 
 //get a line of input from user and store in argCount and argVector
 //input should be formatted as cmd arg1 arg2 arg3 .... argn
-int getInput(int *argCount, char ***argVector){     //get a line of input from user
+int getInput(int *argCount, char ***argVector, char * line){     //get a line of input from user
 	tabs ++;
 	logDebug("getInput()", tabs);
-	sprintf(strOut, "*(**argVector)= %p,	**argVector = %p", argVector, *argVector); 
-	logDebug(strOut, tabs);
-	
-	char line[128];				                //string to hold user input line
 	getInputLine(line);							//get user input
 	setArgcSim(line, argCount);					//count number of arguments
 	setArgvSim(line, argCount, argVector);		//store arguments in argVector
-	/*
-	sprintf(strOut, "*(**argVector)= %p,	**argVector = %p", argVector, *argVector); 
-	logDebug(strOut, tabs);*/
-	logArgEnv(*argCount, *argVector, NULL);
-	/*sprintf(strOut, "argv[0][0]=%c", *argVector[0][0]);
-	logDebug(strOut, tabs);
-	logDebug("return from getInput()\n", tabs);*/
-
-	logDebug("----------", tabs);
-	sprintf(strOut, "**temp= %p", temp); 
-	logDebug(strOut, tabs);
-	logArgEnv(*argCount, temp, NULL); 
-	sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
-	logDebug(strOut, tabs);
-
 	tabs --;
 }
-
+//get line of input from user
 int getInputLine(char *line){
 	tabs ++;
 	printf("enter command:");                   //display message to user
     fgets(line, 128, stdin);                    //get input line from user
 	line[strlen(line)-1] = 0;                   //kill \n at the end of line
-    
 	sprintf(strOut, "got input: %s", line); 
 	logDebug(strOut, tabs);
 	tabs --;
 }
-
+//count the number of arguments from line
 int setArgcSim(char *line, int *argCount){
 	tabs++;
 	*argCount = 1;								//count how many args are in input. need n+1
@@ -100,42 +61,22 @@ int setArgcSim(char *line, int *argCount){
 	logDebug(strOut, tabs);
 	tabs --;
 }
-
+//tokenize and store arguments from line
 int setArgvSim(char *line, int *argCount, char ***argVector){
 	tabs++;
-	
 	char ** newStrArray = (char **)malloc((*argCount + 1) * sizeof(char *)); //create new string array
-	
-	sprintf(strOut, "*(**argVector)= %p,	**argVector = %p,	**newArr= %p", argVector, *argVector, newStrArray); 
-	logDebug(strOut, tabs);
-	
 	char *token;								//string to hold tokens
 	token = strtok(line, " ");					//get first token
 	int i = 0; 
 	while(token && i < *argCount){				//loop through tokens and array
-		strcpy(newStrArray[i], token);
+		//strcpy(newStrArray[i], token);
+		newStrArray[i] = token;					//store token
 		i++;									//go to next index in array
 		token = strtok(0, " ");					//go to next token
 	}
 	newStrArray[*argCount] = NULL;				//last arg points to null
-	
-	sprintf(strOut, "*(**argVector= %p),	**argVector = %p,	**newArr= %p", argVector, *argVector, newStrArray); 
-	logDebug(strOut, tabs);
-	
-	*argVector = newStrArray;						//change argVector to point to new array
-	temp = newStrArray;
-	
-	sprintf(strOut, "*(**argVector= %p),	**argVector = %p,	**newArr= %p", argVector, *argVector, newStrArray); 
-	logDebug(strOut, tabs);
+	*argVector = newStrArray;					//change argVector to point to new array
 	logArgEnv(*argCount, *argVector, NULL);
-
-	logDebug("----------", tabs);
-	sprintf(strOut, "**temp= %p", temp); 
-	logDebug(strOut, tabs);
-	logArgEnv(*argCount, temp, NULL); 
-	sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
-	logDebug(strOut, tabs);
-
 	tabs --;
 }
 
@@ -161,6 +102,7 @@ int logDebug(char *str, int tabs){
 
 //log argc, argv, and env
 int logArgEnv(int argc, char *argv[], char *env[ ]){
+	logDebug("logArgEnv()--------------");
 	sprintf(strOut, "argc = %d", argc);
 	logDebug(strOut, tabs);
 
