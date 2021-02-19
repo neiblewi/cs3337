@@ -14,10 +14,11 @@ int main( int argc, char *argv[], char *env[ ]){
 	logDebug("\nmain function:", tabs);	
 	logArgEnv(argc, argv, env);			
 	
-	int argCount;						//empty integer to simulate argc
-	char **argVector = NULL;					//empty pointer to array of strings to simulate argv
 	int i = 1;							
 	while(i){							//main program loop
+		int argCount;						//empty integer to simulate argc
+		char **argVector = NULL;			//empty pointer to array of strings to simulate argv
+		
 		sprintf(strOut, "**argVector= %p", argVector); 
 		logDebug(strOut, tabs);
 		
@@ -37,7 +38,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
 		logDebug(strOut, tabs);
 
-
+		free(argVector);
 	}	
 }
 
@@ -65,8 +66,15 @@ int getInput(int *argCount, char ***argVector){     //get a line of input from u
 	/*sprintf(strOut, "argv[0][0]=%c", *argVector[0][0]);
 	logDebug(strOut, tabs);
 	logDebug("return from getInput()\n", tabs);*/
+
+	logDebug("----------", tabs);
+	sprintf(strOut, "**temp= %p", temp); 
+	logDebug(strOut, tabs);
+	logArgEnv(argCount, temp, NULL); 
+	sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
+	logDebug(strOut, tabs);
+
 	tabs --;
-	return (int) *argVector;
 }
 
 int getInputLine(char *line){
@@ -120,6 +128,14 @@ int setArgvSim(char *line, int *argCount, char ***argVector){
 	sprintf(strOut, "*(**argVector= %p),	**argVector = %p,	**newArr= %p", argVector, *argVector, newStrArray); 
 	logDebug(strOut, tabs);
 	logArgEnv(*argCount, *argVector, NULL);
+
+	logDebug("----------", tabs);
+	sprintf(strOut, "**temp= %p", temp); 
+	logDebug(strOut, tabs);
+	logArgEnv(argCount, temp, NULL); 
+	sprintf(strOut, "temp[0][0]=%c", temp[0][0]); 
+	logDebug(strOut, tabs);
+
 	tabs --;
 }
 
