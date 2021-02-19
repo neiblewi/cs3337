@@ -6,6 +6,7 @@
 #include "shsim.h"
 char strOut[128]; 	//global variable for use in logdebug
 int tabs;			//global variable for use in logdebug
+char logPath[128];	//global variable for use in logdebug
 
 //main function
 int main( int argc, char *argv[], char *env[ ]){
@@ -104,14 +105,16 @@ void setArgvSim(char *line, int *argCount, char ***argVector){
 /******************functions for writing to debug.log file***********************/
 //reset debug.log file
 void logReset(){
-	FILE *fp = fopen("debug.log", "w");		// fopen a FILE stream for 
+	getcwd(logPath, 128);
+	logPath = strcat(logPath, "/debug.log");
+	FILE *fp = fopen(logPath, "w");		// fopen a FILE stream for 
     fprintf(fp, "****new log****\n"); 	// add message
     fclose(fp);								// close file
 	tabs = 0;
 }
 //add str to debug.log file for easy debugging
 void logDebug(char *str, int tabs){
-	FILE *fp = fopen("debug.log", "a");		// fopen a FILE stream for APPEND
+	FILE *fp = fopen(logPath, "a");		// fopen a FILE stream for APPEND
     for (int i = 0; i < tabs; i++){
 		fprintf(fp, "\t");
 	}
