@@ -108,12 +108,19 @@ void setArgvSim(char *line, int *argCount, char ***argVector){
 /******************functions for writing to debug.log file***********************/
 //reset debug.log file
 void logReset(){
+	logDebug("aa", tabs);
 	getcwd(logPath, 128);
+	logDebug("bb", tabs);
 	strcat(logPath, "/debug.log");
+	logDebug("cc", tabs);
 	FILE *fp = fopen(logPath, "w");		// fopen a FILE stream for 
+	logDebug("dd", tabs);
     fprintf(fp, "****new log****\n"); 	// add message
+	logDebug("ee", tabs);
     fclose(fp);								// close file
+	logDebug("ff", tabs);
 	tabs = 0;
+	logDebug("gg", tabs);
 }
 //add str to debug.log file for easy debugging
 void logDebug(char *str, int tabs){
