@@ -91,7 +91,6 @@ void setArgvSim(char *line, int *argCount, char ***argVector){
 	token = strtok(line, " ");					//get first token
 	int i = 0; 
 	while(i < *argCount){						//loop through tokens and array
-		//strcpy(newStrArray[i], token);
 		newStrArray[i] = token;					//store token
 		i++;									//go to next index in array
 		token = strtok(0, " ");					//go to next token
@@ -106,9 +105,8 @@ void setArgvSim(char *line, int *argCount, char ***argVector){
 //reset debug.log file
 void logReset(){
 	tabs = 0;
-	//getcwd(logPath, 128);
-	//strcat(logPath, "/debug.log");
-	strcpy(logPath, "debug.log");
+	getcwd(logPath, 128);
+	strcat(logPath, "/debug.log");
 	FILE *fp = fopen(logPath, "w");		// fopen a FILE stream for 
     fprintf(fp, "****new log****\n"); 	// add message
     fclose(fp);
@@ -145,7 +143,7 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 	}
 	i = 0; 
 	while(env && env[i]){
-		sprintf(strOut, "env[%d] = %s", i, env[i]);
+		sprintf(strOut, "p:env=%p,	env[%d] = ",env, i);
 		logDebug (strOut, tabs);
 		i++;
 	} 
