@@ -20,7 +20,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		getInput(line, &argCount, &argVector);	//get input from user
 		if(strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			exit(0);							//exit program
-		}else if (strcmp(argVector[0],"cd"){	//if first argument is "cd"
+		}else if (strcmp(argVector[0],"cd")){	//if first argument is "cd"
 			int error;
 			if (argVector[1])					//if there is a seccond argument
 				error = chdir(argVector[1]);	//try to change to path in 2nd arg
@@ -31,9 +31,6 @@ int main( int argc, char *argv[], char *env[ ]){
 		}else{									//for all other commands
 
 		}
-		
-		
-		
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
 }
