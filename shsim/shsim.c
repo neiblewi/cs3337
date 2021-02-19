@@ -119,19 +119,12 @@ void logReset(){
 }
 //add str to debug.log file for easy debugging
 void logDebug(char *str, int tabs){
-	logDebug("r", tabs);
 	FILE *fp = fopen(logPath, "a");		// fopen a FILE stream for APPEND
-    logDebug("s", tabs);
 	for (int i = 0; i < tabs; i++){
-		logDebug("t", tabs);
 		fprintf(fp, "\t");
-		logDebug("u", tabs);
 	}
-	logDebug("v", tabs);
 	fprintf(fp, "%s\n",str);				// append str to file
-    logDebug("w", tabs);
 	fclose(fp);								// close FILE stream when done
-	logDebug("x", tabs);
 }
 //log argc, argv, and env
 void logArgEnv(int argc, char *argv[], char *env[ ]){
