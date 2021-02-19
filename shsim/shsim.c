@@ -21,14 +21,21 @@ int main( int argc, char *argv[], char *env[ ]){
 		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
 		logDebug(strOut, tabs);
 		
-		getInput(&argCount, argVectorPtr);	//get input from user
-		
+		int temp = getInput(&argCount, argVectorPtr);	//get input from user
+		sprintf(strOut, "p:temp=%p,	i:temp:%i", temp, temp); 
+		logDebug(strOut, tabs);
+		logArgEnv(argCount, (char **) temp, NULL); 	//log user input
+
+		logDebug("----------");
 		sprintf(strOut, "**argVector= %p,	argVectorPtr= %p", argVector, argVectorPtr); 
 		logDebug(strOut, tabs);
 		logArgEnv(argCount, argVector, NULL); 	//log user input
 
 		sprintf(strOut, "argv[0][0]=%c", argVector[0][0]); 
 		logDebug(strOut, tabs);
+
+		logDebug("----------");
+		logArgEnv(argCount, *argVector, NULL); 	//log user input
 	}	
 }
 
@@ -57,6 +64,7 @@ int getInput(int *argCount, char ***argVector){     //get a line of input from u
 	logDebug(strOut, tabs);
 	logDebug("return from getInput()\n", tabs);*/
 	tabs --;
+	return (int) *argVector;
 }
 
 int getInputLine(char *line){
