@@ -113,7 +113,7 @@ int setArgvSim(char *line, int *argCount, char ***argVector){
 	token = strtok(line, " ");					//get first token
 	int i = 0; 
 	while(token && i < *argCount){				//loop through tokens and array
-		newStrArray[i] = token;					//store token
+		strcpy(newStrArray[i], token);
 		i++;									//go to next index in array
 		token = strtok(0, " ");					//go to next token
 	}
