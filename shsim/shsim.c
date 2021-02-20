@@ -37,12 +37,12 @@ int main( int argc, char *argv[], char *env[ ]){
 			logDebug("other command", tabs);
 			sprintf(strOut, "THIS IS %d MY PARENT =%d\n", getpid(), getppid());
 			logDebug(strOut, tabs); 
-			int pid; 
+			int pid, status; 
 			pid = fork(); // fork syscall; parent returns child pid, 
 			if (pid){ // PARENT EXECUTES THIS PART 
 				sprintf(strOut, "THIS IS PROCESS %d CHILD PID = %d\n", getpid(), pid);
 				logDebug(strOut, tabs); 
-
+				pid = wait(&status); // wait for ZOMBIE child process 
 			} 
 			else{ // child executes this part (3). 
 				sprintf(strOut, "this is process %d parent =%d\n", getpid(), getppid()); 
@@ -74,7 +74,7 @@ int main( int argc, char *argv[], char *env[ ]){
 				strcat(cmd, argVector[0]); 
 				sprintf(strOut, "cmd = %s\n", cmd); // show filename to be executed 
 				logDebug(strOut, tabs);
-				r = execve( cmd, myargv, env); 
+				r = execve( cmd, argVector, env); 
 				
 				// come to here only if execve() failed 
 				sprintf(strOut, "execve() failed: r = %d\n", r); 
