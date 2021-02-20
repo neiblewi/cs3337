@@ -22,6 +22,6 @@ int main( int argc, char *argv[], char *env[]) {
 	strcpy(cmd, "/bin/"); // create /bin/ command 
 	strcat(cmd, myargv[ 0]); 
 	printf("cmd = %s\n", cmd); // show filename to be executed 
-	int r = execve( cmd, myargv, env); // come to here only if execve() failed 
+	r = execve( cmd, myargv, env); // come to here only if execve() failed 
 	printf("execve() failed: r = %d\n", r); 
 }
