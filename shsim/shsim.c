@@ -115,13 +115,13 @@ void getcmd(char *cmd, char* arg0, char **env){
 	sprintf(strOut, "envpaths(%p)", envPaths); 
 	logDebug(strOut, tabs);
 	//nothing after this line is running? seg fault in child process ends process
-/*	int i = 0;
+	int i = 0;
 	while(envPaths[i]){ 
 		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
 		logDebug(strOut, tabs);
 		i++; 
 	}
-*/	//search directories for arg0
+	//search directories for arg0
 
 
 	// piece together final cmd
