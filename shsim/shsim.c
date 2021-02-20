@@ -114,8 +114,8 @@ void getcmd(char *cmd, char* arg0, char **env){
 		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
 		logDebug(strOut, tabs);
 		i++; 
-*/	}
-	//search directories for arg0
+	}
+*/	//search directories for arg0
 
 
 	// piece together final cmd
