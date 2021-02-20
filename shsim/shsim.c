@@ -27,11 +27,11 @@ int main( int argc, char *argv[], char *env[ ]){
 		}
 		else if (argVector[0] && !strcmp(argVector[0],"cd")){	//if first argument is "cd"	
 			logDebug("changing directory", tabs);
-			cd(argVector[1]);
+			cd(argVector[1]);					//change directory
 		}
 		else{									//for all other commands
 			logDebug("other command", tabs);
-			forkChild(argCount, argVector, env);
+			forkChild(argCount, argVector, env);	//fork child to execute other commands
 		}
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
@@ -72,7 +72,8 @@ void forkChild(int argCount, char **argVector, char **env){
 		sprintf(strOut, "CHILD: pid=%d	ppid=%d", getpid(), getppid());
 		logDebug(strOut, tabs);
 		executeCommand(argCount, argVector, env);	//child executes command in argvector
-		sprintf(strOut, "CHILD end");
+		//never runs becuase executecommand exits child
+		sprintf(strOut, "CHILD end");			
 		logDebug(strOut, tabs);
 	}
 	sprintf(strOut, "AFTER FORK: pid=%d	ppid=%d", getpid(), getppid());
@@ -86,10 +87,7 @@ void executeCommand(int argCount, char **argVector, char **env){
 	logDebug(strOut, tabs);
 	logArgEnv(argCount, argVector, NULL);
 	char cmd[128]; 							//string to hold cmd
-	getcmd(cmd, argVector[0], env);			//get path to cmd to be executed
-	
-	///////////////////////////////////
-	
+	getcmd(cmd, argVector[0], env);			//get path to cmd to be executed	
 	sprintf(strOut, "exec cmd:%s", cmd); 
 	logDebug(strOut, tabs);
 	int r = execve( cmd, argVector, env);	//execute cmd with args from argVector
@@ -97,8 +95,6 @@ void executeCommand(int argCount, char **argVector, char **env){
 	sprintf(strOut, "execve() failed: r = %d", r); 
 	logDebug(strOut, tabs);
 	exit(r);								//exit process and return to parent
-	sprintf(strOut, "after exit"); 
-	logDebug(strOut, tabs);
 	tabs--;
 }
 //gets a path to command in arg0 from path in env
@@ -110,11 +106,13 @@ void getcmd(char *cmd, char* arg0, char **env){
 	logDebug(strOut, tabs);
 
 	//split path by ':' to get directories
-/*	char ** envPaths;
+	char ** envPaths;
 	getEnvPaths(&envPaths, envPath);
-*/
+
+	//search directories for arg0
 
 
+	// piece together final cmd
 	strcpy(cmd, "/bin/"); // create /bin/ command 
 	strcat(cmd, arg0); 
 	tabs--;
@@ -143,6 +141,7 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	newStrArray[envPathCount] = NULL;			//array is null terminated
 	*envPaths = newStrArray;					//change argVector to point to new array
 	i = 0;
+	//log array
 	while(*envPaths[i]){ 
 		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
 		logDebug(strOut, tabs);
