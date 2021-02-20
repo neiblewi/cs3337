@@ -100,6 +100,8 @@ void executeCommand(int argCount, char **argVector, char **env){
 //gets a path to command in arg0 from path in env
 void getcmd(char *cmd, char* arg0, char **env){
 	tabs++;
+	sprintf(strOut, "getcmd()"); 
+	logDebug(strOut, tabs);
 	//get path from env
 	char *envPath = getenv("PATH");
 	sprintf(strOut, "envPath = %s", envPath); 
@@ -157,7 +159,7 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	*envPaths = newStrArray;					//change argVector to point to new array
 	sprintf(strOut, "*envpaths(%p) = newStrArray(%p)", *envPaths, newStrArray); 
 	logDebug(strOut, tabs);
-	sprintf(strOut, "directory array filled"); 
+	sprintf(strOut, "envpaths(%p) -> *envpaths(%p)", envPaths, *envPaths); 
 	logDebug(strOut, tabs);
 	tabs--;
 	return;
