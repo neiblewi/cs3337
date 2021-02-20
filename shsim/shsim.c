@@ -35,9 +35,51 @@ int main( int argc, char *argv[], char *env[ ]){
 		}
 		else{									//for all other commands
 			logDebug("other command", tabs);
-			
+			sprintf(strOut, "THIS IS %d MY PARENT =%d\n", getpid(), getppid());
+			logDebug(strOut, tabs); 
+			int pid; 
+			pid = fork(); // fork syscall; parent returns child pid, 
+			if (pid){ // PARENT EXECUTES THIS PART 
+				sprintf(strOut, "THIS IS PROCESS %d CHILD PID = %d\n", getpid(), pid);
+				logDebug(strOut, tabs); 
 
+			} 
+			else{ // child executes this part (3). 
+				sprintf(strOut, "this is process %d parent =%d\n", getpid(), getppid()); 
+				logDebug(strOut, tabs);
 
+				char *dir[64], *myargv[ 64]; // assume at most 64 parameters 
+				char cmd[128]; 
+				int i, r; 
+				/*
+				if (argc < 2){ 
+					printf("Usage: a.out command [options]\n"); 
+					exit(0); 
+				} 
+				*/
+				/*
+				sprintf(strOut, "argc = %d\n", argc); 
+				logDebug(strOut, tabs);
+				for (i = 0; i < argc; i++) // print argv[ ] strings 
+					sprintf(strOut, "argv[% d] = %s\n", i, argv[ i]); 
+					logDebug(strOut, tabs);
+				*/
+				logArgEnv(argCount, argVector, NULL);
+				/*
+				for (i = 0; i < argc - 1; i++) // create myargv[ ] 
+					myargv[i] = argv[ i + 1]; 
+				myargv[i] = 0; // NULL terminated array 
+				*/
+				strcpy(cmd, "/bin/"); // create /bin/ command 
+				strcat(cmd, argVector[0]); 
+				sprintf(strOut, "cmd = %s\n", cmd); // show filename to be executed 
+				logDebug(strOut, tabs);
+				r = execve( cmd, myargv, env); 
+				
+				// come to here only if execve() failed 
+				sprintf(strOut, "execve() failed: r = %d\n", r); 
+				logDebug(strOut, tabs);
+			} 
 		}
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
