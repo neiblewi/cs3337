@@ -117,7 +117,7 @@ void getcmd(char *cmd, char* arg0, char **env){
 	tabs--;
 }
 
-getEnvPaths(char ***envPaths, char *envPath){
+void getEnvPaths(char ***envPaths, char *envPath){
 	tabs++;
 	//count number of directories
 	int envPathCount = 1;							//count how many directories are in path. need at least one
@@ -128,7 +128,7 @@ getEnvPaths(char ***envPaths, char *envPath){
 	sprintf(strOut, "pathCount= %i", envPathCount); 
 	logDebug(strOut, tabs);
 	// store directories in envPaths
-	char ** newStrArray = (char **)malloc((*argCount + 1) * sizeof(char *)); //create new string array
+	char ** newStrArray = (char **)malloc((envPathCount + 1) * sizeof(char *)); //create new string array
 	char *token;								//string to hold tokens
 	token = strtok(envPath, ":");			    //get first token
 	int i = 0; 
