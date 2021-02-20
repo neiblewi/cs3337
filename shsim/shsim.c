@@ -107,21 +107,42 @@ void getcmd(char *cmd, char* arg0, char **env){
 	sprintf(strOut, "envPath = %s", envPath); 
 	logDebug(strOut, tabs);
 
+	//get envpathcount
+	int envPathCount = 1;							//count how many directories are in path. need at least one
+	for(int i = 0; i < strlen(envPath); i++){		//loop throught input char by char
+		if(envPath[i] == (int)':')					//find ':'
+			envPathCount++;							//count how many ':' are in user input line
+	}	
+	sprintf(strOut, "pathCount= %i", envPathCount); 
+	logDebug(strOut, tabs);
+
 	//split path by ':' to get directories
-	char ** envPaths;
-	sprintf(strOut, "envpaths(%p)", envPaths); 
+	char **envPaths = (char **)malloc((envPathCount + 1) * sizeof(char *)); //create new string array
+	char *token = strtok(envPath, ":");			    //get first token
+	int i = 0; 
+	while(i < envPathCount){					//loop through tokens and array
+		envPaths[i] = token;					//store token
+		token = strtok(0, ":");					//go to next token
+		i++;									//go to next index in array
+	}
+	envPaths[envPathCount] = NULL;				//array is null terminated
+
+
+
+
+/*	sprintf(strOut, "envpaths(%p)", envPaths); 
 	logDebug(strOut, tabs);
 	getEnvPaths(&envPaths, envPath);
 	sprintf(strOut, "envpaths(%p)", envPaths); 
 	logDebug(strOut, tabs);
-	//nothing after this line is running? seg fault in child process ends process
-	int i = 0;
-/*	while(envPaths[i]){ 
+*/	//nothing after this line is running? seg fault in child process ends process
+	i = 0;
+	while(envPaths[i]){ 
 		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
 		logDebug(strOut, tabs);
 		i++; 
 	}
-*/	//search directories for arg0
+	//search directories for arg0
 
 
 	// piece together final cmd
