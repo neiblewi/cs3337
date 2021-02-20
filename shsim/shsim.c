@@ -135,13 +135,13 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	int i = 0; 
 	while(i < envPathCount){					//loop through tokens and array
 		newStrArray[i] = token;					//store token
+		//token = strtok(0, ":");					//go to next token
 		i++;									//go to next index in array
-		token = strtok(0, ":");					//go to next token
 	}
 	newStrArray[envPathCount] = NULL;			//array is null terminated
 	*envPaths = newStrArray;					//change argVector to point to new array
-	i = 0;
 	//log array
+	i = 0;
 	while(*envPaths[i]){ 
 		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
 		logDebug(strOut, tabs);
