@@ -156,9 +156,9 @@ void getEnvPaths(char ***envPaths, char *envPath){
 		i++;									//go to next index in array
 	}
 	newStrArray[envPathCount] = NULL;			//array is null terminated
-	*envPaths = newStrArray;					//change argVector to point to new array
 	sprintf(strOut, "*envpaths(%p) = newStrArray(%p)", *envPaths, newStrArray); 
 	logDebug(strOut, tabs);
+	*envPaths = newStrArray;					//change argVector to point to new array
 	sprintf(strOut, "envpaths(%p) -> *envpaths(%p)", envPaths, *envPaths); 
 	logDebug(strOut, tabs);
 	tabs--;
