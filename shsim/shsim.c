@@ -107,7 +107,11 @@ void getcmd(char *cmd, char* arg0, char **env){
 
 	//split path by ':' to get directories
 	char ** envPaths;
+	sprintf(strOut, "envpaths(%p)", envPaths); 
+	logDebug(strOut, tabs);
 	getEnvPaths(&envPaths, envPath);
+	sprintf(strOut, "envpaths(%p)", envPaths); 
+	logDebug(strOut, tabs);
 	//nothing after this line is running? seg fault in child process ends process
 /*	int i = 0;
 	while(envPaths[i]){ 
@@ -126,6 +130,8 @@ void getcmd(char *cmd, char* arg0, char **env){
 
 void getEnvPaths(char ***envPaths, char *envPath){
 	tabs++;
+	sprintf(strOut, "envpaths(%p) -> *envpaths(%p)", envPaths, *envPaths); 
+	logDebug(strOut, tabs);
 	//count number of directories
 	int envPathCount = 1;							//count how many directories are in path. need at least one
 	for(int i = 0; i < strlen(envPath); i++){		//loop throught input char by char
@@ -149,6 +155,8 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	}
 	newStrArray[envPathCount] = NULL;			//array is null terminated
 	*envPaths = newStrArray;					//change argVector to point to new array
+	sprintf(strOut, "*envpaths(%p) = newStrArray(%p)", *envPaths, newStrArray); 
+	logDebug(strOut, tabs);
 	sprintf(strOut, "directory array filled"); 
 	logDebug(strOut, tabs);
 	tabs--;
