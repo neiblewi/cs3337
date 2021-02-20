@@ -108,6 +108,7 @@ void getcmd(char *cmd, char* arg0, char **env){
 	//split path by ':' to get directories
 	char ** envPaths;
 	getEnvPaths(&envPaths, envPath);
+	//nothing after this line is running?
 	int i = 0;
 	while(envPaths[i]){ 
 		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
@@ -133,6 +134,7 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	}	
 	sprintf(strOut, "pathCount= %i", envPathCount); 
 	logDebug(strOut, tabs);
+	
 	// store directories in envPaths
 	char ** newStrArray = (char **)malloc((envPathCount + 1) * sizeof(char *)); //create new string array
 	char *token;								//string to hold tokens
@@ -140,6 +142,8 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	int i = 0; 
 	while(i < envPathCount){					//loop through tokens and array
 		newStrArray[i] = token;					//store token
+		sprintf(strOut, "newStrArray[%i] = %s", i, token); 
+		logDebug(strOut, tabs);
 		token = strtok(0, ":");					//go to next token
 		i++;									//go to next index in array
 	}
@@ -148,6 +152,7 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	sprintf(strOut, "directory array filled"); 
 	logDebug(strOut, tabs);
 	tabs--;
+	return;
 }
 
 /***********************functions for getting user input***************************/
