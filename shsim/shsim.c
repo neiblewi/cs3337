@@ -108,7 +108,12 @@ void getcmd(char *cmd, char* arg0, char **env){
 	//split path by ':' to get directories
 	char ** envPaths;
 	getEnvPaths(&envPaths, envPath);
-
+	int i = 0;
+	while(envPaths[i]){ 
+		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
+		logDebug(strOut, tabs);
+		i++; 
+	}
 	//search directories for arg0
 
 
@@ -135,18 +140,13 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	int i = 0; 
 	while(i < envPathCount){					//loop through tokens and array
 		newStrArray[i] = token;					//store token
-		//token = strtok(0, ":");					//go to next token
+		token = strtok(0, ":");					//go to next token
 		i++;									//go to next index in array
 	}
 	newStrArray[envPathCount] = NULL;			//array is null terminated
 	*envPaths = newStrArray;					//change argVector to point to new array
-	//log array
-	i = 0;
-	while(*envPaths[i]){ 
-		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
-		logDebug(strOut, tabs);
-		i++; 
-	}
+	sprintf(strOut, "directory array filled"); 
+	logDebug(strOut, tabs);
 	tabs--;
 }
 
