@@ -7,7 +7,7 @@
 char *dir[64], *myargv[ 64]; // assume at most 64 parameters 
 char cmd[128]; 
 
-int main() { 
+int main( int argc, char *argv[], char *env[]) { 
 	int pid; 
 	printf(" THIS IS %d MY PARENT =%d\n", getpid(), getppid()); 
 	pid = fork(); // fork syscall; parent returns child pid, 
