@@ -87,6 +87,9 @@ void executeCommand(int argCount, char **argVector, char **env){
 	logArgEnv(argCount, argVector, NULL);
 	char cmd[128]; 							//string to hold cmd
 	getcmd(cmd, argVector[0], env);			//get path to cmd to be executed
+	
+	///////////////////////////////////
+	
 	sprintf(strOut, "exec cmd:%s", cmd); 
 	logDebug(strOut, tabs);
 	int r = execve( cmd, argVector, env);	//execute cmd with args from argVector
@@ -107,9 +110,9 @@ void getcmd(char *cmd, char* arg0, char **env){
 	logDebug(strOut, tabs);
 
 	//split path by ':' to get directories
-	char ** envPaths;
+/*	char ** envPaths;
 	getEnvPaths(&envPaths, envPath);
-
+*/
 
 
 	strcpy(cmd, "/bin/"); // create /bin/ command 
