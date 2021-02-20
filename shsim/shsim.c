@@ -18,76 +18,87 @@ int main( int argc, char *argv[], char *env[ ]){
 		int argCount;							//empty integer to simulate argc
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
 		char line[256];							//string to hold user input line
+		logDebug("getting input", tabs);
 		getInput(line, &argCount, &argVector);	//get input from user
 		if( argVector[0] && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			logDebug("exiting program", tabs);
 			exit(0);							//exit program
 		}
-		else if (argVector[0] && !strcmp(argVector[0],"cd")){	//if first argument is "cd"
+		else if (argVector[0] && !strcmp(argVector[0],"cd")){	//if first argument is "cd"	
 			logDebug("changing directory", tabs);
-			int error;
-			if (argVector[1])					//if there is a seccond argument
-				error = chdir(argVector[1]);	//try to change to path in 2nd arg
-			else								//if 2nd arg was null
-				error = chdir("~");				//try to change cwd to home
-			if (error)							// if cd was not successful
-				printf("error: invalid directory path: %s\n", argVector[1]);	// display error
+			cd(argVector[1]);
 		}
 		else{									//for all other commands
 			logDebug("other command", tabs);
-			sprintf(strOut, "THIS IS %d MY PARENT =%d\n", getpid(), getppid());
-			logDebug(strOut, tabs); 
-			int pid, status; 
-			pid = fork(); // fork syscall; parent returns child pid, 
-			if (pid){ // PARENT EXECUTES THIS PART 
-				sprintf(strOut, "THIS IS PROCESS %d CHILD PID = %d\n", getpid(), pid);
-				logDebug(strOut, tabs); 
-				pid = wait(&status); // wait for ZOMBIE child process 
-			} 
-			else{ // child executes this part (3). 
-				sprintf(strOut, "this is process %d parent =%d\n", getpid(), getppid()); 
-				logDebug(strOut, tabs);
-
-				char *dir[64], *myargv[ 64]; // assume at most 64 parameters 
-				char cmd[128]; 
-				int i, r; 
-				/*
-				if (argc < 2){ 
-					printf("Usage: a.out command [options]\n"); 
-					exit(0); 
-				} 
-				*/
-				/*
-				sprintf(strOut, "argc = %d\n", argc); 
-				logDebug(strOut, tabs);
-				for (i = 0; i < argc; i++) // print argv[ ] strings 
-					sprintf(strOut, "argv[% d] = %s\n", i, argv[ i]); 
-					logDebug(strOut, tabs);
-				*/
-				logArgEnv(argCount, argVector, NULL);
-				/*
-				for (i = 0; i < argc - 1; i++) // create myargv[ ] 
-					myargv[i] = argv[ i + 1]; 
-				myargv[i] = 0; // NULL terminated array 
-				*/
-				strcpy(cmd, "/bin/"); // create /bin/ command 
-				strcat(cmd, argVector[0]); 
-				sprintf(strOut, "cmd = %s\n", cmd); // show filename to be executed 
-				logDebug(strOut, tabs);
-				r = execve( cmd, argVector, env); 
-				
-				// come to here only if execve() failed 
-				sprintf(strOut, "execve() failed: r = %d\n", r); 
-				logDebug(strOut, tabs);
-			} 
+			forkChild(argCount, argVector, env);
 		}
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
 }
 
 /****************************************function definitions*******************************************/
-
-
+//changes cwd to path
+void cd(char *path){
+	tabs++;
+	int error;
+	if (path)							//if there is a seccond argument
+		error = chdir(path);			//try to change to path in 2nd arg
+	else								//if 2nd arg was null
+		error = chdir(getenv("HOME"));	//try to change cwd to home
+	if (error)							//if cd was not successful
+		printf("error: invalid directory path: %s\n", path);	// display error to user
+	char newPath[128];
+	getcwd(newPath, 128);
+	sprintf(strOut, "cwd changed to: %s", newPath);
+	logDebug(strOut, tabs); 
+	tabs--;
+}
+//fork a child process and wait for it to finish
+void forkChild(int argCount, char **argVector, char **env){
+	tabs++;
+	sprintf(strOut, "pid=%d	ppid=%d", getpid(), getppid());
+	logDebug(strOut, tabs); 
+	int pid, status; 
+	pid = fork(); 									// fork syscall; parent returns child pid, 
+	if (pid){ 										// PARENT EXECUTES THIS PART 
+		sprintf(strOut, "PARENT: pid=%d	pidChild=%d", getpid(), pid);
+		logDebug(strOut, tabs); 
+		pid = wait(&status); 						// wait for ZOMBIE child process 
+	}
+	else{ 											// CHILD executes this part 
+		sprintf(strOut, "CHILD: pid=%d	ppid=%d", getpid(), getppid());
+		executeCommand(argCount, argVector, env);	//child executes command in argvector
+	}
+	tabs--;
+}
+//change proccess image to command specified
+void executeCommand(int argCount, char **argVector, char **env){
+	tabs++;
+	sprintf(strOut, "pid=%d	ppid=%d", getpid(), getppid()); 
+	logDebug(strOut, tabs);
+	logArgEnv(argCount, argVector, NULL);
+	char cmd[128]; 						//string to hold cmd
+	getcmd(cmd, argVector[0], env);		//get path to cmd to be executed
+	sprintf(strOut, "cmd = %s\n", cmd); 
+	logDebug(strOut, tabs);
+	int r; 
+	r = execve( cmd, argVector, env); 	//execute cmd with args from argVector
+	// come to here only if execve() failed 
+	sprintf(strOut, "execve() failed: r = %d", r); 
+	logDebug(strOut, tabs);
+	tabs--;
+}
+//gets a path to command in arg0 from path in env
+void getcmd(char *cmd, char* arg0, char **env){
+	tabs++;
+	char *envPath = getenv("PATH");
+	sprintf(strOut, "envPath = %s", envPath); 
+	logDebug(strOut, tabs);
+	
+	strcpy(cmd, "/bin/"); // create /bin/ command 
+	strcat(cmd, arg0); 
+	tabs--;
+}
 
 /***********************functions for getting user input***************************/
 //get a line of input from user and store in argCount and argVector
