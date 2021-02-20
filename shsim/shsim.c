@@ -145,12 +145,14 @@ void getEnvPaths(char ***envPaths, char *envPath){
 	
 	// store directories in envPaths
 	char ** newStrArray = (char **)malloc((envPathCount + 1) * sizeof(char *)); //create new string array
+	sprintf(strOut, "newStrArray(%p)", newStrArray); 
+	logDebug(strOut, tabs);
 	char *token;								//string to hold tokens
 	token = strtok(envPath, ":");			    //get first token
 	int i = 0; 
 	while(i < envPathCount){					//loop through tokens and array
 		newStrArray[i] = token;					//store token
-		sprintf(strOut, "newStrArray[%i] = %s", i, token); 
+		sprintf(strOut, "(%p)newStrArray[%i] = %s",newStrArray[i], i, token); 
 		logDebug(strOut, tabs);
 		token = strtok(0, ":");					//go to next token
 		i++;									//go to next index in array
