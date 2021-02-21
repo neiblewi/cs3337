@@ -89,7 +89,7 @@ void executeCommand(int argCount, char **argVector, char **env){
 	char* envPath = getenv("PATH");						//get path from env
 	sprintf(logStrOut, "envPath = %s", envPath);
 	logDebug(logStrOut, logTabs);
-	setArgCount(envPath, envPathCount);					//set length
+	setArgCount(envPath, &envPathCount);					//set length
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
 	sprintf(logStrOut, "CHILD END: exec cmd:%s", argVector[0]); 
 	logDebug(logStrOut, logTabs);
