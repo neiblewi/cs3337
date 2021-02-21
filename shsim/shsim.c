@@ -91,8 +91,8 @@ void executeCommand(int argCount, char **argVector, char **env){
 	sprintf(logStrOut, "envPath = %s", envPath);
 	logDebug(logStrOut, logTabs);
 	
-	int envPathCount, i;							//length of array
-	strArrCount(envPath, &envPathCount, ':');			//get length of array
+	int envPathCount;								//length of array
+	strArrCount(envPath, &envPathCount, ':');		//get length of array
 /*
 	envPathCount = 1;								//count how many directories are in path. need at least one
 	for (i = 0; i < strlen(envPath); i++) {			//loop throught input char by char
