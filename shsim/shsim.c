@@ -89,7 +89,12 @@ void executeCommand(int argCount, char **argVector, char **env){
 	char* envPath = getenv("PATH");						//get path from env
 	sprintf(logStrOut, "envPath = %s", envPath);
 	logDebug(logStrOut, logTabs);
-	setArgCount(envPath, &envPathCount);					//set length
+	for (int i = 0; i < strlen(envPath); i++) {		//loop throught input char by char
+		if (envPath[i] == (int)':')					//find ':'
+			envPathCount++;							//count how many ':' are in user input line
+	}
+	sprintf(logStrOut, "pathCount= %i", envPathCount);
+	logDebug(logStrOut, logTabs);
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
 	sprintf(logStrOut, "CHILD END: exec cmd:%s", argVector[0]); 
 	logDebug(logStrOut, logTabs);
