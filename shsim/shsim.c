@@ -302,24 +302,22 @@ char* strArray(char* strOut, char delimeter, char** arr, int arrLength) {
 	strcat(temp, &delimeter);
 	strcat(strOut, temp);
 	if (arrLength) {
-		logDebug("iflength", logTabs);
 		sprintf(temp, "length=%i", arrLength);
 		strcat(temp, &delimeter);
 		strcat(strOut, temp);
 	}
 	if (arr) {
-		logDebug("ifarr", logTabs);
 		sprintf(temp, "arrayPtr=%p", arr);
 		strcat(temp, &delimeter);
 		strcat(strOut, temp);
 		int i = 0;
-		logDebug("prewhile", logTabs);
 		while (arr[i])
 		{
 			logDebug("inwhile", logTabs);
 			sprintf(temp, "array[%i]=%s", i, arr[i]);
 			strcat(temp, &delimeter);
 			strcat(strOut, temp);
+			i++;
 		}
 	}
 	return strOut;
