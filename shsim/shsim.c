@@ -4,15 +4,16 @@
 *created from instuctions in chapter 3.11 of 'Systems Programming in Unix/Linux' by K.C. Wang
 */
 #include "shsim.h"
-char logStrOut[2048]; 	//global variable for use in logdebug
-int logTabs;			//global variable for use in logdebug
-char logPath[256];		//global variable for use in logdebug
+//global variables for use in logdebug
+char logStrOut[2048], logPath[256];
+int logTabs;
 
 //main function
 int main( int argc, char *argv[], char *env[ ]){
 	logReset();							
 	logDebug("\nmain function:", logTabs);	
-	logArgEnv(argc, argv, env);	
+	logArgEnv(argc, argv, NULL);
+	logArgEnv(0, env, NULL)
 	int i = 1;							
 	while(i){									//main program loop
 		int argCount;							//empty integer to simulate argc
@@ -97,14 +98,12 @@ void executeCommand(int argCount, char **argVector, char **env){
 	sprintf(logStrOut, "pathCount= %i", envPathCount);
 	logDebug(logStrOut, logTabs);
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
-	sprintf(logStrOut, "CHILD END: exec cmd:%s", argVector[0]); 
-	logDebug(logStrOut, logTabs);
 	i = 0;
 	while (envDirPaths[i]) {						//loop through all directories
 		strcpy(cmd, envDirPaths[i]);				//  /dir		command  path
 		strcat(cmd, "/");							//  /dir/		command path
 		strcat(cmd, argVector[0]);					//  /dir/cmd	command path
-		sprintf(logStrOut, "exec cmd:%s", cmd);
+		sprintf(logStrOut, "CHILD END: exec cmd:%s", cmd);
 		logDebug(logStrOut, logTabs);
 		r = execve( cmd, argVector, env);			//attempt to execute cmd with args from argVector
 		// come to here only if execve() failed
