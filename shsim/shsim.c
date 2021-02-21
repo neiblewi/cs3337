@@ -289,33 +289,33 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 		i++;
 	}
 */
-	strArray(logStrOut, '\n', argv, argc);
+	strArray(logStrOut, "\n", argv, argc);
 	logDebug(logStrOut, logTabs);
 	//strArray(logStrOut, ' ', env, 0);
 	//logDebug(logStrOut, logTabs);
 }
 
-char* strArray(char* strOut, char delimeter, char** arr, int arrLength) {
+char* strArray(char* strOut, char *delimeter, char** arr, int arrLength) {
 	strcpy(strOut, "");		//empty strOut
 	char temp[1024];
 	sprintf(temp, "strArray()");
-	strcat(temp, &delimeter);
+	strcat(temp, delimeter);
 	strcat(strOut, temp);
 	if (arrLength) {
 		sprintf(temp, "length=%i", arrLength);
-		strcat(temp, &delimeter);
+		strcat(temp, delimeter);
 		strcat(strOut, temp);
 	}
 	if (arr) {
 		sprintf(temp, "arrayPtr=%p", arr);
-		strcat(temp, &delimeter);
+		strcat(temp, delimeter);
 		strcat(strOut, temp);
 		int i = 0;
 		while (arr[i])
 		{
 			logDebug("inwhile", logTabs);
 			sprintf(temp, "array[%i]=%s", i, arr[i]);
-			strcat(temp, &delimeter);
+			strcat(temp, delimeter);
 			strcat(strOut, temp);
 			i++;
 		}
