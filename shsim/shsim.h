@@ -10,12 +10,11 @@
 void cd(char *path);												//changes cwd to path
 void forkChild(int argCount, char **argVector, char **env);			//forks a child process
 void executeCommand(int argCount, char **argVector, char **env);	// change process image to command specified
-//void getPaths(char *cmd, char* arg0, char **env);						//gets a path to command in arg0 from path in env
 
 /*********funtions for getting input from user**************/
-void getInput(char * line, int *argCount, char ***argVector);	//get a line of input from user and store arguments
-void getInputLine(char * line);									//get a line from user	
-void strArrCount(char *line, int *argCount);						//count number of arguments
+void getInput(char * line, int *argCount, char ***argVector);					//get a line of input from user and store arguments
+void getInputLine(char * line);													//get a line from user	
+void strArrCount(char* line, int* argCount, char delimiter);					//count number of arguments
 void strSplit(char *line, int *argCount, char ***argVector, char delimiter);	//store arguments
 
 /********functions for writing to debug.log file**********/
