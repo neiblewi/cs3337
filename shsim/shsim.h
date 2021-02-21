@@ -23,4 +23,4 @@ void strSplit(char *line, int *argCount, char ***argVector, char delimiter);	//s
 void logReset();											//resets debug.log file
 void logDebug(char *str, int tabs);							//write a line to log file for debuging
 void logArgEnv(int argc, char *argv[], char *env[ ]);		//prints the arguments passed into main
-char* strArray(char* strOut, char *delimeter, char** arr, int arrLength);
+void logArray(char** arr, int arrLength);

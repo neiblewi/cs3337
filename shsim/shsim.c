@@ -263,7 +263,7 @@ void logDebug(char *str, int tabs){
 }
 //log argc, argv, and env
 void logArgEnv(int argc, char *argv[], char *env[ ]){
-/*	logDebug("logArgEnv()--------------", logTabs);
+	logDebug("logArgEnv()--------------", logTabs);
 	if (argc){
 		sprintf(logStrOut, "argc = %d", argc);
 		logDebug(logStrOut, logTabs);
@@ -288,37 +288,25 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 		logDebug (logStrOut, logTabs);
 		i++;
 	}
-*/
-	strArray(logStrOut, "\n", argv, argc);
-	logDebug(logStrOut, logTabs);
-	//strArray(logStrOut, ' ', env, 0);
-	//logDebug(logStrOut, logTabs);
 }
 
-char* strArray(char* strOut, char *delimeter, char** arr, int arrLength) {
-	strcpy(strOut, "");		//empty strOut
-	char temp[1024];
-	sprintf(temp, "strArray()");
-	strcat(temp, delimeter);
-	strcat(strOut, temp);
+void logArray(char** arr, int arrLength) {
+	sprintf(logStrOut, "strArray()");
+	logDebug(logStrOut, logTabs);
 	if (arrLength) {
-		sprintf(temp, "length=%i", arrLength);
-		strcat(temp, delimeter);
-		strcat(strOut, temp);
+		sprintf(logStrOut, "length=%i", arrLength);
+		logDebug(logStrOut, logTabs);
 	}
 	if (arr) {
-		sprintf(temp, "arrayPtr=%p", arr);
-		strcat(temp, delimeter);
-		strcat(strOut, temp);
+		sprintf(logStrOut, "arrayPtr=%p", arr);
+
+		logDebug(logStrOut, logTabs);
 		int i = 0;
 		while (arr[i])
 		{
-			logDebug("inwhile", logTabs);
-			sprintf(temp, "array[%i]=%s", i, arr[i]);
-			strcat(temp, delimeter);
-			strcat(strOut, temp);
+			sprintf(logStrOut, "array[%i]=%s", i, arr[i]);
+			logDebug(logStrOut, logTabs);
 			i++;
 		}
 	}
-	return strOut;
 }
