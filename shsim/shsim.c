@@ -86,12 +86,14 @@ void executeCommand(int argCount, char **argVector, char **env){
 	sprintf(logStrOut, "pid=%d	ppid=%d", getpid(), getppid()); 
 	logDebug(logStrOut, logTabs);
 	logStrArray(argCount, argVector, "argVector");
+	
 	char* envPath = getenv("PATH");					//get PATH from env
 	sprintf(logStrOut, "envPath = %s", envPath);
 	logDebug(logStrOut, logTabs);
 	
-	int envPathCount, i;							//length of array, return, index
-/**/
+	int envPathCount, i;							//length of array
+	strArrCount(env, envPathCount, ':');			//get length of array
+/*
 	envPathCount = 1;								//count how many directories are in path. need at least one
 	for (i = 0; i < strlen(envPath); i++) {			//loop throught input char by char
 		if (envPath[i] == (int)':')					//find ':'
@@ -99,12 +101,12 @@ void executeCommand(int argCount, char **argVector, char **env){
 	}
 	sprintf(logStrOut, "pathCount= %i", envPathCount);
 	logDebug(logStrOut, logTabs);
-/**/
+*/
 	char** envDirPaths = NULL;						//array of strings to hold directory paths
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
 	
-	i = 0;
-	int r;
+//	i = 0;
+	int r, i = 0;
 	char cmd[256]; 									//string to hold cmd
 	while (envDirPaths[i]) {						//loop through all directories
 		strcpy(cmd, envDirPaths[i]);				//  /dir		command path
@@ -129,7 +131,7 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
-	strArrCount(line, argCount);					//count number of arguments
+	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
 }
@@ -148,12 +150,12 @@ void getInputLine(char *line){
 }
 
 //count the number of arguments from line and store in argCount
-void strArrCount(char *line, int *argCount){
+void strArrCount(char *line, int *argCount, char delimiter){
 	logTabs++;
 	*argCount = 1;								//count how many args are in input. need n+1
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
-		if(line[i] == (int)' '){ 				//find ' '
-			*argCount = *argCount + 1;			//count how many ' ' are in user input line
+		if(line[i] == (int)delimiter){ 			//find delimetr
+			*argCount = *argCount + 1;			//count how many delimiter are in user input line
 		}
 	}	
 	sprintf(logStrOut, "argCount= %i", *argCount); 
@@ -205,12 +207,13 @@ void logDebug(char *str, int tabs){
 void logStrArray(int arrLength, char *strArray[], char *title){
 	sprintf(logStrOut, "logStrArray(%s)", title);			//display title
 	logDebug(logStrOut, logTabs);
+	logTabs++;
 	if (arrLength){
 		sprintf(logStrOut, "arrLength = %d", arrLength);	//dislplay length
 		logDebug(logStrOut, logTabs);
 	}
 	if (strArray){
-		sprintf(logStrOut, "argvPtr = %p", strArray);		//display adress
+		sprintf(logStrOut, "arrPtr = %p", strArray);		//display adress
 		logDebug(logStrOut, logTabs);
 	}
 	int i = 0;
@@ -223,5 +226,6 @@ void logStrArray(int arrLength, char *strArray[], char *title){
 		sprintf(logStrOut, "strArray[%d] = %s", arrLength, strArray[arrLength]);	//show last element for null terminated arrays
 		logDebug(logStrOut, logTabs);
 	}
+	logTabs--;
 }
 
