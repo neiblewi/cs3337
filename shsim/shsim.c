@@ -318,5 +318,5 @@ char* strArray(char* strOut, char delimeter, char** arr, int arrLength) {
 			strcat(strOut, temp);
 		}
 	}
-	return strOut
+	return strOut;
 }
