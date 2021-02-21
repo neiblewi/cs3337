@@ -118,7 +118,7 @@ void getcmd(char *cmd, char* arg0, char **env){
 
 	//split path by ':' to get directories
 	char** envPathDir;
-	strSplit(envPath, envPathCount, &envPathDir, ':');
+	strSplit(envPath, &envPathCount, &envPathDir, ':');
 	logArray(envPathDir, envPathCount);
 
 
