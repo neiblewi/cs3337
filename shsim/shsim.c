@@ -105,6 +105,8 @@ void executeCommand(int argCount, char **argVector, char **env){
 		// come to here only if execve() failed
 		i++;
 	}
+	r = execve(argVector[0], argVector, env);		//one last attempt to execute cmd in current directory, ex: "./a.out"
+	printf("bash: %s: command not found", argVector[0]);
 	sprintf(logStrOut, "execve() failed: r = %d", r); 
 	logDebug(logStrOut, logTabs);
 	exit(r);										//exit process and return to parent
