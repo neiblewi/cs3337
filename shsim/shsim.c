@@ -72,9 +72,6 @@ void forkChild(int argCount, char **argVector, char **env){
 		sprintf(logStrOut, "CHILD: pid=%d	ppid=%d", getpid(), getppid());
 		logDebug(logStrOut, logTabs);
 		executeCommand(argCount, argVector, env);	//child executes command in argvector
-		//never runs becuase executecommand exits child
-		sprintf(logStrOut, "CHILD end");			
-		logDebug(logStrOut, logTabs);
 	}
 	sprintf(logStrOut, "AFTER FORK: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
@@ -86,19 +83,31 @@ void executeCommand(int argCount, char **argVector, char **env){
 	sprintf(logStrOut, "pid=%d	ppid=%d", getpid(), getppid()); 
 	logDebug(logStrOut, logTabs);
 	logArgEnv(argCount, argVector, NULL);
-	char cmd[128]; 							//string to hold cmd
-	getcmd(cmd, argVector[0], env);			//get path to cmd to be executed	
-	sprintf(logStrOut, "exec cmd:%s", cmd); 
+	char cmd[128]; 										//string to hold cmd
+	char** envDirPaths = NULL;							//array of strings to hold directory paths
+	int envPathCount, r;									//length of array
+	char* envPath = getenv("PATH");						//get path from env
+	sprintf(logStrOut, "envPath = %s", envPath);
 	logDebug(logStrOut, logTabs);
-	int r = execve( cmd, argVector, env);	//execute cmd with args from argVector
-	// come to here only if execve() failed 
+	setArgCount(envPath, envPathCount);					//set length
+	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
+	sprintf(logStrOut, "CHILD END: exec cmd:%s", argVector[0]); 
+	logDebug(logStrOut, logTabs);
+	int i = 0;
+	while (envDirPaths[i]) {
+		strcpy(cmd, envDirPaths[i]); // create /bin/ command 
+		strcat(cmd, argVector[0]);
+		r = execve( cmd, argVector, env);	//execute cmd with args from argVector
+		// come to here only if execve() failed
+		i++;
+	}
 	sprintf(logStrOut, "execve() failed: r = %d", r); 
 	logDebug(logStrOut, logTabs);
 	exit(r);								//exit process and return to parent
 	logTabs--;
 }
-//gets a path to command in arg0 from path in env
-void getcmd(char *cmd, char* arg0, char **env){
+/*//gets a path to command in arg0 from path in env
+void getPaths(char ***envDirPaths){
 	logTabs++;
 	sprintf(logStrOut, "getcmd()"); 
 	logDebug(logStrOut, logTabs);
@@ -106,7 +115,6 @@ void getcmd(char *cmd, char* arg0, char **env){
 	char *envPath = getenv("PATH");
 	sprintf(logStrOut, "envPath = %s", envPath); 
 	logDebug(logStrOut, logTabs);
-
 	//get envpathcount
 	int envPathCount = 1;							//count how many directories are in path. need at least one
 	for(int i = 0; i < strlen(envPath); i++){		//loop throught input char by char
@@ -115,81 +123,18 @@ void getcmd(char *cmd, char* arg0, char **env){
 	}	
 	sprintf(logStrOut, "pathCount= %i", envPathCount); 
 	logDebug(logStrOut, logTabs);
-
 	//split path by ':' to get directories
-	char** envPathDir;
-	strSplit(envPath, &envPathCount, &envPathDir, ':');
-	logArray(envPathDir, envPathCount);
+	strSplit(envPath, &envPathCount, &envDirPaths, ':');
+}*/
 
-
-
-/*	sprintf(strOut, "envpaths(%p)", envPaths); 
-	logDebug(strOut, tabs);
-	getEnvPaths(&envPaths, envPath);
-	sprintf(strOut, "envpaths(%p)", envPaths); 
-	logDebug(strOut, tabs);
-*/	//nothing after this line is running? seg fault in child process ends process
-/*	i = 0;
-	while(envPaths[i]){ 
-		sprintf(strOut, "envPaths[%d] = %s", i, *envPaths[i]); 
-		logDebug(strOut, tabs);
-		i++; 
-	}
-*/	//search directories for arg0
-
-
-	// piece together final cmd
-	strcpy(cmd, "/bin/"); // create /bin/ command 
-	strcat(cmd, arg0); 
-	logTabs--;
-}
-
-//delete later
-void getEnvPaths(char ***envPaths, char *envPath){
-	logTabs++;
-	sprintf(logStrOut, "envpaths(%p) -> *envpaths(%p)", envPaths, *envPaths); 
-	logDebug(logStrOut, logTabs);
-	//count number of directories
-	int envPathCount = 1;							//count how many directories are in path. need at least one
-	for(int i = 0; i < strlen(envPath); i++){		//loop throught input char by char
-		if(envPath[i] == (int)':')					//find ':'
-			envPathCount++;							//count how many ':' are in user input line
-	}	
-	sprintf(logStrOut, "pathCount= %i", envPathCount); 
-	logDebug(logStrOut, logTabs);
-	
-	// store directories in envPaths
-	char ** newStrArray = (char **)malloc((envPathCount + 1) * sizeof(char *)); //create new string array
-	sprintf(logStrOut, "newStrArray(%p)", newStrArray); 
-	logDebug(logStrOut, logTabs);
-	char *token;								//string to hold tokens
-	token = strtok(envPath, ":");			    //get first token
-	int i = 0; 
-	while(i < envPathCount){					//loop through tokens and array
-		newStrArray[i] = token;					//store token
-		sprintf(logStrOut, "(%p)newStrArray[%i] = %s",newStrArray[i], i, token); 
-		logDebug(logStrOut, logTabs);
-		token = strtok(0, ":");					//go to next token
-		i++;									//go to next index in array
-	}
-	newStrArray[envPathCount] = NULL;			//array is null terminated
-	sprintf(logStrOut, "*envpaths(%p) = newStrArray(%p)", *envPaths, newStrArray); 
-	logDebug(logStrOut, logTabs);
-	*envPaths = (char **)newStrArray[0];					//change argVector to point to new array
-	sprintf(logStrOut, "envpaths(%p) -> *envpaths(%p)", envPaths, *envPaths); 
-	logDebug(logStrOut, logTabs);
-	logTabs--;
-	return;
-}
 
 /***********************functions for getting user input***************************/
-//get a line of input from user and store in argCount and argVector
-//input should be formatted as cmd arg1 arg2 arg3 .... argn
+//get a line of input from user and store in argCount and argVector. input should be formatted as cmd arg1 arg2 arg3 .... argn
 void getInput( char *line, int *argCount, char ***argVector){     //get a line of input from user
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);							//get user input
-	setArgcSim(line, argCount);					//count number of arguments
+	setArgCount(line, argCount);					//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
 }
@@ -206,7 +151,7 @@ void getInputLine(char *line){
 	logTabs --;
 }
 //count the number of arguments from line
-void setArgcSim(char *line, int *argCount){
+void setArgCount(char *line, int *argCount){
 	logTabs++;
 	*argCount = 1;								//count how many args are in input. need n+1
 	for(int i = 0; i < strlen(line); i++){		//loop throught input char by char
@@ -284,7 +229,7 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 	}
 }
 
-void logArray(char** arr, int arrLength) {
+/*void logArray(char** arr, int arrLength) {
 	sprintf(logStrOut, "strArray()");
 	logDebug(logStrOut, logTabs);
 	if (arrLength) {
@@ -303,4 +248,4 @@ void logArray(char** arr, int arrLength) {
 			i++;
 		}
 	}
-}
+}*/
