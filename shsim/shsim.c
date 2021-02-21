@@ -297,7 +297,7 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 
 char* strArray(char* strOut, char delimeter, char** arr, int arrLength) {
 	strcpy(strOut, "");		//empty strOut
-	char* temp;
+	char* temp[1024];
 	sprintf(temp, "strArray()");
 	strcat(temp, &delimeter);
 	strcat(strOut, temp);
