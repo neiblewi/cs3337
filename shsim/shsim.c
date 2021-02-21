@@ -86,26 +86,13 @@ void executeCommand(int argCount, char **argVector, char **env){
 	sprintf(logStrOut, "pid=%d	ppid=%d", getpid(), getppid()); 
 	logDebug(logStrOut, logTabs);
 	logStrArray(argCount, argVector, "argVector");
-	
 	char* envPath = getenv("PATH");					//get PATH from env
 	sprintf(logStrOut, "envPath = %s", envPath);
 	logDebug(logStrOut, logTabs);
-	
 	int envPathCount;								//length of array
 	strArrCount(envPath, &envPathCount, ':');		//get length of array
-/*
-	envPathCount = 1;								//count how many directories are in path. need at least one
-	for (i = 0; i < strlen(envPath); i++) {			//loop throught input char by char
-		if (envPath[i] == (int)':')					//find ':'
-			envPathCount++;							//count how many ':' are in user input line
-	}
-	sprintf(logStrOut, "pathCount= %i", envPathCount);
-	logDebug(logStrOut, logTabs);
-*/
 	char** envDirPaths = NULL;						//array of strings to hold directory paths
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
-	
-//	i = 0;
 	int r, i = 0;
 	char cmd[256]; 									//string to hold cmd
 	while (envDirPaths[i]) {						//loop through all directories
@@ -120,12 +107,12 @@ void executeCommand(int argCount, char **argVector, char **env){
 	}
 	sprintf(logStrOut, "execve() failed: r = %d", r); 
 	logDebug(logStrOut, logTabs);
-	exit(r);								//exit process and return to parent
+	exit(r);										//exit process and return to parent
 	logTabs--;
 }
 
-
 /***********************functions for getting user input***************************/
+
 //get a line of input from user and store in argCount and argVector. input should be formatted as cmd arg1 arg2 arg3 .... argn
 void getInput( char *line, int *argCount, char ***argVector){  
 	logTabs ++;
