@@ -313,7 +313,7 @@ char* strArray(char* strOut, char delimeter, char** arr, int arrLength) {
 		int i = 0;
 		while (arr[i])
 		{
-			logDebug("inwhile", tabs);
+			logDebug("inwhile", logTabs);
 			sprintf(temp, "array[%i]=%s", i, arr[i]);
 			strcat(temp, &delimeter);
 			strcat(strOut, temp);
