@@ -17,7 +17,7 @@ void getEnvPaths(char ***envPaths, char *envPath);
 void getInput(char * line, int *argCount, char ***argVector);	//get a line of input from user and store arguments
 void getInputLine(char * line);									//get a line from user	
 void setArgcSim(char *line, int *argCount);						//count number of arguments
-void setArgvSim(char *line, int *argCount, char ***argVector);	//store arguments
+void strSplit(char *line, int *argCount, char ***argVector, char delimiter);	//store arguments
 
 /********functions for writing to debug.log file**********/
 void logReset();											//resets debug.log file

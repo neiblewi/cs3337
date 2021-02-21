@@ -196,7 +196,7 @@ void getInput( char *line, int *argCount, char ***argVector){     //get a line o
 	logDebug("getInput()", tabs);
 	getInputLine(line);							//get user input
 	setArgcSim(line, argCount);					//count number of arguments
-	setArgvSim(line, argCount, argVector);		//store arguments in argVector
+	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	tabs --;
 }
 //get line of input from user
@@ -224,21 +224,21 @@ void setArgcSim(char *line, int *argCount){
 	logDebug(strOut, tabs);
 	tabs --;
 }
-//tokenize and store arguments from line
-void setArgvSim(char *line, int *argCount, char ***argVector){
+//tokenize and store arguments from inputStr
+void strSplit(char *inputStr, int *arrLength, char ***arrPtr, char delimiter){
 	tabs++;
-	char ** newStrArray = (char **)malloc((*argCount + 1) * sizeof(char *)); //create new string array
+	char ** newStrArray = (char **)malloc((*arrLength + 1) * sizeof(char *)); //create new string array
 	char *token;								//string to hold tokens
-	token = strtok(line, " ");					//get first token
+	token = strtok(inputStr, &delimiter);					//get first token
 	int i = 0; 
-	while(i < *argCount){						//loop through tokens and array
+	while(i < *arrLength){						//loop through tokens and array
 		newStrArray[i] = token;					//store token
 		i++;									//go to next index in array
-		token = strtok(0, " ");					//go to next token
+		token = strtok(0, &delimiter);					//go to next token
 	}
-	newStrArray[*argCount] = NULL;				//last arg points to null
-	*argVector = newStrArray;					//change argVector to point to new array
-	logArgEnv(*argCount, *argVector, NULL);
+	newStrArray[*arrLength] = NULL;				//last arg points to null
+	*arrPtr = newStrArray;					//change arrPtr to point to new array
+	logArgEnv(*arrLength, *arrPtr, NULL);
 	tabs --;
 }
 
