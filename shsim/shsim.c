@@ -117,16 +117,9 @@ void getcmd(char *cmd, char* arg0, char **env){
 	logDebug(logStrOut, logTabs);
 
 	//split path by ':' to get directories
-	char **envPaths = (char **)malloc((envPathCount + 1) * sizeof(char *)); //create new string array
-	char *token = strtok(envPath, ":");			    //get first token
-	int i = 0; 
-	while(i < envPathCount){					//loop through tokens and array
-		envPaths[i] = token;					//store token
-		token = strtok(0, ":");					//go to next token
-		i++;									//go to next index in array
-	}
-	envPaths[envPathCount] = NULL;				//array is null terminated
-
+	char** envPathDir;
+	strSplit(envPath, envPathCount, &envPathDir, ':');
+	logArray(envPathDir, envPathCount);
 
 
 
@@ -151,6 +144,7 @@ void getcmd(char *cmd, char* arg0, char **env){
 	logTabs--;
 }
 
+//delete later
 void getEnvPaths(char ***envPaths, char *envPath){
 	logTabs++;
 	sprintf(logStrOut, "envpaths(%p) -> *envpaths(%p)", envPaths, *envPaths); 
