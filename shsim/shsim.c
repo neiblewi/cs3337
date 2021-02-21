@@ -13,7 +13,7 @@ int main( int argc, char *argv[], char *env[ ]){
 	logReset();							
 	logDebug("\nmain function:", logTabs);	
 	logArgEnv(argc, argv, NULL);
-	logArgEnv(0, env, NULL)
+	logArgEnv(0, env, NULL);
 	int i = 1;							
 	while(i){									//main program loop
 		int argCount;							//empty integer to simulate argc
