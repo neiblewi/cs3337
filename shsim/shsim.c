@@ -4,7 +4,7 @@
 *created from instuctions in chapter 3.11 of 'Systems Programming in Unix/Linux' by K.C. Wang
 */
 #include "shsim.h"
-char logStrOut[2048]; 	//global variable for use in logdebug
+char logStrOut[4096]; 	//global variable for use in logdebug
 int logTabs;			//global variable for use in logdebug
 char logPath[256];		//global variable for use in logdebug
 
