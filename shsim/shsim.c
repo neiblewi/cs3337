@@ -291,8 +291,8 @@ void logArgEnv(int argc, char *argv[], char *env[ ]){
 */
 	strArray(logStrOut, '\n', argv, argc);
 	logDebug(logStrOut, logTabs);
-	strArray(logStrOut, ' ', env, 0);
-	logDebug(logStrOut, logTabs);
+	//strArray(logStrOut, ' ', env, 0);
+	//logDebug(logStrOut, logTabs);
 }
 
 char* strArray(char* strOut, char delimeter, char** arr, int arrLength) {
