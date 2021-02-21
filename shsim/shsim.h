@@ -15,11 +15,10 @@ void executeCommand(int argCount, char **argVector, char **env);	// change proce
 /*********funtions for getting input from user**************/
 void getInput(char * line, int *argCount, char ***argVector);	//get a line of input from user and store arguments
 void getInputLine(char * line);									//get a line from user	
-void setArgCount(char *line, int *argCount);						//count number of arguments
+void strArrCount(char *line, int *argCount);						//count number of arguments
 void strSplit(char *line, int *argCount, char ***argVector, char delimiter);	//store arguments
 
 /********functions for writing to debug.log file**********/
 void logReset();											//resets debug.log file
 void logDebug(char *str, int tabs);							//write a line to log file for debuging
-void logArgEnv(int argc, char *argv[], char *env[ ]);		//prints the arguments passed into main
-//void logArray(char** arr, int arrLength);
+void logStrArray(int arrLength, char* strArray[], char* title);		//logs the array passed to function
