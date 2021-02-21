@@ -85,11 +85,12 @@ void executeCommand(int argCount, char **argVector, char **env){
 	logArgEnv(argCount, argVector, NULL);
 	char cmd[128]; 										//string to hold cmd
 	char** envDirPaths = NULL;							//array of strings to hold directory paths
-	int envPathCount, r;									//length of array
+	int envPathCount, r, i;								//length of array
 	char* envPath = getenv("PATH");						//get path from env
 	sprintf(logStrOut, "envPath = %s", envPath);
 	logDebug(logStrOut, logTabs);
-	for (int i = 0; i < strlen(envPath); i++) {		//loop throught input char by char
+	envPathCount = 1;								//count how many directories are in path. need at least one
+	for (i = 0; i < strlen(envPath); i++) {			//loop throught input char by char
 		if (envPath[i] == (int)':')					//find ':'
 			envPathCount++;							//count how many ':' are in user input line
 	}
@@ -98,11 +99,11 @@ void executeCommand(int argCount, char **argVector, char **env){
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
 	sprintf(logStrOut, "CHILD END: exec cmd:%s", argVector[0]); 
 	logDebug(logStrOut, logTabs);
-	int i = 0;
-	while (envDirPaths[i]) {
-		strcpy(cmd, envDirPaths[i]); // create /bin/ command 
-		strcat(cmd, argVector[0]);
-		r = execve( cmd, argVector, env);	//execute cmd with args from argVector
+	i = 0;
+	while (envDirPaths[i]) {						//loop through all directories
+		strcpy(cmd, envDirPaths[i]);				//  /dir/ command  path
+		strcat(cmd, argVector[0]);					//  /dir/cmd command path
+		r = execve( cmd, argVector, env);			//attempt to execute cmd with args from argVector
 		// come to here only if execve() failed
 		i++;
 	}
