@@ -101,8 +101,9 @@ void executeCommand(int argCount, char **argVector, char **env){
 	logDebug(logStrOut, logTabs);
 	i = 0;
 	while (envDirPaths[i]) {						//loop through all directories
-		strcpy(cmd, envDirPaths[i]);				//  /dir/ command  path
-		strcat(cmd, argVector[0]);					//  /dir/cmd command path
+		strcpy(cmd, envDirPaths[i]);				//  /dir		command  path
+		strcat(cmd, "/");							//  /dir/		command path
+		strcat(cmd, argVector[0]);					//  /dir/cmd	command path
 		sprintf(logStrOut, "exec cmd:%s", cmd);
 		logDebug(logStrOut, logTabs);
 		r = execve( cmd, argVector, env);			//attempt to execute cmd with args from argVector
