@@ -61,8 +61,6 @@ void cd(char *path){
 //fork a child process and wait for it to finish
 void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut){
 	logTabs++;
-	sprintf(logStrOut, "inout= %i	redir= %s\n", inOut, redirPath);
-	logDebug(logStrOut, logTabs);
 	sprintf(logStrOut, "FORK FROM: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
 	int pid, status; 
@@ -77,6 +75,25 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 	else{ 											// CHILD executes this part 
 		sprintf(logStrOut, "CHILD: pid=%d	ppid=%d", getpid(), getppid());
 		logDebug(logStrOut, logTabs);
+		sprintf(logStrOut, "inout= %i	redir= %s\n", inOut, redirPath);
+		logDebug(logStrOut, logTabs);
+		switch (inOut) // 1 = in <, 2 = out >, 3 = out append >>
+		{
+		case 1:
+			close(0);
+			int fd = open(redirPath, O_RDONLY);
+			break;
+		case 2:
+			close(1);
+			open(redirPath, 0_WRONLY, 0644);
+			break;
+		case 3:
+			close(1);
+			open(redirPath, 0_APPEND, 0644);
+			break;
+		default:
+			break;
+		}
 		executeCommand(argCount, argVector, env);	//child executes command in argvector
 	}
 	sprintf(logStrOut, "AFTER FORK: pid=%d	ppid=%d", getpid(), getppid());
