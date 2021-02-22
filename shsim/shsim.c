@@ -106,7 +106,7 @@ void executeCommand(int argCount, char **argVector, char **env){
 		i++;
 	}
 	r = execve(argVector[0], argVector, env);		//one last attempt to execute cmd in current directory, ex: "./a.out"
-	printf("bash: %s: command not found", argVector[0]);
+	printf("bash: %s: command not found\n", argVector[0]);
 	sprintf(logStrOut, "execve() failed: r = %d", r); 
 	logDebug(logStrOut, logTabs);
 	exit(r);										//exit process and return to parent
@@ -120,9 +120,19 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
+	searchStr(line, ">");
+	searchStr(line, ">>");
+	searchStr(line, "<");
+	searchStr(line, "|");
 	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
+}
+void searchStr(char *line, char *delimiter) {
+	char ptr = strstr(line, delimiter);
+	if (ptr) {
+		printf("full= %s	part= %s", line, ptr);
+	}
 }
 
 //get line of input from user
