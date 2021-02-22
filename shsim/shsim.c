@@ -129,7 +129,7 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logTabs --;
 }
 void searchStr(char *line, char *delimiter) {
-	char ptr = strstr(line, delimiter);
+	char *ptr = strstr(line, delimiter);
 	if (ptr) {
 		printf("full= %s	part= %s", line, ptr);
 	}
