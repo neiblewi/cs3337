@@ -120,7 +120,7 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
-	char* tail[128];
+	char tail[128];
 	searchStr(line, '>', tail);
 	searchStr(line, '<', tail);
 	searchStr(line, '/', tail);
