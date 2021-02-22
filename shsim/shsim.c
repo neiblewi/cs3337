@@ -61,8 +61,8 @@ void cd(char *path){
 //fork a child process and wait for it to finish
 void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut){
 	logTabs++;
-	//sprintf(logStrOut, "inout= %i	redir= %s\n", inOut, *redirPath);
-	//logDebug(logStrOut, logTabs);
+	sprintf(logStrOut, "inout= %i	redir= %s\n", inOut, redirPath);
+	logDebug(logStrOut, logTabs);
 	sprintf(logStrOut, "FORK FROM: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
 	int pid, status; 
@@ -125,7 +125,6 @@ void getInput( char *line, int *argCount, char ***argVector, char **redirPath, i
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
 	handleRedirect(line, redirPath, inOut);			//check for file redirects
-	printf("head= %s	tail= %s	inout=%i\n", line, redirPath, inOut);
 	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
