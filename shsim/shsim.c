@@ -19,8 +19,10 @@ int main( int argc, char *argv[], char *env[ ]){
 		int argCount;							//empty integer to simulate argc
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
 		char line[256];							//string to hold user input line
+		char* redirPath = NULL;					//string to hold path to file for input and output redirects
+		int inOut = 0;							// 1 = in <, 2 = out >, 3 = out append >>
 		logDebug("getting input", logTabs);
-		getInput(line, &argCount, &argVector);	//get input from user
+		getInput(line, &argCount, &argVector, &redirPath, &inOut);	//get input from user
 		if( argVector[0] && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			sprintf(logStrOut, "exiting process: pid=%d", getpid()); 
 			logDebug(logStrOut, logTabs);
@@ -32,7 +34,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		}
 		else{									//for all other commands
 			logDebug("other command", logTabs);
-			forkChild(argCount, argVector, env);//fork child to execute other commands
+			forkChild(argCount, argVector, env, redirPath, inOut);//fork child to execute other commands
 		}
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
@@ -57,8 +59,10 @@ void cd(char *path){
 }
 
 //fork a child process and wait for it to finish
-void forkChild(int argCount, char **argVector, char **env){
+void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut){
 	logTabs++;
+	sprintf(logStrOut, "head= %s	tail= %s\n", line, *redirPath);
+	logDebug(logStrOut, logTabs);
 	sprintf(logStrOut, "FORK FROM: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
 	int pid, status; 
@@ -116,19 +120,18 @@ void executeCommand(int argCount, char **argVector, char **env){
 /***********************functions for getting user input***************************/
 
 //get a line of input from user and store in argCount and argVector. input should be formatted as cmd arg1 arg2 arg3 .... argn
-void getInput( char *line, int *argCount, char ***argVector){  
+void getInput( char *line, int *argCount, char ***argVector, char **redirPath, int *inOut){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
-	char *redirPath = NULL;
-	int inOut = 0;								// 1 = in <, 2 = out >, 3 = out append >>
-	handleRedirect(line, &redirPath, &inOut);
+	handleRedirect(line, redirPath, inOut);			//check for file redirects
 	printf("head= %s	tail= %s	inout=%i\n", line, redirPath, inOut);
 	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
 }
 
+//checks for input/output redirects
 void handleRedirect(char *line, char **redirPath, int *inOut) {
 	searchStr(line, '<', redirPath);
 	if (*redirPath) {
@@ -145,17 +148,17 @@ void handleRedirect(char *line, char **redirPath, int *inOut) {
 			}
 		}
 	}
-	printf("inout=%i\n", *inOut);
-	printf("head= %s	tail= %s\n", line, *redirPath);
+	sprintf(logStrOut, "head= %s	tail= %s\n", line, *redirPath);
+	logDebug(logStrOut, logTabs);
 }
 
+//searches a stirng for delimeter character and splits it into head and tail
 void searchStr(char *head, char delimiter, char **tail) {
 	*tail = strchr(head, delimiter);
 	if (*tail) {
 		tail[0][0] = '\0';
 		*tail = &tail[0][1];
 	}
-	printf("head= %s	tail= %s\n", head, *tail);
 }
 
 //get line of input from user
