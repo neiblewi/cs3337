@@ -120,19 +120,21 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
-	searchStr(line, ">");
-	searchStr(line, ">>");
-	searchStr(line, "<");
-	searchStr(line, "|");
+	char* tail[128];
+	searchStr(line, ">", tail);
+	searchStr(line, ">>", tail);
+	searchStr(line, "<", tail);
+	searchStr(line, "|", tail);
 	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
 }
-void searchStr(char *line, char *delimiter) {
-	char *ptr = strstr(line, delimiter);
-	if (ptr) {
-		printf("full= %s	part= %s", line, ptr);
+void searchStr(char *head, char delimiter, char* tail) {
+	tail = strchr(line, delimiter);
+	if (tail) {
+		tail[-1] = '\0';
 	}
+	printf("head= %s	tail= %s\n", line, tail);
 }
 
 //get line of input from user
