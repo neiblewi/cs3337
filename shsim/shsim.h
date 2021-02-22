@@ -13,7 +13,7 @@ void executeCommand(int argCount, char **argVector, char **env);	// change proce
 
 /*********funtions for getting input from user**************/
 void getInput(char * line, int *argCount, char ***argVector);					//get a line of input from user and store arguments
-void searchStr(char* line, char* delimiter);
+void searchStr(char* head, char delimiter, char* tail);
 void getInputLine(char * line);													//get a line from user	
 void strArrCount(char* line, int* argCount, char delimiter);					//count number of arguments
 void strSplit(char *line, int *argCount, char ***argVector, char delimiter);	//store arguments

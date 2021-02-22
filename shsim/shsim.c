@@ -121,20 +121,20 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
 	char* tail[128];
-	searchStr(line, ">", tail);
-	searchStr(line, ">>", tail);
-	searchStr(line, "<", tail);
-	searchStr(line, "|", tail);
+	searchStr(line, '>', tail);
+	searchStr(line, '<', tail);
+	searchStr(line, '/', tail);
 	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
 }
 void searchStr(char *head, char delimiter, char* tail) {
-	tail = strchr(line, delimiter);
+	tail = strchr(head, delimiter);
 	if (tail) {
-		tail[-1] = '\0';
+		tail[0] = '\0';
+		tail = &tail[1];
 	}
-	printf("head= %s	tail= %s\n", line, tail);
+	printf("head= %s	tail= %s\n", head, tail);
 }
 
 //get line of input from user
