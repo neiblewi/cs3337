@@ -137,10 +137,10 @@ void handleRedirect(char *line, char **redirPath, int *inOut) {
 	else {
 		searchStr(line, '>', redirPath);
 		if (*redirPath) {
-			*inout = 2;
+			*inOut = 2;
 			searchStr(*redirPath, '>', redirPath);
 			if (*redirPath) {
-				*inout = 3;
+				*inOut = 3;
 			}
 		}
 	}
