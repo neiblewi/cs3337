@@ -121,7 +121,7 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
 	char *redirPath = NULL;
-	int inOut;								// 1 = in <, 2 = out >, 3 = out append >>
+	int inOut = 0;								// 1 = in <, 2 = out >, 3 = out append >>
 	handleRedirect(line, &redirPath, &inOut);
 	printf("head= %s	tail= %s	inout=%i\n", line, redirPath, inOut);
 	strArrCount(line, argCount, ' ');				//count number of arguments
@@ -138,13 +138,14 @@ void handleRedirect(char *line, char **redirPath, int *inOut) {
 		searchStr(line, '>', redirPath);
 		if (*redirPath) {
 			*inOut = 2;
-			searchStr(*redirPath, '>', redirPath);
-			if (*redirPath) {
+			if (redirPath[0][0] == '>')
+			{
+				searchStr(*redirPath, '>', redirPath);
 				*inOut = 3;
 			}
 		}
 	}
-	printf("inout=%i\n", inOut);
+	printf("inout=%i\n", *inOut);
 	printf("head= %s	tail= %s\n", line, *redirPath);
 }
 
