@@ -61,7 +61,7 @@ void cd(char *path){
 //fork a child process and wait for it to finish
 void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut){
 	logTabs++;
-	sprintf(logStrOut, "head= %s	tail= %s\n", line, *redirPath);
+	sprintf(logStrOut, "inout= %i	redir= %s\n", inOut, *redirPath);
 	logDebug(logStrOut, logTabs);
 	sprintf(logStrOut, "FORK FROM: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
@@ -148,7 +148,7 @@ void handleRedirect(char *line, char **redirPath, int *inOut) {
 			}
 		}
 	}
-	sprintf(logStrOut, "head= %s	tail= %s\n", line, *redirPath);
+	sprintf(logStrOut, "head= %s	tail= %s	inout=%i\n", line, *redirPath, inOut);
 	logDebug(logStrOut, logTabs);
 }
 
