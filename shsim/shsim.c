@@ -133,7 +133,7 @@ void getInput( char *line, int *argCount, char ***argVector, char **redirPath, i
 
 //checks for input/output redirects
 void handleRedirect(char *line, char **redirPath, int *inOut) {
-	tabs++;
+	logTabs++;
 	searchStr(line, '<', redirPath);
 	if (*redirPath) {
 		*inOut = 1;
@@ -151,7 +151,7 @@ void handleRedirect(char *line, char **redirPath, int *inOut) {
 	}
 	sprintf(logStrOut, "head= %s	tail= %s	inout=%i", line, *redirPath, *inOut);
 	logDebug(logStrOut, logTabs);
-	tabs--;
+	logTabs--;
 }
 
 //searches a stirng for delimeter character and splits it into head and tail
