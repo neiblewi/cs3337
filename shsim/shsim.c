@@ -120,21 +120,40 @@ void getInput( char *line, int *argCount, char ***argVector){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
-	char tail[128];
-	searchStr(line, '>', tail);
-	searchStr(line, '<', tail);
-	searchStr(line, '/', tail);
+	char *redirPath = NULL;
+	int inOut;								// 1 = in <, 2 = out >, 3 = out append >>
+	handleRedirect(line, &redirPath, inOut);
 	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
 }
-void searchStr(char *head, char delimiter, char* tail) {
-	tail = strchr(head, delimiter);
-	if (tail) {
-		tail[0] = '\0';
-		tail = &tail[1];
+
+void handleRedirect(char *line, char **redirPath, int inOut) {
+	searchStr(line, '<', redirPath);
+	if (*redirPath) {
+		inOut = 1;
 	}
-	printf("head= %s	tail= %s\n", head, tail);
+	else {
+		searchStr(line, '>', redirPath);
+		if (*redirPath) {
+			inout = 2;
+			searchStr(*redirPath, '>', redirPath);
+			if (*redirPath) {
+				inout = 3;
+			}
+		}
+	}
+	printf("inout=%i\n", inOut);
+	printf("head= %s	tail= %s\n", line, *redirPath);
+}
+
+void searchStr(char *head, char delimiter, char **tail) {
+	*tail = strchr(head, delimiter);
+	if (*tail) {
+		tail[0][0] = '\0';
+		*tail = &tail[0][1];
+	}
+	printf("head= %s	tail= %s\n", head, *tail);
 }
 
 //get line of input from user
