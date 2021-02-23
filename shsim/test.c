@@ -9,6 +9,7 @@
 void strTrim(char* str) {
 	int readIndex, writeIndex = 0;
 	while (str[readIndex] == ' ') {			//loop past all leading spaces
+		printf("skip[%i]", readIndex);
 		readIndex++;
 	}
 	while (str[readIndex] != '\0') {			//loop till end of string
