@@ -17,14 +17,19 @@ int main(int argc, char* argv[], char* env[]) {
 	int r = execve(cmd, argVector, env);
 	printf("didnt work\n");
 */
-
-	close(1); open("outfile", O_WRONLY, 0644);
 	
+//o_wronly requires file to exist
+/*	close(1); open("outfile", O_WRONLY, 0644);
 	char* cmd = "/bin/echo";
 	char* argVector[] = { "echo", "hello", "world", NULL };
 	int r = execve(cmd, argVector, env);
 	printf("didnt work\n");
+*/
 
-
+	close(1); open("outfile2", O_CREAT, 0644);
+	char* cmd = "/bin/echo";
+	char* argVector[] = { "echo", "hello", "world", NULL };
+	int r = execve(cmd, argVector, env);
+	printf("didnt work\n");
 }
 
