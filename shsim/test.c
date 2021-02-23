@@ -28,6 +28,7 @@ void strTrim(char* str) {
 			}
 		}
 		readIndex++;
+		printf("		|%s|\n", str);
 	}
 	str[writeIndex] = '\0';					//end string with null character
 }
@@ -84,9 +85,9 @@ int main(int argc, char* argv[], char* env[]) {
 */
 
 	char* input = "    test this  function > to see>if  >   it >> works < very well    ";
-	printf("%s\n", input);
+	printf("|%s|\n", input);
 	strTrim(input);
-	printf("strTrim()\n%s\n", input);
+	printf("strTrim()\n|%s|\n", input);
 
 
 
