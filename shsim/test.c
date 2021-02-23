@@ -26,7 +26,7 @@ void strTrim(char* str) {
 			readIndex++;					//skip extra whitespace
 		}
 		else{									//if other character or single space
-			printf("other\n");
+			printf("write[%i]%c = read[%i]%c", writeIndex, str[writeIndex], readIndex, str[readIndex]);
 			str[writeIndex] = str[readIndex];	//copy read to write
 			writeIndex++;
 		}
