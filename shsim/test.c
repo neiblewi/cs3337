@@ -33,6 +33,7 @@ void strTrim(char* str) {
 			writeIndex++;
 		}
 		readIndex++;
+		printf("end\n;")
 	}
 	str[writeIndex] = '\0';					//end string with null character
 }
