@@ -29,11 +29,11 @@ void strTrim(char* str) {
 			printf("other\n");
 			printf("write[%i]%c\n", writeIndex, str[writeIndex]);
 			printf("write[%i]%c = read[%i]%c\n", writeIndex, str[writeIndex], readIndex, str[readIndex]);
-			//str[writeIndex] = str[readIndex];	//copy read to write
+			str[writeIndex] = '?';	//copy read to write
 			writeIndex++;
 		}
 		readIndex++;
-		printf("end\n;");
+		printf("end\n");
 	}
 	str[writeIndex] = '\0';					//end string with null character
 }
