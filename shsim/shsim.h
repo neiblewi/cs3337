@@ -19,7 +19,7 @@ void searchStr(char* head, char delimiter, char** tail);									//split a strin
 void getInputLine(char * line);																//get a line from user	
 void strArrCount(char* line, int* argCount, char delimiter);								//count number of arguments
 void strSplit(char *line, int *argCount, char ***argVector, char delimiter);				//store arguments
-void strTrim(char* str)																		//trim unessessary spaces from str
+void strTrim(char* str);																		//trim unessessary spaces from str
 
 /********functions for writing to debug.log file**********/
 void logReset();													//resets debug.log file
