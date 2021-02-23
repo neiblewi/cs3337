@@ -16,8 +16,8 @@ void strTrim(char* str) {
 		if (str[readIndex] == ' '				//if there is a space, check..
 			&& (str[readIndex + 1] == ' '		//if the next character is also a space
 				|| str[readIndex + 1] == '\0'	//if the next character is the end of the string
-				|| str[readIndex - 1] == '<'	//if the previous character was a <
-				|| str[readIndex - 1] == '>'	//if the previous charater was a >
+				|| str[writeIndex - 1] == '<'	//if the previous character was a <
+				|| str[writeIndex - 1] == '>'	//if the previous charater was a >
 				)
 			) 
 		{	
