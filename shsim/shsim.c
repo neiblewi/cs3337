@@ -18,11 +18,11 @@ int main( int argc, char *argv[], char *env[ ]){
 	while(i){									//main program loop
 		int argCount;							//empty integer to simulate argc
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
-		char line[256];							//string to hold user input line
+		char line[512], tail[256];				//string to hold user input line and tail for pipes
 		char* redirPath = NULL;					//string to hold path to file for input and output redirects
 		int inOut = 0;							// 1 = in <, 2 = out >, 3 = out append >>
 		logDebug("getting input", logTabs);
-		getInput(line, &argCount, &argVector, &redirPath, &inOut);	//get input from user
+		getInput(line, &argCount, &argVector, &redirPath, &inOut, &tail);	//get input from user
 		if( argVector[0] && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			sprintf(logStrOut, "exiting process: pid=%d", getpid()); 
 			logDebug(logStrOut, logTabs);
@@ -139,14 +139,15 @@ void executeCommand(int argCount, char **argVector, char **env){
 /***********************functions for getting user input***************************/
 
 //get a line of input from user and store in argCount and argVector. input should be formatted as cmd arg1 arg2 arg3 .... argn
-void getInput( char *line, int *argCount, char ***argVector, char **redirPath, int *inOut){
+void getInput( char *inputLine, int *argCount, char ***argVector, char **redirPath, int *inOut, char **pipeTail){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
-	getInputLine(line);								//get user input
-	strTrim(line);									//trim unessesary spaces
-	handleRedirect(line, redirPath, inOut);			//check for file redirects
-	strArrCount(line, argCount, ' ');				//count number of arguments
-	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
+	if(inputLine[0] == '\n')getInputLine(inputLine);	//if input is empty, get input from user
+	strTrim(inputLine);									//trim unessesary spaces
+	searchStr(inputLine, '|', pipeTail);				//separate pipe head from pipe tail
+	handleRedirect(inputLine, redirPath, inOut);		//check for file redirects
+	strArrCount(inputLine, argCount, ' ');				//count number of arguments
+	strSplit(inputLine, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
 }
 
@@ -168,14 +169,14 @@ void handleRedirect(char *line, char **redirPath, int *inOut) {
 			}
 		}
 	}
-	sprintf(logStrOut, "head= %s	tail= %s	inout=%i", line, *redirPath, *inOut);
+	sprintf(logStrOut, "head= %s	pipeTail= %s	inout=%i", line, *redirPath, *inOut);
 	logDebug(logStrOut, logTabs);
 	logTabs--;
 }
 
 //searches a stirng for delimeter character and splits it into head and tail
 void searchStr(char *head, char delimiter, char **tail) {
-	*tail = strchr(head, delimiter);
+	*tail = strchr(head, delimiter);		//returns null if not found
 	if (*tail) {
 		tail[0][0] = '\0';
 		*tail = &tail[0][1];
@@ -239,7 +240,11 @@ void strTrim(char* str) {
 			&& (str[readIndex + 1] == ' '		//if the next character is also a space
 				|| str[readIndex + 1] == '\0'	//if the next character is the end of the string
 				|| str[writeIndex - 1] == '<'	//if the previous character was a <
-				|| str[writeIndex - 1] == '>'	//if the previous charater was a >
+				|| str[writeIndex + 1] == '<'	//if the next charater was a <
+				|| str[writeIndex - 1] == '>'	//if the previous character was a >
+				|| str[writeIndex + 1] == '>'	//if the next charater was a >
+				|| str[writeIndex - 1] == '|'	//if the previous character was a |
+				|| str[writeIndex + 1] == '|'	//if the next charater was a |
 				)
 			)
 		{
