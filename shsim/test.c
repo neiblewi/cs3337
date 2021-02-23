@@ -10,13 +10,16 @@ int main(int argc, char* argv[], char* env[]) {
 	int r = execve(cmd, argVector, env);
 	printf("didnt work\n");
 */
-	char* cmd = "/usr/bin/gcc";
+/*	char* cmd = "/usr/bin/gcc";
 	char* argVector[] = { "gcc", "t.c", NULL };
 	int r = execve(cmd, argVector, env);
 	printf("didnt work\n");
+*/
 
-
-
+	char* cmd = "/usr/lib/gcc";
+	char* argVector[] = { "gcc", "t.c", NULL };
+	int r = execve(cmd, argVector, env);
+	printf("didnt work\n");
 
 
 }
