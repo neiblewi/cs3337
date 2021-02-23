@@ -15,6 +15,8 @@ void strTrim(char* str) {
 	while (str[readIndex] != '\0') {			//loop till end of string
 		printf("	|%s|\n", str);
 		if (str[readIndex] == '<' || str[readIndex] == '>') { //if < or >
+			str[writeIndex] = str[readIndex];	//copy read to write
+			writeIndex++;
 			while (str[readIndex + 1] == ' ') {
 				readIndex++;				//skip spacesafter > or <
 			}
