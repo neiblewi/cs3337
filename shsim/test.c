@@ -35,9 +35,8 @@ int main(int argc, char* argv[], char* env[]) {
 	printf("didnt work\n");
 */
 
-	FILE* fp = fopen("outfile", "a");		// fopen a FILE stream for 
-	fclose(fp);
-	close(1); open("outfile", O_APPEND);
+
+	close(1); open("outfile", O_WRONLY|O_CREAT, 0644);
 	char* cmd = "/bin/echo";
 	char* argVector[] = { "echo", "hello", "world", NULL };
 	int r = execve(cmd, argVector, env);
