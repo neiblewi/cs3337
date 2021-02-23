@@ -12,7 +12,7 @@ void strTrim(char* str) {
 		printf("skip[%i]", readIndex);
 		readIndex++;
 	}
-	while (str[readIndex] != '\0') {			//loop till end of string
+	/*while (str[readIndex] != '\0') {			//loop till end of string
 		if (str[readIndex] == '<' || str[readIndex] == '>') { //if < or >
 			while (str[readIndex] == ' ') {
 				readIndex++;				//skip spacesafter > or <
@@ -32,7 +32,7 @@ void strTrim(char* str) {
 		printf("		|%s|\n", str);
 	}
 	str[writeIndex] = '\0';					//end string with null character
-}
+*/}
 
 
 int main(int argc, char* argv[], char* env[]) {
