@@ -7,7 +7,8 @@
 #include <fcntl.h>
 
 void strTrim(char* str) {
-	int readIndex, writeIndex = 0;
+	int readIndex = 0;
+	int writeIndex = 0;
 	printf("str[%i]=|%c|\n", readIndex, str[readIndex]);
 	while (str[readIndex] == ' ') {			//loop past all leading spaces
 		printf("skip[%i]\n", readIndex);
