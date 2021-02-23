@@ -6,7 +6,7 @@
 #include <unistd.h>
 int main(int argc, char* argv[], char* env[]) {
 	char* cmd = "echo";
-	char** argVector = { "echo", "hello", "world", NULL };
+	char* argVector [] = { "echo", "hello", "world", NULL };
 	int r = execve(cmd, argVector, env);
 }
 
