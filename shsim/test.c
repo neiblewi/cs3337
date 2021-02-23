@@ -35,13 +35,18 @@ int main(int argc, char* argv[], char* env[]) {
 	printf("didnt work\n");
 */
 
-
-	close(1); open("outfile", O_WRONLY|O_CREAT, 0644);
+/*	close(1); open("outfile", O_WRONLY|O_CREAT, 0644);
 	char* cmd = "/bin/echo";
 	char* argVector[] = { "echo", "hello", "world", NULL };
 	int r = execve(cmd, argVector, env);
 	printf("didnt work\n");
+*/
 
+	close(1); open("outfile", O_APPEND | O_CREAT, 0644);
+	char* cmd = "/bin/echo";
+	char* argVector[] = { "echo", "hello", "world", NULL };
+	int r = execve(cmd, argVector, env);
+	printf("didnt work\n");
 
 }
 
