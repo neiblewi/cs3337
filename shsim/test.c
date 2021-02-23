@@ -15,12 +15,12 @@ void strTrim(char* str) {
 	while (str[readIndex] != '\0') {			//loop till end of string
 		printf("	|%s|\n", str);
 		if (str[readIndex] == '<' || str[readIndex] == '>') { //if < or >
-			while (str[readIndex] == ' ') {
+			while (str[readIndex + 1] == ' ') {
 				readIndex++;				//skip spacesafter > or <
 			}
 		}
 		if (str[readIndex] == ' ' && str[readIndex + 1] == ' ') {	//if there are two spaces in a row
-			readIndex++;					//skip extra whitespace
+			//readIndex++;					//skip extra whitespace
 		}
 		else{									//if other character or single space
 			str[writeIndex] = str[readIndex];	//copy read to write
@@ -29,6 +29,7 @@ void strTrim(char* str) {
 		readIndex++;
 	}
 	str[writeIndex] = '\0';					//end string with null character
+	printf("	|%s|\n", str);
 }
 
 
