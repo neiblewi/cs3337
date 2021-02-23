@@ -9,29 +9,28 @@
 void strTrim(char* str) {
 	int readIndex = 0;
 	int writeIndex = 0;
-	printf("str[%i]=|%c|\n", readIndex, str[readIndex]);
 	while (str[readIndex] == ' ') {			//loop past all leading spaces
 		printf("skip[%i]\n", readIndex);
 		readIndex++;
 	}
 	while (str[readIndex] != '\0') {			//loop till end of string
+		printf("		|%s|\n", str);
 		if (str[readIndex] == '<' || str[readIndex] == '>') { //if < or >
+			printf("<>\n");
 			while (str[readIndex] == ' ') {
 				readIndex++;				//skip spacesafter > or <
 			}
 		}
-		if (str[readIndex] != ' ') {		//if character is not a space
+		if (str[readIndex] == ' ' && str[readIndex + 1] == ' ') {	//if there are two spaces in a row
+			printf("|  |\n");
+			readIndex++;					//skip extra whitespace
+		}
+		else{									//if other character or single space
+			printf("other\n");
 			str[writeIndex] = str[readIndex];	//copy read to write
 			writeIndex++;
 		}
-		else {								//if character is a space
-			if (str[writeIndex - 1] != ' ') {	//only copy first space
-				str[writeIndex] = str[readIndex];	//copy read to write
-				writeIndex++;
-			}
-		}
 		readIndex++;
-		printf("		|%s|\n", str);
 	}
 	str[writeIndex] = '\0';					//end string with null character
 }
