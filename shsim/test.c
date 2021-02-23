@@ -14,7 +14,7 @@ void strTrim(char* str) {
 		readIndex++;
 	}
 	while (str[readIndex] != '\0') {			//loop till end of string
-		printf("		|%s|\n", str);
+		printf("	|%s|\n", str);
 		if (str[readIndex] == '<' || str[readIndex] == '>') { //if < or >
 			printf("<>\n");
 			while (str[readIndex] == ' ') {
@@ -26,7 +26,9 @@ void strTrim(char* str) {
 			readIndex++;					//skip extra whitespace
 		}
 		else{									//if other character or single space
-			printf("write[%i]%c = read[%i]%c", writeIndex, str[writeIndex], readIndex, str[readIndex]);
+			printf("other\n");
+			printf("write[%i]%c\n", writeIndex, str[writeIndex]);
+			printf("write[%i]%c = read[%i]%c\n", writeIndex, str[writeIndex], readIndex, str[readIndex]);
 			str[writeIndex] = str[readIndex];	//copy read to write
 			writeIndex++;
 		}
