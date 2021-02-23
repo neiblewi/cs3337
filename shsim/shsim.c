@@ -41,6 +41,8 @@ int main( int argc, char *argv[], char *env[ ]){
 }
 
 /****************************************function definitions*******************************************/
+/***********************functions for executing commands***************************/
+
 //changes cwd to path
 void cd(char *path){
 	logTabs++;
@@ -141,6 +143,7 @@ void getInput( char *line, int *argCount, char ***argVector, char **redirPath, i
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	getInputLine(line);								//get user input
+	strTrim(line);									//trim unessesary spaces
 	handleRedirect(line, redirPath, inOut);			//check for file redirects
 	strArrCount(line, argCount, ' ');				//count number of arguments
 	strSplit(line, argCount, argVector, ' ');		//store arguments in arrPtr
@@ -224,26 +227,27 @@ void strSplit(char *inputStr, int *arrLength, char ***arrPtr, char delimiter){
 	logTabs --;
 }
 
+//trims uneccesary spaces out of str
 void strTrim(char* str) {
-	int readIndex, writeIndex = 0;
-	while (str[readIndex] == ' '){			//loop past all leading spaces
+	int readIndex = 0;
+	int writeIndex = 0;
+	while (str[readIndex] == ' ') {			//loop past all leading spaces
 		readIndex++;
 	}
-	while (str[readIndex] != '\0'){			//loop till end of string
-		if (str[readIndex] == '<' || str[readIndex] == '>'){ //if < or >
-			while (str[readIndex] == ' ') {			
-				readIndex++;				//skip spacesafter > or <
-			}					
+	while (str[readIndex] != '\0') {			//loop till end of string
+		if (str[readIndex] == ' '				//if there is a space, check..
+			&& (str[readIndex + 1] == ' '		//if the next character is also a space
+				|| str[readIndex + 1] == '\0'	//if the next character is the end of the string
+				|| str[writeIndex - 1] == '<'	//if the previous character was a <
+				|| str[writeIndex - 1] == '>'	//if the previous charater was a >
+				)
+			)
+		{
+			//do nothing						//skip extra whitespace
 		}
-		if (str[readIndex] != ' ') {		//if character is not a space
+		else {									//if no rules were violated
 			str[writeIndex] = str[readIndex];	//copy read to write
 			writeIndex++;
-		}
-		else {								//if character is a space
-			if (str[writeIndex - 1] != ' ') {	//only copy first space
-				str[writeIndex] = str[readIndex];	//copy read to write
-				writeIndex++;
-			}
 		}
 		readIndex++;
 	}
