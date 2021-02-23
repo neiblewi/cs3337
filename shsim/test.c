@@ -29,7 +29,7 @@ void strTrim(char* str) {
 			printf("other\n");
 			printf("write[%i]%c\n", writeIndex, str[writeIndex]);
 			printf("write[%i]%c = read[%i]%c\n", writeIndex, str[writeIndex], readIndex, str[readIndex]);
-			str[writeIndex] = (int)str[readIndex];	//copy read to write
+			//str[writeIndex] = str[readIndex];	//copy read to write
 			writeIndex++;
 		}
 		readIndex++;
