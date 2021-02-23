@@ -81,15 +81,15 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 		{
 		case 1:
 			close(0);
-			int fd = open(redirPath, O_RDONLY);
+			open(redirPath, O_RDONLY);
 			break;
 		case 2:
 			close(1);
-			open(redirPath, O_WRONLY, 0644);
+			open(redirPath, O_WRONLY | O_CREAT, 0644);
 			break;
 		case 3:
 			close(1);
-			open(redirPath, O_APPEND, 0644);
+			open(redirPath, O_WRONLY | O_CREAT | O_APPEND, 0644);
 			break;
 		default:
 			break;

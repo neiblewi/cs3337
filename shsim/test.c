@@ -49,10 +49,16 @@ int main(int argc, char* argv[], char* env[]) {
 	printf("didnt work\n");
 */
 
-	close(0); open("infile", O_RDONLY);
+/*	close(0); open("infile", O_RDONLY);
 	char* cmd = "/bin/cat";
 	char* argVector[] = { "cat", NULL };
 	int r = execve(cmd, argVector, env);
 	printf("didnt work\n");
+*/
+
+
+
+
+
 }
 
