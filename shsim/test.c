@@ -11,6 +11,7 @@ void strTrim(char* str) {
 	int writeIndex = 0;
 	while (str[readIndex] == ' ') {			//loop past all leading spaces
 		printf("skip[%i]\n", readIndex);
+		str[readIndex] = 'x';
 		readIndex++;
 	}
 	while (str[readIndex] != '\0') {			//loop till end of string
@@ -29,7 +30,7 @@ void strTrim(char* str) {
 			printf("other\n");
 			printf("write[%i]%c\n", writeIndex, str[writeIndex]);
 			printf("write[%i]%c = read[%i]%c\n", writeIndex, str[writeIndex], readIndex, str[readIndex]);
-			str[writeIndex] = '?';	//copy read to write
+			str[writeIndex] = 'x';	//copy read to write
 			writeIndex++;
 		}
 		readIndex++;
