@@ -37,7 +37,7 @@ int main(int argc, char* argv[], char* env[]) {
 
 	FILE* fp = fopen("outfile", "a");		// fopen a FILE stream for 
 	fclose(fp);
-	close(1); open("outfile", O_APPEND, 0644);
+	close(1); open("outfile", O_APPEND);
 	char* cmd = "/bin/echo";
 	char* argVector[] = { "echo", "hello", "world", NULL };
 	int r = execve(cmd, argVector, env);
