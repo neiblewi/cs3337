@@ -5,9 +5,9 @@
 #include <stdarg.h>
 #include <unistd.h>
 int main(int argc, char* argv[], char* env[]) {
-	char* cmd = "echo";
-	char* argVector [] = { "bin/echo", "hello", "world", NULL };
+	char* cmd = "bin/echo";
+	char* argVector [] = { "echo", "hello", "world", NULL };
 	int r = execve(cmd, argVector, env);
-	printf("didnt work");
+	printf("didnt work\n");
 }
 
