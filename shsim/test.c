@@ -6,6 +6,33 @@
 #include <unistd.h>
 #include <fcntl.h>
 
+void strTrim(char* str) {
+	int readIndex, writeIndex = 0;
+	while (str[readIndex] == ' ') {			//loop past all leading spaces
+		readIndex++;
+	}
+	while (str[readIndex] != '\0') {			//loop till end of string
+		if (str[readIndex] == '<' || str[readIndex] == '>') { //if < or >
+			while (str[readIndex] == ' ') {
+				readIndex++;				//skip spacesafter > or <
+			}
+		}
+		if (str[readIndex] != ' ') {		//if character is not a space
+			str[writeIndex] = str[readIndex];	//copy read to write
+			writeIndex++;
+		}
+		else {								//if character is a space
+			if (str[writeIndex - 1] != ' ') {	//only copy first space
+				str[writeIndex] = str[readIndex];	//copy read to write
+				writeIndex++;
+			}
+		}
+		readIndex++;
+	}
+	str[writeIndex] = '\0';					//end string with null character
+}
+
+
 int main(int argc, char* argv[], char* env[]) {
 /*	char* cmd = "/bin/echo";
 	char* argVector [] = { "echo", "hello", "world", NULL };
@@ -56,7 +83,10 @@ int main(int argc, char* argv[], char* env[]) {
 	printf("didnt work\n");
 */
 
-
+	char* input = "    test this  function > to see>if  >   it >> works < very well    ";
+	printf("%s\n", input);
+	strTrim(input);
+	printf("strTrim()\n%s\n", input);
 
 
 

@@ -224,6 +224,32 @@ void strSplit(char *inputStr, int *arrLength, char ***arrPtr, char delimiter){
 	logTabs --;
 }
 
+void strTrim(char* str) {
+	int readIndex, writeIndex = 0;
+	while (str[readIndex] == ' '){			//loop past all leading spaces
+		readIndex++;
+	}
+	while (str[readIndex] != '\0'){			//loop till end of string
+		if (str[readIndex] == '<' || str[readIndex] == '>'){ //if < or >
+			while (str[readIndex] == ' ') {			
+				readIndex++;				//skip spacesafter > or <
+			}					
+		}
+		if (str[readIndex] != ' ') {		//if character is not a space
+			str[writeIndex] = str[readIndex];	//copy read to write
+			writeIndex++;
+		}
+		else {								//if character is a space
+			if (str[writeIndex - 1] != ' ') {	//only copy first space
+				str[writeIndex] = str[readIndex];	//copy read to write
+				writeIndex++;
+			}
+		}
+		readIndex++;
+	}
+	str[writeIndex] = '\0';					//end string with null character
+}
+
 /******************functions for writing to debug.log file***********************/
 
 //reset debug.log file
