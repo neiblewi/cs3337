@@ -4,6 +4,8 @@
 #include <libgen.h>	
 #include <stdarg.h>
 #include <unistd.h>
+#include <fcntl.h>
+
 int main(int argc, char* argv[], char* env[]) {
 /*	char* cmd = "/bin/echo";
 	char* argVector [] = { "echo", "hello", "world", NULL };
