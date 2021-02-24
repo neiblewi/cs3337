@@ -80,26 +80,34 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 		logDebug(logStrOut, logTabs);
 		sprintf(logStrOut, "pipeTail = %s", tail);
 		logDebug(logStrOut, logTabs);
-		int pd[2];
-		pipe(pd);
-		int pid = fork();
-		if (pid) { //parent
-			close(pd[0]);
-			close(1);
-			dup(pd[1]);
-			close(pd[1]);
+		if(tail){		//if there was a pipe
+			logDebug("creating pipe");
+			int pd[2];
+			pipe(pd);
+			int pid = fork();
+			if (pid) { //parent
+				close(pd[0]);
+				close(1);
+				dup(pd[1]);
+				close(pd[1]);
+				//parent executes head pipe head first
+				executeCommand(argCount, argVector, env, redirPath, inOut);	
+			}
+			else {		//child
+				close(pd[1]);
+				close(0);
+				dup(pd[0]);
+				close(pd[0]);
+				char* newTail = NULL;
+				//get new inputs
+				getInput(tail, &argCount, &argVector, &redirPath, &inOut, &newTail);
+				//child executes tail
+				executeCommand(argCount, argVector, env, redirPath, inOut);
+			}
+		}
+		else {	//if no pipe
 			executeCommand(argCount, argVector, env, redirPath, inOut);	//child executes command in argvector
 		}
-		else {		//child
-			close(pd[1]);
-			close(0);
-			dup(pd[0]);
-			close(pd[0]);
-			char* newTail = NULL;
-			getInput(tail, &argCount, &argVector, &redirPath, &inOut, &newTail);
-			executeCommand(argCount, argVector, env, redirPath, inOut);
-		}
-		executeCommand(argCount, argVector, env, redirPath, inOut);	//child executes command in argvector
 	}
 	sprintf(logStrOut, "AFTER FORK: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
