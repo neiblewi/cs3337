@@ -78,26 +78,28 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 	else{ 											// CHILD executes this part 
 		sprintf(logStrOut, "CHILD: pid=%d	ppid=%d", getpid(), getppid());
 		logDebug(logStrOut, logTabs);
-		sprintf(logStrOut, "inout= %i	redir= %s\n", inOut, redirPath);
+		sprintf(logStrOut, "pipeTail = %s", tail);
 		logDebug(logStrOut, logTabs);
-		switch (inOut) // 1 = in <, 2 = out >, 3 = out append >>
-		{
-		case 1:
-			close(0);
-			open(redirPath, O_RDONLY);
-			break;
-		case 2:
+		int pd[2];
+		pipe(pd);
+		int pid = fork();
+		if (pid) { //parent
+			close(pd[0]);
 			close(1);
-			open(redirPath, O_WRONLY | O_CREAT, 0644);
-			break;
-		case 3:
-			close(1);
-			open(redirPath, O_WRONLY | O_CREAT | O_APPEND, 0644);
-			break;
-		default:
-			break;
+			dup(pd[1]);
+			close(pd[1]);
+			executeCommand(argCount, argVector, env, redirPath);	//child executes command in argvector
 		}
-		executeCommand(argCount, argVector, env, tail);	//child executes command in argvector
+		else {		//child
+			close(pd[1]);
+			close(0);
+			dup(pd([0]));
+			close(pd[0]);
+			char* newTail = NULL;
+			getInput(tail, &argCount, &argVector, &redirPath, &inOut, &newTail);
+			executeCommand(argCount, argVector, env, redirPath);
+		}
+		executeCommand(argCount, argVector, env, redirPath);	//child executes command in argvector
 	}
 	sprintf(logStrOut, "AFTER FORK: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
@@ -105,7 +107,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 }
 
 //change proccess image to command specified
-void executeCommand(int argCount, char **argVector, char **env, char *tail){
+void executeCommand(int argCount, char **argVector, char **env, char *redirPath){
 	logTabs++;
 	sprintf(logStrOut, "pid=%d	ppid=%d", getpid(), getppid()); 
 	logDebug(logStrOut, logTabs);
@@ -117,10 +119,25 @@ void executeCommand(int argCount, char **argVector, char **env, char *tail){
 	strArrCount(envPath, &envPathCount, ':');		//get length of array
 	char** envDirPaths = NULL;						//array of strings to hold directory paths
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
-
-	sprintf(logStrOut, "**tail = %s**", tail);
+	sprintf(logStrOut, "inout= %i	redir= %s\n", inOut, redirPath);
 	logDebug(logStrOut, logTabs);
-
+	switch (inOut) // 1 = in <, 2 = out >, 3 = out append >>
+	{
+	case 1:
+		close(0);
+		open(redirPath, O_RDONLY);
+		break;
+	case 2:
+		close(1);
+		open(redirPath, O_WRONLY | O_CREAT, 0644);
+		break;
+	case 3:
+		close(1);
+		open(redirPath, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		break;
+	default:
+		break;
+	}
 	int r, i = 0;
 	char cmd[256]; 									//string to hold cmd
 	while (envDirPaths[i]) {						//loop through all directories
