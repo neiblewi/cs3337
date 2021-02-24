@@ -24,6 +24,8 @@ int main( int argc, char *argv[], char *env[ ]){
 		int inOut = 0;							// 1 = in <, 2 = out >, 3 = out append >>
 		logDebug("getting input", logTabs);
 		getInput(line, &argCount, &argVector, &redirPath, &inOut, (char**)&tail);	//get input from user
+		sprintf(logStrOut, "**tail = %s**", tail);
+		logDebug(logStrOut, logTabs);
 		if( argVector[0] && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			sprintf(logStrOut, "exiting process: pid=%d", getpid()); 
 			logDebug(logStrOut, logTabs);
