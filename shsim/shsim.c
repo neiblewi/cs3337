@@ -19,7 +19,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		int argCount;							//empty integer to simulate argc
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
 		char line[512] = ""; 					//string to hold user input line 
-		char tail[256] = "";					//and tail for pipes
+		char tail[256];					//and tail for pipes
 		char* redirPath = NULL;					//string to hold path to file for input and output redirects
 		int inOut = 0;							// 1 = in <, 2 = out >, 3 = out append >>
 		logDebug("getting input", logTabs);
