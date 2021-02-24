@@ -22,12 +22,8 @@ int main( int argc, char *argv[], char *env[ ]){
 		char *tail =  NULL;						//and tail for pipes
 		char *redirPath = NULL;					//string to hold path to file for input and output redirects
 		int inOut = 0;							// 1 = in <, 2 = out >, 3 = out append >>
-		sprintf(logStrOut, "**tail = %s**", tail);
-		logDebug(logStrOut, logTabs);
 		logDebug("getting input", logTabs);
 		getInput(line, &argCount, &argVector, &redirPath, &inOut, &tail);	//get input from user
-		sprintf(logStrOut, "**tail = %s**", tail);
-		logDebug(logStrOut, logTabs);
 		if( argVector[0] && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			sprintf(logStrOut, "exiting process: pid=%d", getpid()); 
 			logDebug(logStrOut, logTabs);
@@ -240,6 +236,7 @@ void strSplit(char *inputStr, int *arrLength, char ***arrPtr, char delimiter){
 
 //trims uneccesary spaces out of str
 void strTrim(char* str) {
+	logTabs++;
 	int readIndex = 0;
 	int writeIndex = 0;
 	while (str[readIndex] == ' ') {			//loop past all leading spaces
@@ -267,6 +264,9 @@ void strTrim(char* str) {
 		readIndex++;
 	}
 	str[writeIndex] = '\0';					//end string with null character
+	sprintf(logStrOut, "trimed: %s", str);
+	logDebug(logStrOut, logTabs);
+	logTabs--;
 }
 
 /******************functions for writing to debug.log file***********************/
