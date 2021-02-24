@@ -16,14 +16,14 @@ int main( int argc, char *argv[], char *env[ ]){
 	logStrArray(0, env, "main(env)");
 	int i = 1;							
 	while(i){									//main program loop
-		int argCount;							//empty integer to simulate argc
+		int argCount = 0;						//empty integer to simulate argc
 		char **argVector = NULL;				//empty pointer to array of strings to simulate argv
 		char line[512] = ""; 					//string to hold user input line 
-		char tail[256];					//and tail for pipes
+		char tail[256] = "";					//and tail for pipes
 		char* redirPath = NULL;					//string to hold path to file for input and output redirects
 		int inOut = 0;							// 1 = in <, 2 = out >, 3 = out append >>
 		logDebug("getting input", logTabs);
-		getInput(line, &argCount, &argVector, &redirPath, &inOut, &tail);	//get input from user
+		getInput(line, &argCount, &argVector, &redirPath, &inOut, (char**)&tail);	//get input from user
 		if( argVector[0] && !strcmp(argVector[0],"exit")){		//if first argument is "exit"
 			sprintf(logStrOut, "exiting process: pid=%d", getpid()); 
 			logDebug(logStrOut, logTabs);
@@ -62,7 +62,7 @@ void cd(char *path){
 }
 
 //fork a child process and wait for it to finish
-void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut, char tail[]){
+void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut, char *tail){
 	logTabs++;
 	sprintf(logStrOut, "FORK FROM: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
@@ -105,7 +105,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 }
 
 //change proccess image to command specified
-void executeCommand(int argCount, char **argVector, char **env, char tail[]){
+void executeCommand(int argCount, char **argVector, char **env, char *tail){
 	logTabs++;
 	sprintf(logStrOut, "pid=%d	ppid=%d", getpid(), getppid()); 
 	logDebug(logStrOut, logTabs);
@@ -144,13 +144,14 @@ void executeCommand(int argCount, char **argVector, char **env, char tail[]){
 /***********************functions for getting user input***************************/
 
 //get a line of input from user and store in argCount and argVector. input should be formatted as cmd arg1 arg2 arg3 .... argn
-void getInput( char *inputLine, int *argCount, char ***argVector, char **redirPath, int *inOut, char *pipeTail[]){
+void getInput( char *inputLine, int *argCount, char ***argVector, char **redirPath, int *inOut, char **pipeTail){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	if(strcmp(inputLine, "") == 0)getInputLine(inputLine);	//if input is empty, get input from user
 	strTrim(inputLine);									//trim unessesary spaces
 	searchStr(inputLine, '|', pipeTail);				//separate pipe head from pipe tail
-	handleRedirect(inputLine, redirPath, inOut);		//check for file redirects
+	sprintf(logStrOut, "pipeHead= %s	pipeTail= %s", inputLine, *pipeTail);
+	logDebug(logStrOut, logTabs);	handleRedirect(inputLine, redirPath, inOut);		//check for file redirects
 	strArrCount(inputLine, argCount, ' ');				//count number of arguments
 	strSplit(inputLine, argCount, argVector, ' ');		//store arguments in arrPtr
 	logTabs --;
@@ -174,7 +175,7 @@ void handleRedirect(char *line, char **redirPath, int *inOut) {
 			}
 		}
 	}
-	sprintf(logStrOut, "head= %s	pipeTail= %s	inout=%i", line, *redirPath, *inOut);
+	sprintf(logStrOut, "redirHead= %s redirTail= %s	inout=%i", line, *redirPath, *inOut);
 	logDebug(logStrOut, logTabs);
 	logTabs--;
 }
