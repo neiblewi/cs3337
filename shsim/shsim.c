@@ -81,7 +81,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 		sprintf(logStrOut, "pipeTail = %s", tail);
 		logDebug(logStrOut, logTabs);
 		if(tail){		//if there was a pipe
-			logDebug("creating pipe");
+			logDebug("creating pipe", logTabs);
 			int pd[2];
 			pipe(pd);
 			int pid = fork();
