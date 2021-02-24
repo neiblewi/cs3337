@@ -1,7 +1,7 @@
 /*************** C3.7: Pipe Operations ************/ 
-#include < stdio.h >
-#include < stdlib.h > 
-#include < string.h > 
+#include <stdio.h>
+#include <stdlib.h> 
+#include <string.h> 
 int pd[ 2], n, i; 
 char line[ 256]; 
 

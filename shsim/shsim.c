@@ -142,7 +142,7 @@ void executeCommand(int argCount, char **argVector, char **env){
 void getInput( char *inputLine, int *argCount, char ***argVector, char **redirPath, int *inOut, char **pipeTail){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
-	if(inputLine[0] == '\n')getInputLine(inputLine);	//if input is empty, get input from user
+	if(*inputLine == '\n')getInputLine(inputLine);	//if input is empty, get input from user
 	strTrim(inputLine);									//trim unessesary spaces
 	searchStr(inputLine, '|', pipeTail);				//separate pipe head from pipe tail
 	handleRedirect(inputLine, redirPath, inOut);		//check for file redirects
