@@ -97,7 +97,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 			close(pd[0]);
 			char* newTail = NULL;
 			getInput(tail, &argCount, &argVector, &redirPath, &inOut, &newTail);
-			executeCommand(argCount, argVector, env, redirPath);
+			executeCommand(argCount, argVector, env, redirPath, inOut);
 		}
 		executeCommand(argCount, argVector, env, redirPath, inOut);	//child executes command in argvector
 	}
