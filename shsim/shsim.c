@@ -35,7 +35,7 @@ int main( int argc, char *argv[], char *env[ ]){
 		}
 		else{									//for all other commands
 			logDebug("other command", logTabs);
-			forkChild(argCount, argVector, env, redirPath, inOut);//fork child to execute other commands
+			forkChild(argCount, argVector, env, redirPath, inOut, tail);//fork child to execute other commands
 		}
 		free(argVector);						//dealocate memory from argVector array before repeating loop
 	}	
@@ -62,7 +62,7 @@ void cd(char *path){
 }
 
 //fork a child process and wait for it to finish
-void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut){
+void forkChild(int argCount, char **argVector, char **env, char *redirPath, int inOut, char tail[]){
 	logTabs++;
 	sprintf(logStrOut, "FORK FROM: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
@@ -97,7 +97,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 		default:
 			break;
 		}
-		executeCommand(argCount, argVector, env);	//child executes command in argvector
+		executeCommand(argCount, argVector, env, tail);	//child executes command in argvector
 	}
 	sprintf(logStrOut, "AFTER FORK: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
@@ -105,7 +105,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 }
 
 //change proccess image to command specified
-void executeCommand(int argCount, char **argVector, char **env){
+void executeCommand(int argCount, char **argVector, char **env, char tail[]){
 	logTabs++;
 	sprintf(logStrOut, "pid=%d	ppid=%d", getpid(), getppid()); 
 	logDebug(logStrOut, logTabs);
@@ -117,6 +117,10 @@ void executeCommand(int argCount, char **argVector, char **env){
 	strArrCount(envPath, &envPathCount, ':');		//get length of array
 	char** envDirPaths = NULL;						//array of strings to hold directory paths
 	strSplit(envPath, &envPathCount, &envDirPaths, ':');//fill array
+
+	sprintf(logStrOut, "**tail = %s**", tail);
+	logDebug(logStrOut, logTabs);
+
 	int r, i = 0;
 	char cmd[256]; 									//string to hold cmd
 	while (envDirPaths[i]) {						//loop through all directories
@@ -140,7 +144,7 @@ void executeCommand(int argCount, char **argVector, char **env){
 /***********************functions for getting user input***************************/
 
 //get a line of input from user and store in argCount and argVector. input should be formatted as cmd arg1 arg2 arg3 .... argn
-void getInput( char *inputLine, int *argCount, char ***argVector, char **redirPath, int *inOut, char **pipeTail){
+void getInput( char *inputLine, int *argCount, char ***argVector, char **redirPath, int *inOut, char *pipeTail[]){
 	logTabs ++;
 	logDebug("getInput()", logTabs);
 	if(strcmp(inputLine, "") == 0)getInputLine(inputLine);	//if input is empty, get input from user
