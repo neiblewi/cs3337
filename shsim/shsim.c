@@ -88,18 +88,18 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 			close(1);
 			dup(pd[1]);
 			close(pd[1]);
-			executeCommand(argCount, argVector, env, redirPath);	//child executes command in argvector
+			executeCommand(argCount, argVector, env, redirPath, inOut);	//child executes command in argvector
 		}
 		else {		//child
 			close(pd[1]);
 			close(0);
-			dup(pd([0]));
+			dup(pd[0]);
 			close(pd[0]);
 			char* newTail = NULL;
 			getInput(tail, &argCount, &argVector, &redirPath, &inOut, &newTail);
 			executeCommand(argCount, argVector, env, redirPath);
 		}
-		executeCommand(argCount, argVector, env, redirPath);	//child executes command in argvector
+		executeCommand(argCount, argVector, env, redirPath, inOut);	//child executes command in argvector
 	}
 	sprintf(logStrOut, "AFTER FORK: pid=%d	ppid=%d", getpid(), getppid());
 	logDebug(logStrOut, logTabs); 
@@ -107,7 +107,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 }
 
 //change proccess image to command specified
-void executeCommand(int argCount, char **argVector, char **env, char *redirPath){
+void executeCommand(int argCount, char **argVector, char **env, char *redirPath, int inOut){
 	logTabs++;
 	sprintf(logStrOut, "pid=%d	ppid=%d", getpid(), getppid()); 
 	logDebug(logStrOut, logTabs);

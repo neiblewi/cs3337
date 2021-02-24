@@ -10,7 +10,7 @@
 /********functions for executing commands*******/
 void cd(char *path);																		//changes cwd to path
 void forkChild(int argCount, char** argVector, char** env, char* redirPath, int inOut, char *tail);		//forks a child process
-void executeCommand(int argCount, char **argVector, char **env, char *redirPath);							// change process image to command specified
+void executeCommand(int argCount, char **argVector, char **env, char *redirPath, int inOut);							// change process image to command specified
 
 /*********funtions for getting input from user**************/
 void getInput(char* line, int* argCount, char*** argVector, char** redirPath, int* inOut, char **pipeTail);	//get a line of input from user and store arguments
