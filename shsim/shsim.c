@@ -72,7 +72,7 @@ void forkChild(int argCount, char **argVector, char **env, char *redirPath, int 
 		sprintf(logStrOut, "PARENT: pid=%d	pidChild=%d", getpid(), pid);
 		logDebug(logStrOut, logTabs); 
 		pid = wait(&status); 						// wait for ZOMBIE child process
-		sprintf(logStrOut, "PARENT end");
+		sprintf(logStrOut, "PARENT msgReceive");
 		logDebug(logStrOut, logTabs); 
 	}
 	else{ 											// CHILD executes this part 

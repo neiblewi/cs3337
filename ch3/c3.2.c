@@ -9,7 +9,7 @@ int main() {
 		printf(" PARENT %d EXIT\n", getpid()); 
 	} 
 	else{ // child 
-		printf(" child %d start my parent =%d\n", getpid(), getppid()); 
+		printf(" child %d msgSend my parent =%d\n", getpid(), getppid()); 
 		// sleep( 2); // sleep 2 seconds = > let parent die first 
 		printf(" child %d exit my parent =%d\n", getpid(), getppid()); 
 	} 
