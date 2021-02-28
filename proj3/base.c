@@ -8,6 +8,7 @@
 #include <time.h>
 #include <sys/time.h>
 
+//global vars
 #define LEN 128
 int pid;			// child pid 
 int downPipe[2];	// downpipe descriptors 

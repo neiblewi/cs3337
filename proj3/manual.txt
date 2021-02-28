@@ -1,0 +1,7 @@
+this program simulates an IPC mechanisms.
+it forks a child process and then uses pipes to send data back and forth between processes.
+it uses signals to comunicate when data has been sent.
+to run it, use the make command to compile and link, then run the ipc executable.
+the program will ask for input, then send the users input to the childe process.
+the child process with change the message to upper case, then reply back.
+the parent process will continue signaling the child process until the reply is recieved.
