@@ -52,7 +52,7 @@ void chandler(int sig) {
 	toUpper(line);					//convert to UPPPERCASE
 	printf("child %d changed message = %s\n", getpid(), line);
 	//simulate delay(optional)
-	//for (int i = 0; i < 123456789; i++) {}		//simulate some time
+	for (int i = 0; i < 1234567890; i++) {}		//simulate some time
 	//prepare reply
 	replySend = time(NULL);						//record time stamp
 	sprintf(temp, " | rSendTS=%ld", replySend);	//add time stamp
