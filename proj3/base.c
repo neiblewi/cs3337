@@ -15,6 +15,9 @@ int upPipe[2];	// pipe descriptors
 char line[LEN]; 
 time_t msgSend, msgReceive, replySend, replyReceive;
 
+int count = 0;
+struct itimerval t;
+
 void toUpper(char* line) {
 	for (int i = 0; i < strlen(line); i++) {
 		if (line[i] >= (char)97 && line[i] <= (char)122)
@@ -22,8 +25,14 @@ void toUpper(char* line) {
 	}
 }
 
-void thandler(int sig) {
-	printf("******parent %d timer handler: got timer %d", getpid(), sig);
+void timer_handler(int sig) {
+	printf("timer_handler: signal =%d count =%d\n", sig, ++count);
+	if (count >= 8) {
+		printf("cancel timer\n");
+		t.it_value.tv_sec = 0;
+		t.it_value.tv_usec = 0;
+		setitimer(ITIMER_VIRTUAL, &t, NULL);
+	}
 }
 
 void phandler(int sig) {
@@ -67,13 +76,20 @@ int parent() {
 	close(downPipe[0]); // parent = downpipe writer 
 	close(upPipe[1]); // parent = uppipe reader
 	signal(SIGUSR2, phandler); // install signal catcher for signal from child
+	
 	struct itimerval timer;
-	signal(SIGVTALRM, thandler);//install signal cathcer for timer
+	// Install timer_handler as SIGVTALRM signal handler 
+	signal(SIGVTALRM, timer_handler);
+	// Configure the timer to expire after 100 msec 
 	timer.it_value.tv_sec = 0;
-	timer.it_value.tv_usec = 100000;	// set timer for  ms
+	timer.it_value.tv_usec = 100000; // 100000 nsec 
+	// and every 1 sec afterward 
 	timer.it_interval.tv_sec = 1;
 	timer.it_interval.tv_usec = 0;
-	setitimer(ITIMER_VIRTUAL, &timer, NULL);	// start timer
+	// Start a VIRTUAL itimer 
+	setitimer(ITIMER_VIRTUAL, &timer, NULL);
+	printf("looping: enter Control-C to terminate\n");
+	
 	while(1){ 
 		printf("parent %d: input a line : \n", getpid());
 		//get message
