@@ -1,7 +1,7 @@
 /*********** setitimer.c file *********/ 
 #include <signal.h> 
 #include <stdio.h> 
-#include <sys/ time.h> 
+#include <sys/time.h> 
 
 int count = 0; 
 struct itimerval t; 
