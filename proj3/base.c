@@ -39,8 +39,8 @@ void phandler(int sig) {
 void chandler(int sig) { 
 	printf("child %d got an interrupt sig =%d\n", getpid(), sig); 
 	read(downPipe[0], line, LEN); // read pipe 
-	msgReceive = time(NULL);
 	toUpper(line);
+	msgReceive = time(NULL);
 	char temp[LEN];
 	sprintf(temp, "\tmsgReceive timestamp =%ld", msgReceive);
 	strcat(line, temp);
@@ -60,39 +60,42 @@ void chandler(int sig) {
 
 int parent() { 
 	printf("parent %d running\n", getpid()); 
-	close(downPipe[0]); // parent = pipe writer 
-	signal(SIGUSR2, phandler); // install signal catcher
-	signal(SIGVTALRM, thandler);
-	close(upPipe[1]); // parent = pipe reader
+	close(downPipe[0]); // parent = downpipe writer 
+	close(upPipe[1]); // parent = uppipe reader
+	signal(SIGUSR2, phandler); // install signal catcher for signal from child
+	signal(SIGVTALRM, thandler);//install signal cathcer for timer
 	struct itimerval timer;
 	while(1){ 
 		printf("parent %d: input a line : \n", getpid());
-		fgets(line, LEN, stdin); 
-		line[strlen(line) - 1] = 0; // kill \n at end 
-		msgSend = time(NULL);
-		char temp[LEN];
-		sprintf(temp, "\tmsgSend timestamp =%ld", msgSend);
-		strcat(line, temp);
-		printf("parent %d write to pipe\n", getpid()); 
-		write(downPipe[1], line, LEN); // write to pipe 
-		printf("parent %d send signal 10 to %d\n", getpid(), pid); 
-		timer.it_value.tv_sec = 2;
+		//get message
+		fgets(line, LEN, stdin);			// line from user
+		//set timers
+		msgSend = time(NULL);				//get first time stamp
 		timer.it_value.tv_sec = 0;
-		setitimer(ITIMER_VIRTUAL, &timer, NULL);
-		kill(pid, SIGUSR1); // send signal to child process 
-
-
+		timer.it_value.tv_usec = 500000;	// set timer for 500 ms
+		setitimer(ITIMER_VIRTUAL, &timer, NULL);	// start timer
+		//prepare message
+		line[strlen(line) - 1] = 0;			// kill \n at end 
+		char temp[LEN];
+		sprintf(temp, "\n\tmsgSend timestamp =%ld", msgSend);		//add timestamp
+		strcat(line, temp);
+		//send message
+		printf("parent %d write to pipe\n", getpid()); 
+		write(downPipe[1], line, LEN);		// write to pipe 
+		printf("parent %d send signal 10 to %d\n", getpid(), pid); 
+		kill(pid, SIGUSR1);					// send signal to child process
+		sleep(1);
 	} 
 } 
 
 int child() { 
-	char msg[LEN]; 
-	int parent = getppid(); 
 	printf("child %d running\n", getpid()); 
-	close(downPipe[1]); // child is pipe reader 
 	close(upPipe[0]); // child is pipe writer
+	close(downPipe[1]); // child is pipe reader 
 	signal(SIGUSR1, chandler); // install signal catcher 
 	while(1); 
+	//int parent = getppid(); 
+	//char msg[LEN]; 
 } 
 
 int main() {
