@@ -1,2 +1,2 @@
 ipc: base.c
-	gcc -o ipc base.c
+	gcc -w -o ipc base.c

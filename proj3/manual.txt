@@ -5,3 +5,4 @@ to run it, use the make command to compile and link, then run the ipc executable
 the program will ask for input, then send the users input to the childe process.
 the child process with change the message to upper case, then reply back.
 the parent process will continue signaling the child process until the reply is recieved.
+to exit the program press ctrl-C.
