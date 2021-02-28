@@ -93,7 +93,7 @@ int parent() {
 			timer.it_value.tv_sec = 0;
 			timer.it_value.tv_usec = 100000;			// 10000 nsec = 10 msec
 			setitimer(ITIMER_VIRTUAL, &timer, NULL);	// Start a VIRTUAL itimer 
-			sleep(1);
+			for (int i = 0; i < 100000000; i++) {}		//simulate some time
 		} 
 	}
 } 
