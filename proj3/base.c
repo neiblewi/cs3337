@@ -89,7 +89,8 @@ int parent() {
 	// Start a VIRTUAL itimer 
 	setitimer(ITIMER_VIRTUAL, &timer, NULL);
 	printf("looping: enter Control-C to terminate\n");
-	
+	//simulate delay(optional)
+	for (int i = 0; i < 1234567890; i++) {}		//simulate some time
 	while(1){ 
 		printf("parent %d: input a line : \n", getpid());
 		//get message
