@@ -76,21 +76,9 @@ int parent() {
 	close(downPipe[0]); // parent = downpipe writer 
 	close(upPipe[1]); // parent = uppipe reader
 	signal(SIGUSR2, phandler); // install signal catcher for signal from child
-	
-	struct itimerval timer;
-	// Install timer_handler as SIGVTALRM signal handler 
 	signal(SIGVTALRM, timer_handler);
-	// Configure the timer to expire after 100 msec 
-	timer.it_value.tv_sec = 0;
-	timer.it_value.tv_usec = 100000; // 100000 nsec 
-	// and every 1 sec afterward 
-	timer.it_interval.tv_sec = 1;
-	timer.it_interval.tv_usec = 0;
-	// Start a VIRTUAL itimer 
-	setitimer(ITIMER_VIRTUAL, &timer, NULL);
-	printf("looping: enter Control-C to terminate\n");
-	//simulate delay(optional)
-	for (int i = 0; i < 1234567890; i++) {}		//simulate some time
+	struct itimerval timer;
+	
 	while(1){ 
 		printf("parent %d: input a line : \n", getpid());
 		//get message
@@ -107,7 +95,19 @@ int parent() {
 		write(downPipe[1], line, LEN);		// write to pipe 
 		printf("parent %d send signal 10 to %d\n", getpid(), pid); 
 		kill(pid, SIGUSR1);					// send signal to child process
-		sleep(1);
+		//sleep(1);
+	
+		// Configure the timer to expire after 100 msec 
+		timer.it_value.tv_sec = 0;
+		timer.it_value.tv_usec = 100000; // 100000 nsec 
+		// and every 1 sec afterward 
+		timer.it_interval.tv_sec = 1;
+		timer.it_interval.tv_usec = 0;
+		// Start a VIRTUAL itimer 
+		setitimer(ITIMER_VIRTUAL, &timer, NULL);
+		printf("looping: enter Control-C to terminate\n");
+		//simulate delay(optional)
+		for (int i = 0; i < 1234567890; i++) {}		//simulate some time
 	} 
 } 
 
