@@ -40,12 +40,15 @@ void chandler(int sig) {
 	printf("child %d got an interrupt sig =%d\n", getpid(), sig); 
 	read(downPipe[0], line, LEN); // read pipe 
 	msgReceive = time(NULL);
+	toUpper(line);
 	char temp[LEN];
 	sprintf(temp, "\tmsgReceive timestamp =%ld", msgReceive);
 	strcat(line, temp);
 	printf("child %d got message = %s\n", getpid(), line); 
-	toUpper(line);
 	printf("child %d changed message = %s\n", getpid(), line);
+	
+	for (int i = 0; i < 123456789; i++) {} //simulate some time
+
 	replySend = time(NULL);
 	sprintf(temp, "\treplySend timestamp =%ld", replySend);
 	strcat(line, temp);
@@ -59,7 +62,7 @@ int parent() {
 	printf("parent %d running\n", getpid()); 
 	close(downPipe[0]); // parent = pipe writer 
 	signal(SIGUSR2, phandler); // install signal catcher
-	signal(SIGVTALRM, thandler)
+	signal(SIGVTALRM, thandler);
 	close(upPipe[1]); // parent = pipe reader
 	struct itimerval timer;
 	while(1){ 
