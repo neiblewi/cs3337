@@ -8,7 +8,7 @@ struct itimerval t;
 
 void timer_handler( int sig) { 
 	printf("timer_handler: signal =%d count =%d\n", sig, ++count); 
-	if(count > = 8){ 
+	if(count >= 8){ 
 		printf("cancel timer\n"); 
 		t.it_value.tv_sec = 0; 
 		t.it_value.tv_usec = 0; 
