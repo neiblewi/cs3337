@@ -24,7 +24,7 @@ void toUpper(char* line) {
 }
 
 void timer_handler(int sig) {
-	printf("****timer_handler: signal =%d \n", sig);
+	printf("parent % d got an interrupt sig = % d\n", getpid(), sig);
 }
 
 void phandler(int sig) {
@@ -77,15 +77,15 @@ int parent() {
 		fgets(line, LEN, stdin);			// line from user
 		line[strlen(line) - 1] = 0;			// kill \n at end 
 		rplyRecieved = 0;
+		//prepare message
+		msgSend = time(NULL);				//get first time stamp
+		char temp[LEN];
+		sprintf(temp, "\n\tsendTS=%ld", msgSend);		//add timestamp
+		strcat(line, temp);
+		//send message
+		printf("parent %d write to pipe\n", getpid()); 
+		write(downPipe[1], line, LEN);		// write to pipe 
 		while (!rplyRecieved) {
-			//prepare message
-			msgSend = time(NULL);				//get first time stamp
-			char temp[LEN];
-			sprintf(temp, "\n\tsendTS=%ld", msgSend);		//add timestamp
-			strcat(line, temp);
-			//send message
-			printf("parent %d write to pipe\n", getpid()); 
-			write(downPipe[1], line, LEN);		// write to pipe 
 			printf("parent %d send signal 10 to %d\n", getpid(), pid); 
 			kill(pid, SIGUSR1);					// send signal to child process
 	
