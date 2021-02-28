@@ -6,6 +6,7 @@
 #include <fcntl.h> 
 #include <string.h>
 #include <time.h>
+#include <sys/time.h>
 
 #define LEN 128
 int pid; // child pid 
@@ -21,15 +22,18 @@ void toUpper(char* line) {
 	}
 }
 
+void thandler(int sig) {
+	printf("parent %d timer handler: got timer", getpid());
+}
 
 void phandler(int sig) {
-	printf("\tparent %d got an interrupt sig =%d\n", getpid(), sig);
+	printf("parent %d got an interrupt sig =%d\n", getpid(), sig);
 	read(upPipe[0], line, LEN); // read pipe 
 	replyReceive = time(NULL);
 	char temp[LEN];
-	sprintf(temp, "\treplyReceive timestamp =%ld\tround trip =%ld", replyReceive, replyReceive-msgSend);
+	sprintf(temp, "\treplyReceive timestamp =%ld\tround trip =%ld sec", replyReceive, replyReceive-msgSend);
 	strcat(line, temp);
-	printf("\tparent %d got message = %s\n", getpid(), line);
+	printf("parent %d got message = %s\n", getpid(), line);
 }
 
 void chandler(int sig) { 
@@ -55,7 +59,9 @@ int parent() {
 	printf("parent %d running\n", getpid()); 
 	close(downPipe[0]); // parent = pipe writer 
 	signal(SIGUSR2, phandler); // install signal catcher
+	signal(SIGVTALRM, thandler)
 	close(upPipe[1]); // parent = pipe reader
+	struct itimerval timer;
 	while(1){ 
 		printf("parent %d: input a line : \n", getpid());
 		fgets(line, LEN, stdin); 
@@ -66,9 +72,13 @@ int parent() {
 		strcat(line, temp);
 		printf("parent %d write to pipe\n", getpid()); 
 		write(downPipe[1], line, LEN); // write to pipe 
-
 		printf("parent %d send signal 10 to %d\n", getpid(), pid); 
+		timer.it_value.tv_sec = 2;
+		timer.it_value.tv_sec = 0;
+		setitimer(ITIMER_VIRTUAL, &timer, NULL);
 		kill(pid, SIGUSR1); // send signal to child process 
+
+
 	} 
 } 
 
