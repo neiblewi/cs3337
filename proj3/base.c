@@ -23,39 +23,43 @@ void toUpper(char* line) {
 }
 
 void thandler(int sig) {
-	printf("parent %d timer handler: got timer", getpid());
+	printf("******parent %d timer handler: got timer", getpid());
 }
 
 void phandler(int sig) {
 	printf("parent %d got an interrupt sig =%d\n", getpid(), sig);
+	//recieve reply
 	read(upPipe[0], line, LEN); // read pipe 
-	replyReceive = time(NULL);
+	replyReceive = time(NULL);	//get timestamp
 	char temp[LEN];
-	sprintf(temp, "\treplyReceive timestamp =%ld\tround trip =%ld sec", replyReceive, replyReceive-msgSend);
-	strcat(line, temp);
+	sprintf(temp, " | rRcvTS=%ld | rndTrip=%ld sec", replyReceive, replyReceive-msgSend);
+	strcat(line, temp);			//add timestamp
 	printf("parent %d got message = %s\n", getpid(), line);
 }
 
 void chandler(int sig) { 
 	printf("child %d got an interrupt sig =%d\n", getpid(), sig); 
-	read(downPipe[0], line, LEN); // read pipe 
-	toUpper(line);
-	msgReceive = time(NULL);
+	//get message
+	read(downPipe[0], line, LEN);	// read pipe 
+	msgReceive = time(NULL);		//get timestamp
 	char temp[LEN];
-	sprintf(temp, "\tmsgReceive timestamp =%ld", msgReceive);
+	sprintf(temp, " | rcvTS=%ld", msgReceive);	//add timestamp
 	strcat(line, temp);
 	printf("child %d got message = %s\n", getpid(), line); 
+	//change message
+	toUpper(line);					//convert to UPPPERCASE
 	printf("child %d changed message = %s\n", getpid(), line);
-	
-	for (int i = 0; i < 123456789; i++) {} //simulate some time
-
-	replySend = time(NULL);
-	sprintf(temp, "\treplySend timestamp =%ld", replySend);
+	//simulate delay(optional)
+	//for (int i = 0; i < 123456789; i++) {} //simulate some time
+	//prepare reply
+	replySend = time(NULL);						//record time stamp
+	sprintf(temp, " | rSendTS=%ld", replySend);	//add time stamp
 	strcat(line, temp);
+	//send reply
 	printf("child %d write to pipe\n", getpid());
-	write(upPipe[1], line, LEN); // write to pipe 
+	write(upPipe[1], line, LEN);	// write to pipe 
 	printf("child %d send signal 12 to %d\n", getpid(), getppid() );
-	kill(getppid(), SIGUSR2); // send signal parent process 
+	kill(getppid(), SIGUSR2);		// send signal parent process 
 } 
 
 int parent() { 
@@ -65,19 +69,21 @@ int parent() {
 	signal(SIGUSR2, phandler); // install signal catcher for signal from child
 	signal(SIGVTALRM, thandler);//install signal cathcer for timer
 	struct itimerval timer;
+	timer.it_value.tv_sec = 0;
+	timer.it_value.tv_usec = 100000;	// set timer for  ms
+	timer.it_interval.tv_sec = 1;
+	timer.it_interval.tv_usec = 0;
+	setitimer(ITIMER_VIRTUAL, &timer, NULL);	// start timer
 	while(1){ 
 		printf("parent %d: input a line : \n", getpid());
 		//get message
 		fgets(line, LEN, stdin);			// line from user
 		//set timers
 		msgSend = time(NULL);				//get first time stamp
-		timer.it_value.tv_sec = 0;
-		timer.it_value.tv_usec = 500000;	// set timer for 500 ms
-		setitimer(ITIMER_VIRTUAL, &timer, NULL);	// start timer
 		//prepare message
 		line[strlen(line) - 1] = 0;			// kill \n at end 
 		char temp[LEN];
-		sprintf(temp, "\n\tmsgSend timestamp =%ld", msgSend);		//add timestamp
+		sprintf(temp, "\n\tsendTS=%ld", msgSend);		//add timestamp
 		strcat(line, temp);
 		//send message
 		printf("parent %d write to pipe\n", getpid()); 
