@@ -14,9 +14,7 @@ int downPipe[2]; // pipe descriptors
 int upPipe[2];	// pipe descriptors
 char line[LEN]; 
 time_t msgSend, msgReceive, replySend, replyReceive;
-
-int count = 0;
-struct itimerval t;
+int rplyRecieved;
 
 void toUpper(char* line) {
 	for (int i = 0; i < strlen(line); i++) {
@@ -26,18 +24,13 @@ void toUpper(char* line) {
 }
 
 void timer_handler(int sig) {
-	printf("timer_handler: signal =%d count =%d\n", sig, ++count);
-	if (count >= 8) {
-		printf("cancel timer\n");
-		t.it_value.tv_sec = 0;
-		t.it_value.tv_usec = 0;
-		setitimer(ITIMER_VIRTUAL, &t, NULL);
-	}
+	printf("****timer_handler: signal =%d \n", sig);
 }
 
 void phandler(int sig) {
 	printf("parent %d got an interrupt sig =%d\n", getpid(), sig);
 	//recieve reply
+	rplyRecieved = 1;
 	read(upPipe[0], line, LEN); // read pipe 
 	replyReceive = time(NULL);	//get timestamp
 	char temp[LEN];
@@ -59,7 +52,7 @@ void chandler(int sig) {
 	toUpper(line);					//convert to UPPPERCASE
 	printf("child %d changed message = %s\n", getpid(), line);
 	//simulate delay(optional)
-	for (int i = 0; i < 123456789; i++) {}		//simulate some time
+	//for (int i = 0; i < 123456789; i++) {}		//simulate some time
 	//prepare reply
 	replySend = time(NULL);						//record time stamp
 	sprintf(temp, " | rSendTS=%ld", replySend);	//add time stamp
@@ -78,37 +71,31 @@ int parent() {
 	signal(SIGUSR2, phandler); // install signal catcher for signal from child
 	signal(SIGVTALRM, timer_handler);
 	struct itimerval timer;
-	
 	while(1){ 
 		printf("parent %d: input a line : \n", getpid());
 		//get message
 		fgets(line, LEN, stdin);			// line from user
-		//set timers
-		msgSend = time(NULL);				//get first time stamp
-		//prepare message
 		line[strlen(line) - 1] = 0;			// kill \n at end 
-		char temp[LEN];
-		sprintf(temp, "\n\tsendTS=%ld", msgSend);		//add timestamp
-		strcat(line, temp);
-		//send message
-		printf("parent %d write to pipe\n", getpid()); 
-		write(downPipe[1], line, LEN);		// write to pipe 
-		printf("parent %d send signal 10 to %d\n", getpid(), pid); 
-		kill(pid, SIGUSR1);					// send signal to child process
-		//sleep(1);
+		rplyRecieved = 0;
+		while (!rplyRecieved) {
+			//prepare message
+			msgSend = time(NULL);				//get first time stamp
+			char temp[LEN];
+			sprintf(temp, "\n\tsendTS=%ld", msgSend);		//add timestamp
+			strcat(line, temp);
+			//send message
+			printf("parent %d write to pipe\n", getpid()); 
+			write(downPipe[1], line, LEN);		// write to pipe 
+			printf("parent %d send signal 10 to %d\n", getpid(), pid); 
+			kill(pid, SIGUSR1);					// send signal to child process
 	
-		// Configure the timer to expire after 100 msec 
-		timer.it_value.tv_sec = 0;
-		timer.it_value.tv_usec = 100000; // 100000 nsec 
-		// and every 1 sec afterward 
-		timer.it_interval.tv_sec = 1;
-		timer.it_interval.tv_usec = 0;
-		// Start a VIRTUAL itimer 
-		setitimer(ITIMER_VIRTUAL, &timer, NULL);
-		printf("looping: enter Control-C to terminate\n");
-		//simulate delay(optional)
-		for (int i = 0; i < 1234567890; i++) {}		//simulate some time
-	} 
+			//set timers
+			timer.it_value.tv_sec = 0;
+			timer.it_value.tv_usec = 100000;			// 10000 nsec = 10 msec
+			setitimer(ITIMER_VIRTUAL, &timer, NULL);	// Start a VIRTUAL itimer 
+			sleep(1);
+		} 
+	}
 } 
 
 int child() { 
