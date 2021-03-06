@@ -47,7 +47,7 @@ void *ge(void *arg){ // threads function: Gauss elimination
 			if (j == myid){ 
 				printf("thread %d do row %d\n", myid, j); 
 				factor = A[j][i]/ A[i][i]; 
-				for (k = i + 1; k <= N; k++) 
+				for (int k = i + 1; k <= N; k++) 
 					A[j][k] -= A[i][k]* factor; 
 				A[j][i] = 0.0; 
 			} 
@@ -82,7 +82,7 @@ int main(int argc, char* argv[]) {
 		pthread_join(threads[i], NULL); 
 	} 
 	printf("main: back substitution:"); 
-	for (i = N - 1; i> = 0; i--){ 
+	for (i = N - 1; i>= 0; i--){ 
 		sum = 0.0; 
 		for (j = i + 1; j < N; j++)
 			sum += A[i][j] * A[j][N]; 
