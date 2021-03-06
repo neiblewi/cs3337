@@ -42,7 +42,7 @@ void *ge(void *arg){ // threads function: Gauss elimination
 				} 
 			} 
 		} // wait for partial pivoting done 
-		pthread_barrier_wait(& barrier); 
+		pthread_barrier_wait(&barrier); 
 		for(j = i + 1; j < N; j++){ 
 			if (j == myid){ 
 				printf("thread %d do row %d\n", myid, j); 
@@ -52,7 +52,7 @@ void *ge(void *arg){ // threads function: Gauss elimination
 				A[j][i] = 0.0; 
 			} 
 		} // wait for current row reductions to finish 
-		pthread_barrier_wait(& barrier); 
+		pthread_barrier_wait(&barrier); 
 		if (i == myid) 
 			print_matrix(); 
 	}
@@ -72,10 +72,10 @@ int main(int argc, char* argv[]) {
 		A[i][N] = 2.0 * N - 1; 
 	} 
 	print_matrix(); // show initial matrix [A | B] 
-	pthread_barrier_init(& barrier, NULL, N); // set up barrier 
+	pthread_barrier_init(&barrier, NULL, N); // set up barrier 
 	printf("main: create N =%d working threads\n", N); 
 	for (i = 0; i < N; i++){ 
-		pthread_create(& threads[i], NULL, ge, (void *) i); 
+		pthread_create(&threads[i], NULL, ge, (void *) i); 
 	} 
 	printf("main: wait for all %d working threads to join\n", N); 
 	for (i = 0; i < N; i++){ 
