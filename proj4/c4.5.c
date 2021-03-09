@@ -7,6 +7,7 @@
 #define N 4 
 double A[N][N + 1]; 
 pthread_barrier_t barrier; 
+int NTHREADS;
 
 int print_matrix() { 
 	int i, j; 
@@ -59,6 +60,9 @@ void *ge(void *arg){ // threads function: Gauss elimination
 } 
 
 int main(int argc, char* argv[]) {
+	printf("argv1 = %s\n", argv[1]);
+	sscanf(argv[1], "%i", &NTHREADS);
+	printf("nthreads = %i\n", NTHREADS);
 	int i, j; 
 	double sum; 
 	pthread_t threads[N]; 
