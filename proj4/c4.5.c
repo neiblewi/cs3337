@@ -60,12 +60,15 @@ void *ge(void *arg){ // threads function: Gauss elimination
 } 
 
 int main(int argc, char* argv[]) {
-	printf("argv1 = %s\n", argv[1]);
-	sscanf(argv[1], "%i", &NTHREADS);
-	printf("nthreads = %i\n", NTHREADS);
+	if (argv[1] != NULL)
+		sscanf(argv[1], "%i", &NTHREADS);
+	else {
+		printf("usage: c4.5 [NTHREADS]\n");
+		exit(-1);
+	}
 	int i, j; 
 	double sum; 
-	pthread_t threads[N]; 
+	pthread_t threads[NTHREADS]; 
 	printf("main: initialize matrix A[N][N + 1] as [A | B]\n"); 
 	for (i = 0; i < N; i++) 
 		for (j = 0; j < N; j++) 
@@ -77,12 +80,12 @@ int main(int argc, char* argv[]) {
 	} 
 	print_matrix(); // show initial matrix [A | B] 
 	pthread_barrier_init(&barrier, NULL, N); // set up barrier 
-	printf("main: create N =%d working threads\n", N); 
-	for (i = 0; i < N; i++){ 
+	printf("main: create N =%d working threads\n", NTHREADS); 
+	for (i = 0; i < NTHREADS; i++){ 
 		pthread_create(&threads[i], NULL, ge, (void *) i); 
 	} 
 	printf("main: wait for all %d working threads to join\n", N); 
-	for (i = 0; i < N; i++){ 
+	for (i = 0; i < NTHREADS; i++){ 
 		pthread_join(threads[i], NULL); 
 	} 
 	printf("main: back substitution:"); 
