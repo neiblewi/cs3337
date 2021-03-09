@@ -79,12 +79,12 @@ int main(int argc, char* argv[]) {
 		A[i][N] = 2.0 * N - 1; 
 	} 
 	print_matrix(); // show initial matrix [A | B] 
-	pthread_barrier_init(&barrier, NULL, N); // set up barrier 
+	pthread_barrier_init(&barrier, NULL, NTHREADS); // set up barrier 
 	printf("main: create N =%d working threads\n", NTHREADS); 
 	for (i = 0; i < NTHREADS; i++){ 
 		pthread_create(&threads[i], NULL, ge, (void *) i); 
 	} 
-	printf("main: wait for all %d working threads to join\n", N); 
+	printf("main: wait for all %d working threads to join\n", NTHREADS); 
 	for (i = 0; i < NTHREADS; i++){ 
 		pthread_join(threads[i], NULL); 
 	} 
