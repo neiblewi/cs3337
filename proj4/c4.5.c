@@ -79,6 +79,21 @@ int main(int argc, char* argv[]) {
 		A[i][N] = 2.0 * N - 1; 
 	} 
 	print_matrix(); // show initial matrix [A | B] 
+	
+	int thread = 0;
+	while (thread < N) {
+		pthread_barrier_init(&barrier, NULL, NTHREADS); // set up barrier 
+		printf("main: create N =%d working threads\n", NTHREADS);
+		for (i = 0; i < NTHREADS; i++) {
+			pthread_create(&threads[i], NULL, ge, (void*)thread);
+			thread++;
+		}
+		printf("main: wait for all %d working threads to join\n", NTHREADS);
+		for (i = 0; i < NTHREADS; i++) {
+			pthread_join(threads[i], NULL);
+		}
+	}
+
 	pthread_barrier_init(&barrier, NULL, NTHREADS); // set up barrier 
 	printf("main: create N =%d working threads\n", NTHREADS); 
 	for (i = 0; i < NTHREADS; i++){ 
@@ -88,6 +103,9 @@ int main(int argc, char* argv[]) {
 	for (i = 0; i < NTHREADS; i++){ 
 		pthread_join(threads[i], NULL); 
 	} 
+
+
+
 	printf("main: back substitution:"); 
 	for (i = N - 1; i>= 0; i--){ 
 		sum = 0.0; 
