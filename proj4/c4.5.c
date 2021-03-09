@@ -81,7 +81,7 @@ int main(int argc, char* argv[]) {
 	print_matrix(); // show initial matrix [A | B] 
 	
 	int thread = 0;
-	while (thread < N) {
+	while (thread < N - 1) {
 		pthread_barrier_init(&barrier, NULL, NTHREADS); // set up barrier 
 		printf("main: create N =%d working threads\n", NTHREADS);
 		for (i = 0; i < NTHREADS; i++) {
@@ -93,16 +93,6 @@ int main(int argc, char* argv[]) {
 			pthread_join(threads[i], NULL);
 		}
 	}
-
-	pthread_barrier_init(&barrier, NULL, NTHREADS); // set up barrier 
-	printf("main: create N =%d working threads\n", NTHREADS); 
-	for (i = 0; i < NTHREADS; i++){ 
-		pthread_create(&threads[i], NULL, ge, (void *) i); 
-	} 
-	printf("main: wait for all %d working threads to join\n", NTHREADS); 
-	for (i = 0; i < NTHREADS; i++){ 
-		pthread_join(threads[i], NULL); 
-	} 
 
 
 
