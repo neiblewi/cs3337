@@ -1,0 +1,6 @@
+this program solves a system of linear equations.
+it uses gaus elimintation with partial pivoting.
+this program uses multiple threads to execute the algorithm.
+the user can specify the number of threads to be used by passing an agument to the program.
+ex: proj4 3 
+will run the algorythm with 3 threads.

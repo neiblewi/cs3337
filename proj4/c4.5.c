@@ -1,5 +1,9 @@
 //Wang, K.C..Systems Programming in Unix / Linux(Kindle Locations 5244 - 5249).Springer International Publishing.Kindle Edition.
-/** C4.5. c: Gauss Elimination with Partial Pivoting **/ 
+/** C4.5. c: Gauss Elimination with Partial Pivoting 
+lewis neibaur
+cs3337
+
+**/ 
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <math.h> 
