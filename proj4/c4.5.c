@@ -24,7 +24,7 @@ void *ge(void *arg){ // threads function: Gauss elimination
 	int myid = (int) arg; 
 	double temp, factor; 
 	for(i = 0; i < N - 1; i++){ 
-		if (i == myid){
+		/*if (i == myid){
 			printf("partial pivoting by thread %d on row %d:", myid, i); 
 			temp = 0.0; 
 			prow = i; 
@@ -42,8 +42,10 @@ void *ge(void *arg){ // threads function: Gauss elimination
 					A[prow][j] = temp; 
 				} 
 			} 
+
+
 		} // wait for partial pivoting done 
-		pthread_barrier_wait(&barrier); 
+		pthread_barrier_wait(&barrier);*/ 
 		for(j = i + 1; j < N; j++){ 
 			if (j == myid){ 
 				printf("thread %d do row %d\n", myid, j); 
@@ -58,6 +60,36 @@ void *ge(void *arg){ // threads function: Gauss elimination
 			print_matrix(); 
 	}
 } 
+
+void* pp(void *arg) {	//thread function partial pivoting
+	int i, j, prow; 
+	int myid = (int)arg;
+	double temp, factor;
+	for (i = 0; i < N - 1; i++) {
+		if (i == myid) {
+			printf("partial pivoting by thread %d on row %d:", myid, i);
+			temp = 0.0;
+			prow = i;
+			for (j = i; j <= N; j++) {
+				if (fabs(A[j][i]) > temp) {
+					temp = fabs(A[j][i]);
+					prow = j;
+				}
+			}
+			printf("pivot_row =%d pivot =%6.2f\n", prow, A[prow][i]);
+			if (prow != i) { // swap rows 
+				for (j = i; j < N + 1; j++) {
+					temp = A[i][j];
+					A[i][j] = A[prow][j];
+					A[prow][j] = temp;
+				}
+			}
+
+
+		} // wait for partial pivoting done 
+		pthread_barrier_wait(&barrier);
+	}
+}
 
 int main(int argc, char* argv[]) {
 	if (argv[1] != NULL)
@@ -79,8 +111,23 @@ int main(int argc, char* argv[]) {
 		A[i][N] = 2.0 * N - 1; 
 	} 
 	print_matrix(); // show initial matrix [A | B] 
-	
+	/********************************************************************/
+	//loop through N for partial pivoting
 	int thread = 0;
+	while (thread < N - 1) {
+		pthread_barrier_init(&barrier, NULL, NTHREADS); // set up barrier 
+		printf("main: create N =%d working threads\n", NTHREADS);
+		for (i = 0; i < NTHREADS; i++) {
+			pthread_create(&threads[i], NULL, pp, (void*)thread);
+			thread++;
+		}
+		printf("main: wait for all %d working threads to join\n", NTHREADS);
+		for (i = 0; i < NTHREADS; i++) {
+			pthread_join(threads[i], NULL);
+		}
+	}
+	//loop through N for gaus elimination
+	thread = 0;
 	while (thread < N - 1) {
 		pthread_barrier_init(&barrier, NULL, NTHREADS); // set up barrier 
 		printf("main: create N =%d working threads\n", NTHREADS);
@@ -94,7 +141,7 @@ int main(int argc, char* argv[]) {
 		}
 	}
 
-
+	/*********************************************************************/
 
 	printf("main: back substitution:"); 
 	for (i = N - 1; i>= 0; i--){ 
