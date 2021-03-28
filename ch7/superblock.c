@@ -2,7 +2,7 @@
 #include <stdio.h> 
 #include <stdlib.h> 
 #include <fcntl.h> 
-#include <ext2fs/ ext2_fs.h> 
+#include <ext2fs/ext2_fs.h> 
 // typedef u8, u16, u32 SUPER for convenience 
 typedef unsigned char u8; 
 typedef unsigned short u16; 

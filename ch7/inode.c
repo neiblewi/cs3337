@@ -23,7 +23,8 @@ int get_block(int fd, int blk, char *buf){
 } 
 
 int inode(char *dev){ 
-	int i; fd = open(dev, O_RDONLY) < 0); 
+	int i; 
+	fd = open(dev, O_RDONLY < 0); 
 	if (fd < 0){ 
 		printf("open failed\n"); 
 		exit(1); 
@@ -48,7 +49,7 @@ int inode(char *dev){
 	printf("size =% d\n", ip->i_size); 
 	printf("ctime =% s", ctime(& ip->i_ctime)); 
 	printf("links =% d\n", ip->i_links_count);
-	for (i = 0; i <15; i + +){ // print disk block numbers 
+	for (i = 0; i <15; i ++){ // print disk block numbers 
 		if (ip->i_block[i])// print non-zero blocks only 
 			printf("i_block[% d] =% d\n", i, ip->i_block[i]);
 	} 

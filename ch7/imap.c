@@ -34,7 +34,7 @@ int imap(char *device){
 	imapblk = gp-> bg_inode_bitmap; // get imap block number 
 	printf("imapblk = %d\n", imapblk); 
 	get_block(fd, imapblk, buf); // get imap block into buf[] 
-	for (i = 0; i <= nidoes/ 8; i + +){ // print each byte in HEX 
+	for (i = 0; i <= nidoes/8; i ++){ // print each byte in HEX 
 		printf("%02x ", (unsigned char) buf[i]); 
 	} 
 	printf("\n"); 
