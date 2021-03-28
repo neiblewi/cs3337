@@ -11,6 +11,7 @@ SUPER *sp;
 GD *gp; 
 char buf[BLKSIZE]; 
 int fd; 
+char *dev ="mydisk"; // default device 
 
 // get_block() reads a disk block into a buf[] 
 int get_block(int fd, int blk, char *buf){ 
@@ -20,7 +21,7 @@ int get_block(int fd, int blk, char *buf){
 
 int imap(char *device){ 
 	int i, ninodes, blksize, imapblk; 
-	fd = open(dev, O_RDONLY); 
+	fd = open(device, O_RDONLY); 
 	if (fd < 0){ 
 		printf("open %s failed\n", device); 
 		exit(1); 
@@ -34,13 +35,12 @@ int imap(char *device){
 	imapblk = gp-> bg_inode_bitmap; // get imap block number 
 	printf("imapblk = %d\n", imapblk); 
 	get_block(fd, imapblk, buf); // get imap block into buf[] 
-	for (i = 0; i <= nidoes/8; i ++){ // print each byte in HEX 
+	for (i = 0; i <= ninodes/8; i ++){ // print each byte in HEX 
 		printf("%02x ", (unsigned char) buf[i]); 
 	} 
 	printf("\n"); 
 } 
 
-char * dev ="mydisk"; // default device 
 
 int main(int argc, char *argv[] ){ 
 	if (argc> 1) dev = argv[1]; 

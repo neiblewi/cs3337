@@ -12,6 +12,7 @@ typedef struct ext2_super_block SUPER;
 SUPER *sp; 
 char buf[1024]; 
 int fd, blksize, inodesize; 
+char* device = "mydisk"; // default device name 
 
 int print(char *s, u32 x){ 
 	printf("%-30s = %8d\n", s, x); 
@@ -52,7 +53,6 @@ int super(char *device){
 	printf("inode size = %d\n", sp->s_inode_size); 
 } 
 
-char* device = "mydisk"; // default device name 
 
 int main(int argc, char *argv[]){ 
 	if (argc > 1)
